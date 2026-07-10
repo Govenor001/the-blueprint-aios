@@ -1,0 +1,28 @@
+# Secrets — never commit keys
+.env
+.env.*
+*.key
+*.pem
+secrets/
+my-keys.txt
+
+# Your personal Foundation (each student fills their own; ships empty)
+context/*
+!context/.gitkeep
+archives/*
+!archives/.gitkeep
+memory/*
+!memory/.gitkeep
+inspections/
+
+# Node / Remotion
+node_modules/
+out/
+.remotion/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
