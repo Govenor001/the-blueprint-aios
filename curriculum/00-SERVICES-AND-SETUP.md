@@ -30,7 +30,7 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 | Remotion | Renders your videos | Free / open source |
 | Google News + Reddit + Hacker News | Your market-intelligence feeds | Free, no signup |
 | GitHub | Stores your code + free public hosting for your video files | Free |
-| Skool | Your community (automation runs on your own login) | Free (the automation part) |
+| Skool | Your community (AIOS drafts; you publish) | Free |
 
 ---
 
