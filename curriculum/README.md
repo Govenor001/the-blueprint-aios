@@ -1,6 +1,6 @@
 # The 7-Day Agent Architect Challenge — Course Index
 
-Everything a student needs, in order. By Day 7 they have their own AI Operating System — the same architecture that runs our production system (Jarvis), built for *their* business. The only paid piece is Claude; everything else is free.
+Everything a student needs, in order. By Day 7 they have their own AI Operating System — the same architecture that runs our production system (Jarvis), built for *their* business. The only required subscription is Claude ($20/mo); everything else in the core path is free.
 
 ---
 
@@ -30,9 +30,9 @@ Everything a student needs, in order. By Day 7 they have their own AI Operating 
 
 ## The promise, restated
 
-Seven days. One lesson and one build each day. By Day 7: an AI Operating System that writes their content, watches their market, works their leads, handles their inbox, runs 24/7, and answers from their phone — built on their business, mostly free, with the community and a self-repair skill so they're never stuck.
+Seven days. One lesson and one build each day. By Day 7: an AI Operating System that writes their content, watches their market, works their leads, handles their inbox, runs on a schedule, and answers from their phone — built on their business, mostly free, with the community and a self-repair skill so they're never stuck. Going full 24/7 on a server is the first post-challenge module.
 
-## Bonus modules (post-challenge)
+## Bonus modules (post-challenge — delivered live in the community, not files in this repo)
 
 - **Sell This for $1,500** — set the same system up for a client.
 - **The 30-Day Roadmap** — one new automation a week.
