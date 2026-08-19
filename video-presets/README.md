@@ -14,12 +14,20 @@ Both share `ArchitectKit.jsx` — the motion design system: kinetic word-by-word
 
 ## Use it
 
-Drop the three files into a Remotion project's `src/`, register the compositions, then:
+This folder is a ready-to-run Remotion project. From `video-presets/`:
+
 ```
-npx remotion render src/index.jsx Pulse out/pulse.mp4
-npx remotion render src/index.jsx Breakdown out/breakdown.mp4
+npm install            # once
+npm run studio         # live preview + edit props in the browser
+npm run render:pulse   # renders out/pulse.mp4
+npm run render:breakdown
 ```
-Preview live with `npx remotion studio src/index.jsx`.
+
+**License note (read this once):** these preset files are MIT — yours to
+keep. Remotion itself is free for individuals and companies of up to
+3 people (contractors count); bigger teams need a paid Remotion Company
+License, and rendering videos *as a service for clients* falls under
+Remotion's paid tiers. Details: remotion.dev/license.
 
 ## Customize
 Every preset takes props — pass your own `brandKey` (`agent-architects` / `novacall` / `swiftleads` / `automa8`, or add yours in `ArchitectKit.jsx`), headlines, chart data, and CTA. The animation timing stays; only your content changes.

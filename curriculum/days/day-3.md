@@ -1,81 +1,69 @@
-# Day 3 — The Content Wing, Part 2: Newsletter + Video
+# Day 4 — The Intelligence Wing
 
-*Two more Workshops today: a newsletter that lands in the inbox, and a video engine that turns your content into scroll-stopping clips. ~35 minutes.*
+*Floor 2 (Wiring) meets Floor 3 (Workshops). Today your AIOS starts watching your market around the clock and hands you a ranked morning brief — replacing $100+/mo monitoring tools with $0. ~30 minutes.*
 
-**By the end of Day 3:** a send-ready newsletter proven to hit your own inbox, and two ready-to-use video presets configured to your brand.
-
----
-
-## Part A — The Newsletter
-
-### Why Resend, and why domain verification matters
-
-Most newsletters die in spam because the sender's domain isn't verified. Resend (free) plus proper DNS records is what gets you into the Primary inbox. We do the boring-but-critical part first.
-
-### Step 1 — Finish your Resend domain
-
-From Day 0 you added your domain to Resend. Check it now:
-- In Resend → **Domains**, it should say **Verified**. If it still says pending, confirm the SPF and DKIM DNS records are in at your registrar and give it time.
-- Verified means your mail is authenticated. This one step is the difference between inbox and spam.
-
-### Step 2 — Install and configure the newsletter skill
-
-```
-cp -r skill-vault/newsletter .claude/skills/
-```
-
-Tell your AIOS your sending details:
-
-> Set my newsletter sender to "Your Name <newsletter@yourdomain.com>" and my Resend API key is re_... . Save these to my settings.
-
-### Step 3 — Draft and test-send
-
-> Use the newsletter skill to turn my best content this week into a newsletter, then send a test to my own email address.
-
-Check your inbox. Confirm it:
-- Landed in **Primary** (not Promotions/Spam).
-- Looks right (subject, layout, your voice, working unsubscribe).
-
-If it hit spam, your domain verification isn't complete — fix that before sending to anyone real.
+**By the end of Day 4:** a working intelligence engine pulling your niche's news from free sources, scored by AI, delivered as a morning brief in your voice.
 
 ---
 
-## Part B — The Video Engine
+## Why this wing is the sleeper hit
 
-### Why video-as-code
+Most people never build market monitoring because the tools are expensive. Yours costs nothing: free public feeds (Google News, Reddit, Hacker News) plus Groq (free) to score and tag what matters. You wake up already knowing what happened in your world overnight — and so does your content.
 
-Your AIOS can generate videos on command using Remotion and the two presets in this kit — no video editor, no timeline. When your content changes, it re-renders in one command.
+## Step 1 — Give your AIOS its Groq key
 
-### Step 4 — Set up the presets
+The intelligence engine uses Groq (free) to score news so you don't spend Claude tokens on it.
 
-The two presets live in `video-presets/`:
-- **Pulse** — news/insight clips (animated charts, kinetic headlines)
-- **Breakdown** — listicle/steps clips (numbered, with a progress bar)
+> My Groq API key is gsk_... . Save it to my settings.
 
-Point them at your brand:
+## Step 2 — Set your niche
 
-> Read video-presets/README.md. Set the brand colors in ArchitectKit.jsx to my brand's colors: [your hex codes], and rename the brand to mine.
+The engine needs to know what to watch. Tell it plainly:
 
-### Step 5 — Render your first video
+> Set up my Intelligence Wing. My niche keywords are: [5–8 terms your customers and competitors care about]. Watch Google News, Reddit, and Hacker News for these.
 
-> Render the Pulse preset with this week's top insight as the content.
+Examples: a realtor might use "mortgage rates, first-time buyers, [their city] housing, FHA loans"; a fitness coach "hypertrophy, protein timing, home gym, [their method]." Use *your* world.
 
-You get a vertical MP4 in minutes. Preview it. Change the data, re-render — that's the whole loop.
+## Step 3 — Run the engine
+
+> Run the intelligence engine and show me what it found.
+
+It fetches recent items from the free feeds, uses Groq to score each for relevance and tag it, and keeps the strongest signals. First run should surface real, current items about your niche.
+
+## Step 4 — Install the morning brief
+
+```
+cp -r skill-vault/brief .claude/skills/
+```
+
+Then:
+
+> Use the brief skill to give me this morning's brief.
+
+You get a ranked, plain-language brief — each item a headline plus your AIOS's take, in your voice. This is what will land on your phone every morning once we go 24/7.
+
+## Step 5 — Connect it to your content
+
+Here's the compounding part: tell your Content Wing to use the brief.
+
+> When you write my content, pull from today's intelligence brief so it's timely.
+
+Now your content isn't generic — it reacts to what's actually happening in your market, today.
 
 ---
 
 ## Adapt-to-you note
 
-Your newsletter is *your* list and *your* voice — could be a weekly market update for real-estate clients, a coaching tip series, a product drop announcement. The video presets take *your* colors and *your* numbers. Same engines, your brand.
+The feeds are universal; your *keywords* make them yours. A B2B SaaS founder and a wedding photographer run the identical engine on completely different terms and get completely different briefs. Tune the keywords over a few days until the brief is consistently relevant — that tuning is the whole skill.
 
 ## Done when
 
-A test newsletter is confirmed in your own Primary inbox, and you've rendered one video in your brand colors.
+Your engine returns real, current, on-topic signals for your niche, and the brief reads like something you'd actually want in your inbox each morning.
 
 ## Proof of build
 
-Post a screenshot of your test newsletter **in your own inbox (Primary tab)** — the deliverability proof. Bonus: drop your first rendered video.
+Post your first morning brief about *your* industry. Seeing everyone's different-niche briefs side by side is one of the best threads in the challenge.
 
 ## Tomorrow
 
-Day 4 — your AIOS starts watching your market 24/7 and briefing you every morning, for free.
+Day 5 — leads and your inbox: your AIOS qualifies prospects, drafts outreach, and plugs into your entire Google Workspace.
