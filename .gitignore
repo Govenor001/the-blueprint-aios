@@ -1,6 +1,7 @@
 # Secrets — never commit keys
 .env
 .env.*
+!.env.example
 *.key
 *.pem
 secrets/
@@ -19,6 +20,8 @@ inspections/
 node_modules/
 out/
 .remotion/
+context/signals.json
+__pycache__/
 
 # OS / editor
 .DS_Store
