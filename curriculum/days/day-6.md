@@ -1,65 +1,67 @@
-# Day 6 — Move In: The Command Wing
+# Day 6 — The Command Wing: Your AIOS in Your Pocket
 
-*Floor 4 (Autopilot) begins. Today your AIOS stops living on your laptop and moves onto a 24/7 cloud server — and into your pocket, where you text and voice-note it from anywhere. This is the day it becomes real. ~50 minutes.*
+*Floor 4 begins. Today you text your AIOS from your phone — from the couch, the car, the school run — and it answers. The bridge runs on your laptop today; moving it to an always-on server is the graduation step after the challenge. ~30 minutes.*
 
-**By the end of Day 6:** your AIOS runs on a free always-on server, and you can message it from your phone — laptop closed — and get a real answer back.
+**By the end of Day 6:** you send a message from your phone and your AIOS answers — text and voice.
 
 ---
 
-## Why this is the day everyone remembers
+## Why laptop-first
 
-Up to now, your AIOS only works when your laptop is open. Today that changes. There's a specific moment — you send the first message from your phone and the reply comes back — where it clicks that you actually built this. Screenshot that moment.
+The magic of Day 6 is the conversation, not the hosting. Running the bridge on your laptop gets you the full experience today with zero new accounts, zero server setup, and zero risk. Once you trust it — and once you've decided it's worth keeping — the post-challenge **Go 24/7** module moves the exact same bridge to an always-on server properly (with honest talk about servers and API keys). Never deploy something you haven't loved locally first.
 
-## Step 1 — Connect to your server
+## Step 1 — Load your keys
 
-You created an Oracle Always-Free Ubuntu server on Day 0. Connect to it (from your terminal, using the SSH key you saved):
+You saved your bot token into `.env` on Day 0. Load it into this terminal:
 
 ```
-ssh -i /path/to/your-key ubuntu@YOUR_SERVER_IP
+set -a && . ./.env && set +a
 ```
 
-If it connects, you're in. (First-time SSH quirks and the exact command are in the day's video — this is the one step worth watching over reading.)
+## Step 2 — Run the pre-flight check
 
-## Step 2 — Put your AIOS on the server
+```
+python3 scripts/bridge.py --check
+```
 
-Copy your AIOS folder up to the server and install what it needs. Your AIOS can walk you through this — ask it:
+It verifies your bot token with Telegram, confirms the `claude` CLI is installed, and tells you whether voice notes are on (they are if your Day-3 `GROQ_API_KEY` is in `.env`). Fix anything it flags — it tells you exactly what.
 
-> Walk me through deploying my AIOS to my Oracle server at [IP]. I want it running 24/7.
+## Step 3 — Start the bridge and lock it to you
 
-The deploy sets up Python, your keys (as environment variables — never hard-coded), and the services that keep running after you disconnect.
+```
+python3 scripts/bridge.py
+```
 
-## Step 3 — Create your Telegram bot connection
+Now message your bot from your **phone**. First message: the bridge replies with your **chat id**. Put it in `.env` as `TELEGRAM_CHAT_ID=`, then restart the bridge (Ctrl+C, re-run). From this moment the bridge answers *only you* — anyone else who finds your bot gets silence.
 
-You made a bot with @BotFather on Day 0 (you have its token). Now connect it:
+## Step 4 — The moment
 
-> My Telegram bot token is [token] and my chat ID is [id]. Set up the Telegram bridge so I can message my AIOS from my phone.
+Message your bot: *"Are you working?"*
 
-To find your chat ID if you didn't save it: message your bot once, then your AIOS can fetch it, or use @userinfobot.
+Watch the terminal light up, and the reply land on your phone. Then ask it something real — *"what should I focus on tomorrow?"* — and it answers from everything it learned this week. **Screenshot that exchange.** This is the one everyone remembers posting.
 
-## Step 4 — The moment: text it from your phone
+## Step 5 — Voice notes
 
-Open Telegram on your **phone**. Message your bot: *"Are you working?"*
+Send your bot a **voice message**. It transcribes what you said (Groq's free Whisper) and answers it. Now you can talk to your AIOS while you drive.
 
-The reply comes back — from a server, not your laptop. **Close your laptop lid. Message it again. It still answers.** That's an operating system now, not an app you open.
+## Want it running with the laptop closed?
 
-## Step 5 — Turn on voice notes
-
-Send your bot a **voice message** from your phone. It transcribes what you said (using Groq's free Whisper) and acts on it. If you set up ElevenLabs, it can reply in a real voice too. Now you can talk to your AIOS while you drive.
+That's the graduation: the same `bridge.py` on a small always-on server. Two honest things before you do it, both covered properly in the post-challenge **Go 24/7** module: pick a server with eyes open (a ~$5/mo VPS is boring and reliable; "free" tiers have real catches — see section 2 of the services guide), and put scheduled/unattended jobs on an **API key** rather than your Pro login (that's usage Anthropic's consumer terms don't cover, and the honest cost is a few dollars a month). Nothing about today's build changes — it just moves.
 
 ---
 
 ## Adapt-to-you note
 
-This is identical for everyone — it's infrastructure, not content. Whatever your business, the payoff is the same: your AIOS, doing your work, reachable from your pocket, running while you sleep. The server is free, the bot is free, the transcription is free.
+This is identical for everyone — it's infrastructure, not content. Whatever your business, the payoff is the same: your AIOS, doing your work, answering in your pocket.
 
 ## Done when
 
-You send a message from your phone with your laptop closed and get a real answer — text and voice.
+You send a message from your phone and get a real answer back — text and voice — and the bridge is locked to your chat id.
 
 ## Proof of build
 
-Post a screenshot of a **real conversation with your AIOS on your phone.** This is the one everyone remembers posting. Film the moment if you can.
+Post a screenshot of a **real conversation with your AIOS on your phone.** Film the moment if you can.
 
 ## Tomorrow
 
-Day 7 — the finish line. Schedules that run while you sleep, your inspection score, and your certification.
+Day 7 — the finish line. Schedules that run without being asked, your inspection score, and your certification.
