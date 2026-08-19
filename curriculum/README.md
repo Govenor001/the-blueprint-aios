@@ -7,6 +7,7 @@ Everything a student needs, in order. By Day 7 they have their own AI Operating 
 ## Start here
 
 1. **[00-SERVICES-AND-SETUP.md](00-SERVICES-AND-SETUP.md)** — every service they'll use (paid + free), with a step-by-step setup guide for each. The honest cost breakdown lives here. Read before Day 0.
+2. **[troubleshooting.md](troubleshooting.md)** — the top snags for each day and their fixes. Bookmark it; `/rescue` reads it too.
 
 ## The daily build (one lesson + one build per day)
 
