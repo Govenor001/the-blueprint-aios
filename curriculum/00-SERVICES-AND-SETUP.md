@@ -2,7 +2,7 @@
 
 This is your complete parts list. By the end of the challenge your AI Operating System runs on these — the same stack that runs a real production system. **Almost all of it is free.** We'll tell you the exact cost of everything, honestly, up front.
 
-Set these up during **Day 0** so nothing stalls you once the build starts. Each guide is step-by-step. Do them in order; the ⭐ ones are needed from Day 1, the rest you'll wire on the day they're introduced.
+Only the ⭐ items are needed before Day 1. Everything else gets set up on the day it's used — each daily lesson tells you when, and the step-by-step guide for it lives on this page.
 
 ---
 
@@ -10,8 +10,8 @@ Set these up during **Day 0** so nothing stalls you once the build starts. Each 
 
 | Service | What it's for | Cost | Required? |
 |---|---|---|---|
-| **Claude (Claude Code)** ⭐ | The brain — writes, reasons, runs everything | ~$20/mo (Claude Pro) | **Yes** — the one real cost |
-| **Cloud server** ⭐ | Runs your AIOS 24/7 | **$0** on Oracle Always-Free (taught default) | Yes, but free |
+| **Claude (Claude Code)** ⭐ | The brain — writes, reasons, runs everything | $20/mo (Claude Pro) for hands-on use; optional API pay-as-you-go (~$3–15/mo typical) for scheduled jobs | **Yes** — the one real cost |
+| **Cloud server** | Runs your AIOS 24/7 *after* the challenge | $0–$6/mo | **No** — the challenge runs from your laptop; the server is the post-challenge graduation |
 | **Social scheduler (Blotato)** | Auto-posts across your social channels | ~$29/mo | Optional — free alternatives given |
 
 **Everything else on this page is free.** If you only ever pay for Claude, your AIOS still does the vast majority of what ours does.
@@ -30,7 +30,7 @@ Set these up during **Day 0** so nothing stalls you once the build starts. Each 
 | Remotion | Renders your videos | Free / open source |
 | Google News + Reddit + Hacker News | Your market-intelligence feeds | Free, no signup |
 | GitHub | Stores your code + free public hosting for your video files | Free |
-| Skool | Your community (automation runs on your own login) | Free (the automation part) |
+| Skool | Your community (AIOS drafts; you publish) | Free |
 
 ---
 
@@ -38,7 +38,7 @@ Set these up during **Day 0** so nothing stalls you once the build starts. Each 
 
 **What it is:** Claude Code is Anthropic's AI that runs in your terminal. It's the engine of your whole AIOS — it writes your content, reasons about your business, and drives every other tool. This is the one thing worth paying for.
 
-**Cost:** A **Claude Pro** subscription (~$20/mo) covers it for personal use. Heavy/business use can instead use an **API key** (pay-as-you-go).
+**Cost:** A **Claude Pro** subscription ($20/mo) covers everything you do hands-on in this challenge. **Two honest caveats:** Pro has weekly usage limits, and Anthropic's consumer terms cover *you* using Claude — not unattended scripts running while you sleep. For anything you put on a schedule (Day 7), the right tool is an **API key** (console.anthropic.com, pay-as-you-go — a daily brief and content draft typically runs a few dollars a month). We show both paths.
 
 **Setup:**
 1. Go to **claude.com** and create an account.
@@ -51,25 +51,20 @@ Set these up during **Day 0** so nothing stalls you once the build starts. Each 
 
 ---
 
-# ⭐ 2. Cloud server — where your AIOS lives 24/7
+# 2. Cloud server — optional, for after the challenge
 
-**What it is:** A small always-on computer in the cloud so your AIOS keeps working when your laptop is closed.
+**What it is:** A small always-on computer in the cloud, so your AIOS can keep working with your laptop closed.
 
-**Cost:** **$0** if you use **Oracle Cloud Always-Free** (our taught default — it's genuinely free forever). AWS free tier also works for the first 12 months.
+**Do you need it this week? No.** Day 6 runs the phone bridge from your laptop. Moving to a server is the graduation step after the challenge, and we walk it properly then.
 
-**Setup (Oracle Always-Free):**
-1. Go to **oracle.com/cloud/free**, create an account (a card is required for identity verification but you won't be charged on Always-Free).
-2. In the console: **Create a VM instance** → choose an **Always Free eligible** shape (Ampere/ARM, 1–4 cores).
-3. Choose **Ubuntu** as the image.
-4. Download the **SSH key pair** it generates (keep the private key safe — it's how you log in).
-5. Note the instance's **public IP address**.
-6. Test the connection (Day 6 walks this in full): `ssh -i your-key ubuntu@YOUR_IP`.
-
-> Prefer AWS? Create a free-tier **EC2 Ubuntu** instance instead — same idea, same steps later. Oracle is our default only because it's free with no 12-month clock.
+**Honest options when you're ready:**
+- **A cheap paid VPS (~$4–6/mo)** — Hetzner, DigitalOcean, or similar. Boring, reliable, five-minute setup. This is what we actually recommend.
+- **Oracle Cloud Always-Free** — genuinely $0, but with real catches: free ARM capacity is frequently unavailable ("out of capacity" errors are common), the free allotment has shrunk over time, and **Oracle's official policy reclaims idle free instances** (under ~20% utilization over 7 days) — which a light automation box often is. If free-with-caveats suits you, it works; go in with eyes open.
+- **AWS free tier** — free for 12 months, then billed.
 
 ---
 
-# ⭐ 3. Groq — fast, free AI
+# 3. Groq — fast, free AI (set up on Day 3)
 
 **What it is:** Groq runs open models extremely fast and free. Your AIOS uses it for the high-volume jobs where you don't need to spend Claude tokens — scoring news, quick drafts — and for **transcribing your voice notes** (Whisper).
 
@@ -78,7 +73,7 @@ Set these up during **Day 0** so nothing stalls you once the build starts. Each 
 **Setup:**
 1. Go to **console.groq.com** and sign up.
 2. Open **API Keys** → **Create API Key** → copy it (starts with `gsk_`).
-3. Save it somewhere safe — you'll paste it into your AIOS's settings on Day 4.
+3. Save it into your `.env` file — Day 3 uses it.
 
 ---
 
@@ -86,7 +81,7 @@ Set these up during **Day 0** so nothing stalls you once the build starts. Each 
 
 **What it is:** Composio handles the hard part of connecting your AIOS to Gmail, Calendar, Drive, Sheets, Docs, GitHub, and Notion. It manages the sign-in and keeps it connected so your AIOS never has to re-authenticate. This is what powers your Comms Wing.
 
-**Cost:** Free tier — 20,000 actions/month, far more than a personal setup uses.
+**Cost:** Free tier — 100,000 tool calls/month on the pricing introduced 2026-08-15 (20,000 of them via Composio's shared Google app; some premium tools bill separately from 2026-09-01). Far more than a personal setup uses.
 
 **Setup:**
 1. Go to **composio.dev** and sign up (Google sign-in is quickest).
@@ -135,7 +130,7 @@ Set these up during **Day 0** so nothing stalls you once the build starts. Each 
 
 **What it is:** Turns your AIOS's replies into natural speech, so voice notes come back as a real voice.
 
-**Cost:** Free tier (enough for personal use).
+**Cost:** Free tier is **non-commercial use only** (~10 minutes of speech/month). Using the voice in your business needs the $6/mo Starter plan. Skip this entirely if you don't want spoken replies — text costs nothing.
 
 **Setup:**
 1. Go to **elevenlabs.io** and sign up.
@@ -176,7 +171,7 @@ Set these up during **Day 0** so nothing stalls you once the build starts. Each 
 
 **What it is:** Free, public sources your Intelligence Wing reads to monitor your market. **No signup, no keys.** Your AIOS pulls them directly.
 
-**Cost:** $0. Nothing to set up — you just tell your AIOS your niche keywords on Day 4.
+**Cost:** $0. Nothing to set up — you just tell your AIOS your niche keywords on Day 3.
 
 ---
 
@@ -197,26 +192,19 @@ Set these up during **Day 0** so nothing stalls you once the build starts. Each 
 
 ---
 
-# 12. Skool — your community (automation is free)
+# 12. Skool — why we DON'T automate it
 
-**What it is:** If you run (or start) a Skool community, your AIOS can post, engage, and manage members in it. The automation runs on your **own login**, so there's no extra cost beyond whatever Skool plan you already have.
-
-**Setup:** Covered on its own day — your AIOS uses your logged-in session, no separate API signup.
+Skool has no public API, and its Terms of Service prohibit automated access to accounts — including your own. Automating your login risks the community you're building, so we don't, and you shouldn't. If you need Skool automation, use Skool's official Zapier integration; otherwise, let your AIOS **draft** Skool posts and comments and post them yourself in one tap.
 
 ---
 
-## Day-0 checklist (do all of these before Day 1)
+## Day-0 checklist (only two things are required before Day 1)
 
 - [ ] ⭐ Claude account + Claude Pro + Claude Code installed and replying
-- [ ] ⭐ Cloud server account created (Oracle Always-Free), SSH key saved, IP noted
-- [ ] ⭐ Groq API key saved
-- [ ] Composio account + API key saved (connect Gmail now if you can)
-- [ ] Telegram installed + bot created + token saved
-- [ ] Resend account + API key + domain added (verification can finish later)
-- [ ] GitHub account + Git installed + token saved
-- [ ] Node.js installed
-- [ ] ElevenLabs key saved (optional)
-- [ ] Decided on social publishing: Blotato (paid) or the free Telegram-draft route
-- [ ] A folder on your computer to keep all these keys safe (a password manager is ideal)
+- [ ] ⭐ Telegram installed + bot created via @BotFather + token saved into `.env`
+- [ ] Git + Node.js installed (`git --version`, `node --version` both answer)
+- [ ] Copied `.env.example` to `.env` (your one safe home for keys — never a loose text file, never committed)
+
+Everything else on this page gets set up **on the day it's used** — the lesson tells you when. Optional head start if you have 10 spare minutes: create your Groq key (Day 3) and your Resend account (Day 4).
 
 Once these boxes are checked, Day 1 flies. See `days/day-0.md` for the walkthrough.

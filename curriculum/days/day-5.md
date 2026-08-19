@@ -16,7 +16,7 @@ cp -r skill-vault/qualify skill-vault/outreach skill-vault/followup .claude/skil
 
 ### Step 2 — Qualify a real lead list
 
-Drop a list of prospects (a CSV or a paste — names, companies, whatever you have) and:
+Drop a list of prospects (a CSV or a paste — names, companies, whatever you have). No list yet? Use the practice set at `sample-data/leads.csv` — twelve fictional leads built for exactly this. Then:
 
 > Use qualify to score these leads and tell me who to contact first and why.
 
@@ -43,9 +43,9 @@ Connecting an AI to Gmail the old way means a Google Cloud project, a consent sc
 3. In **Toolkits**, connect **Gmail** and **Google Calendar**: click Connect → sign in with Google → approve → **land on the "connected" page.** (If it says "initializing," you didn't finish the consent — do it again to the success screen.)
 4. Optionally connect **Drive, Sheets, Docs** the same way.
 
-Give your AIOS the key:
+Now wire Claude Code to it — the exact walkthrough is **`references/composio-setup.md`** (copy `.mcp.json.example` to `.mcp.json`, paste your MCP server URL, restart Claude Code). Two minutes, and the proof is asking:
 
-> My Composio API key is ak_... . Save it. Connect my Comms Wing to Gmail and Calendar.
+> List the subject lines of my 5 most recent emails.
 
 ### Step 5 — Install and run the Comms skills
 
@@ -87,4 +87,4 @@ Post either the outreach campaign it drafted (redact names) **or** your AIOS's p
 
 ## Tomorrow
 
-Day 6 — the big one. Your AIOS moves off your laptop onto a 24/7 server and into your pocket.
+Day 6 — the big one. Your AIOS lands in your pocket: you'll text it (and talk to it) from your phone.

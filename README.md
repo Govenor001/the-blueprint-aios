@@ -1,6 +1,6 @@
 # The Blueprint — Build Your Own AI Operating System
 
-A starter kit that turns Claude Code into a personal **AI Operating System (AIOS)** — a named AI staff member that writes your content, monitors your market, works your leads, handles your inbox, and takes orders from your phone, running 24/7 on a free cloud server.
+A starter kit that turns Claude Code into a personal **AI Operating System (AIOS)** — a named AI staff member that writes your content, monitors your market, works your leads, handles your inbox, and takes orders from your phone. It starts on your laptop on day one, with a clear graduation path to running 24/7 on a cloud server.
 
 This is the kit you build in **The 7-Day Agent Architect Challenge**. It's the same architecture that runs our own companies — packaged so you can run yours on it.
 
@@ -10,7 +10,7 @@ This is the kit you build in **The 7-Day Agent Architect Challenge**. It's the s
 
 > **While your laptop is closed, your AIOS observes one real event and produces an output faster and better than you would have — and it reaches you on your phone.**
 
-Every part of this kit rolls up to that. If a floor, a wing, or a skill doesn't move you toward it, it doesn't ship.
+Every part of this kit rolls up to that. If a floor, a wing, or a skill doesn't move you toward it, it doesn't ship. The 7-day challenge gets you the phone part with your laptop open; the post-challenge **Go 24/7** module closes the lid for good.
 
 ---
 

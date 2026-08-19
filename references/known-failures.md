@@ -34,8 +34,8 @@ These are the failures that actually happen when you build this kit, catalogued 
 
 ## Posts/actions blocked by a bot wall — 403 HTML, "request blocked"
 **Tell:** reads succeed, writes fail with an HTML 403 (CloudFront / Cloudflare), regardless of headers.
-**Cause:** the platform's bot protection blocks non-browser writes.
-**Fix:** route the write through a real headless browser (Playwright) using your session cookies, after the page's challenge completes. Reads can stay on the fast path.
+**Cause:** the platform doesn't allow automated writes — that block *is* their policy, and working around it usually violates their terms and risks your account.
+**Fix:** use the platform's official API or its official Zapier/integration route if one exists. If there isn't one, this task's ceiling is **draft-and-notify**: your AIOS prepares the post and drops it in your Telegram, you publish with one tap. That's the honest version of "automated."
 
 ---
 
@@ -57,3 +57,17 @@ These are the failures that actually happen when you build this kit, catalogued 
 **Tell:** a content or intel job runs but produces nothing; the input file is empty.
 **Cause:** the upstream data source is down or returned nothing, and there's no fallback.
 **Fix:** add a fallback source so the job never runs dry (free news RSS is the reliable floor), and an alert so you know when the primary went quiet.
+
+---
+
+## Telegram bridge is silent — messages get no reply
+**Tell:** you text the bot, nothing comes back; the bridge terminal shows nothing (or isn't running).
+**Cause:** in order of likelihood: the bridge process isn't running; `.env` wasn't loaded into that terminal (`set -a && . ./.env && set +a`); `TELEGRAM_CHAT_ID` is a different id than the phone you're texting from; two bridge processes are fighting over updates (Telegram hands each update to only one).
+**Fix:** run `python3 scripts/bridge.py --check` and read what it says. Kill duplicates (`pkill -f bridge.py`), reload the env, restart. If the bridge replies "your chat id is …", put that exact number in `.env`.
+
+---
+
+## Cloud "free tier" instance can't be created — "out of capacity"
+**Tell:** the provider accepts your signup but every attempt to launch a free instance fails with a capacity error.
+**Cause:** free-tier capacity in popular regions is chronically oversubscribed; this is normal, not something you misconfigured.
+**Fix:** don't burn a day fighting it. A ~$5/mo VPS (Hetzner, DigitalOcean, etc.) launches in five minutes and is the boring, reliable choice. Free tiers also reclaim idle instances — read the provider's policy before trusting one with your AIOS.

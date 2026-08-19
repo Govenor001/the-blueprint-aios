@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "composio": {
+      "type": "http",
+      "url": "PASTE_YOUR_COMPOSIO_MCP_SERVER_URL_HERE"
+    }
+  }
+}
