@@ -15,10 +15,10 @@ Everything a student needs, in order. By Day 7 they have their own AI Operating 
 | 0 | [days/day-0.md](days/day-0.md) | Accounts, keys, tools ready | Prep |
 | 1 | [days/day-1.md](days/day-1.md) | Name their AIOS; it learns their business | Foundation |
 | 2 | [days/day-2.md](days/day-2.md) | A week of content in their voice | Content Wing |
-| 3 | [days/day-3.md](days/day-3.md) | Inbox-landing newsletter + video engine | Content Wing |
-| 4 | [days/day-4.md](days/day-4.md) | 24/7 market monitoring + morning brief | Intelligence Wing |
+| 3 | [days/day-3.md](days/day-3.md) | 24/7 market monitoring + morning brief | Intelligence Wing |
+| 4 | [days/day-4.md](days/day-4.md) | Inbox-landing newsletter + video engine | Content Wing |
 | 5 | [days/day-5.md](days/day-5.md) | Leads worked + whole Google Workspace connected | Growth + Comms Wings |
-| 6 | [days/day-6.md](days/day-6.md) | Deployed 24/7 + reachable by phone/voice | Command Wing |
+| 6 | [days/day-6.md](days/day-6.md) | Reachable by phone/voice (bridge on your laptop) | Command Wing |
 | 7 | [days/day-7.md](days/day-7.md) | Autopilot schedules + inspection + certification | Autopilot |
 
 ## What they receive (the kit)

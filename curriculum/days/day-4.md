@@ -1,8 +1,8 @@
-# Day 3 — The Content Wing, Part 2: Newsletter + Video
+# Day 4 — The Content Wing, Part 2: Newsletter + Video
 
 *Two more Workshops today: a newsletter that lands in the inbox, and a video engine that turns your content into scroll-stopping clips. ~35 minutes.*
 
-**By the end of Day 3:** a send-ready newsletter proven to hit your own inbox, and two ready-to-use video presets configured to your brand.
+**By the end of Day 4:** a send-ready newsletter proven to hit your own inbox, and two ready-to-use video presets configured to your brand.
 
 ---
 
@@ -14,7 +14,7 @@ Most newsletters die in spam because the sender's domain isn't verified. Resend 
 
 ### Step 1 — Finish your Resend domain
 
-From Day 0 you added your domain to Resend. Check it now:
+In your Day 2 homework you created your Resend account and added your domain (if you skipped it, do it now — section 6 of the services guide — and let DNS verify while you build the video half). Check it now:
 - In Resend → **Domains**, it should say **Verified**. If it still says pending, confirm the SPF and DKIM DNS records are in at your registrar and give it time.
 - Verified means your mail is authenticated. This one step is the difference between inbox and spam.
 
@@ -48,19 +48,27 @@ Your AIOS can generate videos on command using Remotion and the two presets in t
 
 ### Step 4 — Set up the presets
 
-The two presets live in `video-presets/`:
+The two presets live in `video-presets/` — a ready-to-run project:
 - **Pulse** — news/insight clips (animated charts, kinetic headlines)
 - **Breakdown** — listicle/steps clips (numbered, with a progress bar)
 
-Point them at your brand:
+Install once and open the live preview:
 
-> Read video-presets/README.md. Set the brand colors in ArchitectKit.jsx to my brand's colors: [your hex codes], and rename the brand to mine.
+```
+cd video-presets
+npm install
+npm run studio
+```
+
+Then point them at your brand — ask your AIOS:
+
+> Read video-presets/README.md. Add my brand to the BRANDS palette in ArchitectKit.jsx with my colors: [your hex codes].
 
 ### Step 5 — Render your first video
 
-> Render the Pulse preset with this week's top insight as the content.
+> Write Pulse props for this week's top insight from my signals, then render it.
 
-You get a vertical MP4 in minutes. Preview it. Change the data, re-render — that's the whole loop.
+Or render straight from the terminal: `npm run render:pulse`. You get a vertical MP4 in `video-presets/out/`. Preview it. Change the data, re-render — that's the whole loop.
 
 ---
 
@@ -78,4 +86,4 @@ Post a screenshot of your test newsletter **in your own inbox (Primary tab)** �
 
 ## Tomorrow
 
-Day 4 — your AIOS starts watching your market 24/7 and briefing you every morning, for free.
+Day 5 — leads and your inbox: your AIOS qualifies prospects, drafts outreach, and plugs into your entire Google Workspace.

@@ -1,8 +1,8 @@
-# Day 4 — The Intelligence Wing
+# Day 3 — The Intelligence Wing
 
 *Floor 2 (Wiring) meets Floor 3 (Workshops). Today your AIOS starts watching your market around the clock and hands you a ranked morning brief — replacing $100+/mo monitoring tools with $0. ~30 minutes.*
 
-**By the end of Day 4:** a working intelligence engine pulling your niche's news from free sources, scored by AI, delivered as a morning brief in your voice.
+**By the end of Day 3:** a working intelligence engine pulling your niche's news from free sources, scored by AI, delivered as a morning brief in your voice.
 
 ---
 
@@ -10,11 +10,13 @@
 
 Most people never build market monitoring because the tools are expensive. Yours costs nothing: free public feeds (Google News, Reddit, Hacker News) plus Groq (free) to score and tag what matters. You wake up already knowing what happened in your world overnight — and so does your content.
 
-## Step 1 — Give your AIOS its Groq key
+## Step 1 — Get your Groq key (2 minutes)
 
-The intelligence engine uses Groq (free) to score news so you don't spend Claude tokens on it.
+The intelligence engine uses Groq (free) to score news so you don't spend Claude tokens on it. Sign up at **console.groq.com**, create an API key (starts with `gsk_`), and put it in your `.env` file as `GROQ_API_KEY=gsk_...` (full steps: section 3 of the services guide). Then load it into your terminal:
 
-> My Groq API key is gsk_... . Save it to my settings.
+```
+set -a && . ./.env && set +a
+```
 
 ## Step 2 — Set your niche
 
@@ -26,9 +28,13 @@ Examples: a realtor might use "mortgage rates, first-time buyers, [their city] h
 
 ## Step 3 — Run the engine
 
-> Run the intelligence engine and show me what it found.
+The engine ships with the kit — it's `scripts/engine.py`, and it needs nothing installed. Run it with *your* keywords:
 
-It fetches recent items from the free feeds, uses Groq to score each for relevance and tag it, and keeps the strongest signals. First run should surface real, current items about your niche.
+```
+python3 scripts/engine.py "your keyword one" "your keyword two" "your keyword three"
+```
+
+It fetches recent items from Google News, Hacker News, and Reddit, uses Groq to score each for relevance (with a built-in fallback so it never runs dry), keeps the strongest signals, and saves them to `context/signals.json`. First run should surface real, current items about your niche. It remembers your keywords — from now on plain `python3 scripts/engine.py` refreshes the sweep.
 
 ## Step 4 — Install the morning brief
 
@@ -66,4 +72,4 @@ Post your first morning brief about *your* industry. Seeing everyone's different
 
 ## Tomorrow
 
-Day 5 — leads and your inbox: your AIOS qualifies prospects, drafts outreach, and plugs into your entire Google Workspace.
+Day 4 — a send-ready newsletter that lands in the inbox, plus your video engine.

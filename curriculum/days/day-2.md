@@ -43,7 +43,7 @@ Read the drafts. Do they sound like you? If the tone's off:
 
 ## Step 5 — Decide how you'll publish
 
-Two paths (you chose one on Day 0):
+Two paths (pick now — you can switch any time):
 - **Free route:** have your AIOS drop the finished posts into a file or your Telegram (wired Day 6), and you post them with a tap. Zero cost, you stay in control.
 - **Blotato route (paid):** connect Blotato so your AIOS schedules them automatically. We wire this on Day 7's autopilot.
 
@@ -63,6 +63,10 @@ You have a week of posts in your voice that you'd actually be happy to publish, 
 
 Post one AI-generated post next to something you wrote by hand. Ask the community: can they tell which is which? When they can't, you've nailed the voice.
 
+## Tonight's homework (5 minutes, for Day 4)
+
+Sign up at **resend.com** and add your domain (section 6 of the services guide walks the DNS records). Verification sometimes takes hours — starting tonight means it's green when you need it. No domain? Skip this; Day 4 has a test route.
+
 ## Tomorrow
 
-Day 3 — a send-ready newsletter that lands in the inbox, plus your video engine.
+Day 3 — your AIOS starts watching your market 24/7 and hands you a ranked morning brief, for free.
