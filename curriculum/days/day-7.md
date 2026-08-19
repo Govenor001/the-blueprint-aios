@@ -12,11 +12,16 @@ We saved automation for the end on purpose: **never put a job on a timer until i
 
 ## Step 1 — Schedule your morning brief
 
-Tell your AIOS to run the Intelligence brief every morning and send it to your phone:
+You'll use `cron`, the scheduler already on your Mac/Linux machine. One honest note first: a schedule only fires while this machine is awake — that's fine this week (pick a time your laptop is open; going 24/7 is the post-challenge module). And unattended jobs are the right place for an **API key** (`ANTHROPIC_API_KEY` in your `.env`) rather than your Pro login — Anthropic's consumer terms cover you at the keyboard, not scripts running alone, and a daily brief costs a few dollars a month on the API.
 
-> Schedule my morning brief to run at 7am every day and send it to my Telegram.
+Run `crontab -e` and add (adjust the path to your kit folder):
 
-It sets up a scheduled job (cron) on your server. Tomorrow at 7am, a brief about your market lands on your phone with no action from you.
+```
+SHELL=/bin/bash
+0 7 * * * cd /path/to/the-blueprint-aios && set -a && . ./.env && set +a && python3 scripts/engine.py --quiet && claude -p "Run the brief skill on context/signals.json. Output plain text only." | python3 scripts/bridge.py --send-stdin
+```
+
+Tomorrow at 7am, a brief about your market lands on your phone with no action from you. (The `SHELL=/bin/bash` line matters — it's the #1 cron gotcha in `references/known-failures.md`.)
 
 ## Step 2 — Schedule your content
 
@@ -30,7 +35,7 @@ Whatever wings you've made solid — lead follow-up, a weekly newsletter — put
 
 ## Step 4 — Confirm it fired on its own
 
-Don't take it on faith. Trigger one scheduled job (or wait for one) and confirm it ran without you touching it. Seeing your AIOS do something while you did nothing is the proof that Floor 4 is real.
+Don't take it on faith. Set a test schedule two minutes out (`crontab -e`, change `0 7` to the coming minute), watch it fire, then set the real time. Seeing your AIOS do something while you did nothing is the proof that Floor 4 is real.
 
 ## Step 5 — Run the inspection
 
@@ -40,7 +45,7 @@ Your AIOS scores itself out of 100 against The Blueprint's four floors — Found
 
 ## Step 6 — Graduate
 
-Post your **inspection score** plus a **phone screenshot** in the community. That's your graduation — and it doubles as proof for everyone coming after you. You'll get your **Agent Architect certificate** with your name, your AIOS's name, and your score — ready for LinkedIn.
+Post your **inspection score** plus a **phone screenshot** in the community, then come to the **live graduation call** — certificates, the best builds of the cohort, and open Q&A (including "how would this work in my business?" — bring that one if you have a team). You'll get your **Agent Architect certificate** with your name, your AIOS's name, and your score — ready for LinkedIn.
 
 ---
 
@@ -51,7 +56,7 @@ Stop and take this in. In seven days you built an AI Operating System that:
 - watches your market overnight and briefs you,
 - qualifies your leads and drafts your outreach,
 - triages your inbox and plans your day,
-- runs 24/7 on a free server,
+- runs on a schedule while your laptop's open — with a clear path to full 24/7,
 - and answers you by text or voice from your phone.
 
 The only thing you pay for is Claude. Everything else is free. And it's *yours* — built on your business, your voice, your priorities.
