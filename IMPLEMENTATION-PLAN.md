@@ -6,7 +6,7 @@
 If CHECK fails, fix it before moving on. Never skip a CHECK.
 If a task asks you to decide something, stop and ask. Everything is already decided.
 
-There are seven builds, numbered 0 to 6.
+There are eight builds, numbered 0 to 7.
 
 | Build | What it is | Plain words |
 |---|---|---|
@@ -17,8 +17,10 @@ There are seven builds, numbered 0 to 6.
 | 4 | The Tentacles | Paste any API key. It can now use that service. |
 | 5 | The Vault | Their keys and company documents, locked on their own server. |
 | 6 | The Panels | Every section shows their real numbers, as charts and diagrams. Ask for one in plain English and get it, on the dashboard or on your phone. |
+| 7 | The Curriculum | Rewrite all eight days to teach the system we actually built. |
 
 Builds 1, 2, 4, 5 are the machine. Build 3 is the content. Build 6 is the face.
+Build 7 is the product — what the customer actually buys is the week, not the folder.
 
 **Build 3 is the longest. Build 6 is the one that sells it.** Build 1 proves the system
 exists; Build 6 is the only part that shows the owner their own business. Do not treat it
@@ -49,6 +51,11 @@ scheduled agents is the single most likely cause of refunds in week two** — se
 **4. Prototype the headless OAuth question in Task 4.5 early.** It is the one genuine unknown
 left in this plan. If it does not work, Build 4 loses a tier and that is a scope decision for
 the owner, not something to discover on the day it is needed.
+
+**One scheduling trap to plan around now.** Build 7 rewrites all eight curriculum days, and
+it has to come last because Days 3 and 7 describe screens Build 6 builds. But it **gates
+launch** — the customer buys the week, not the code. So it is last in order and cannot be
+the thing you start on Sept 13. Reserve real time for it.
 
 **Two standing rules for the whole job.** Never skip a CHECK — they exist because each one
 has already caught a real failure. And nothing ships that has never been run once by a human
@@ -370,6 +377,24 @@ Rules:
 - Do not write the token anywhere our code reads. Claude Code owns it.
 - Day 0 of the curriculum has to say **which plan to buy before they start.** A customer
   who reaches Day 6 and discovers they need a subscription is a refund.
+
+**One thing the owner must verify personally, not take on trust.** The earlier version of
+this curriculum told customers the opposite of Build 0 — that scheduled, unattended jobs
+belong on an API key because *"Anthropic's consumer terms cover you at the keyboard, not
+scripts running alone."* Those sentences are still in `curriculum/days/day-6.md` and
+`day-7.md` and Build 7 removes them.
+
+The evidence says the subscription route is sanctioned: **`claude setup-token` is a
+first-party command whose own help text reads "requires Claude subscription"**, which is
+Anthropic shipping a long-lived headless credential for exactly this use, and Anthropic's
+cost documentation discusses scheduled tasks against subscription usage limits rather than
+forbidding them.
+
+**But this single question underpins the entire pricing model of the product**, so read the
+current usage policy and consumer terms yourself before Sept 14 and confirm it in writing.
+If it turns out unattended scheduled use is not covered by a subscription, the economics of
+this product change and you need to know that before a cohort does, not after. **Do not let
+this stay an assumption.**
 
 **CHECK:** Close the SSH session, wait for a timer to fire, and confirm an agent ran with
 nobody logged in. Then `claude -p "say ok"` as the `aios` user returns `ok`.
@@ -2027,6 +2052,200 @@ plan because nothing else runs without it.
 
 ---
 
+# BUILD 7 — The Curriculum: rewrite all eight days
+
+The eight files in `curriculum/days/` were written for an earlier version of this product
+and they now teach a system that does not exist. **They are not out of date at the level of
+wording. Their central activity has been deleted.**
+
+**Do this build last, because Days 3 and 7 describe screens Build 6 has to have built
+first.** But do not treat it as optional polish: the product is a challenge. A working
+system with a curriculum that teaches the wrong steps is not shippable, and this is the
+file set the customer actually reads.
+
+## The spine changed. Read this before touching a day.
+
+**Old spine: each day you install a wing.** Every day from 2 to 5 hinges on a line like
+`cp -r skill-vault/qualify .claude/skills/`. **Ship-complete deletes that.** All 150 agents
+are on the box before Day 0 begins. There is nothing to install and nothing to copy.
+
+**New spine: each day you turn one wing on, feed it something real, and watch the dashboard
+change.** The verbs are *turn on, connect, feed, promote* — never *install*.
+
+**And the arc is the autonomy ladder.** Everything ships at `manual` or `assisted`
+(Build 3), so the customer's journey through the week is promoting agents up the ladder as
+they come to trust them. That is not a workaround for the untested-agent gap; it is the
+best teaching device in the product, and it is the reason the challenge is worth $97
+rather than being a folder of files. **Every day should promote at least one agent and say
+why it earned it.**
+
+**Every day ends at the dashboard.** The owner opens the same page each evening and sees
+one more part of their business on it. That is the retention mechanic and the screenshot
+they post.
+
+## What every day must delete
+
+Sweep for all of these. Each one is now false:
+
+| Delete | Because |
+|---|---|
+| Every `cp -r skill-vault/... .claude/skills/` | The agents are already installed |
+| "on your machine", "your laptop", "your terminal" | It is their server, from Day 0 |
+| Day 6's "the bridge runs on your laptop today; moving it to a server is the graduation step" | The server is Day 0. This paragraph inverts the product. |
+| Day 7's `cron` commands | systemd timers (Task 5.5) |
+| Day 0's Git and Node installs | `deploy/install.sh` does this |
+| Day 0's BotFather step | Moves to Day 6, where it is used |
+| Day 3's framing of Groq as the scoring engine | Groq is voice transcription (Build 2) |
+| Any count of skills, wings or agents | Cite nothing the map does not generate |
+
+## The rebalanced eight days
+
+**Load, not content, is what got rebalanced.** Day 0 gains the server and Day 2 was
+nearly empty. Target time is a real constraint, not decoration: **no day over 40 minutes,
+and never two 40s in a row.** If a day runs long, move a step, do not compress the writing.
+
+| Day | Subject | Target | Ends on |
+|---|---|---|---|
+| 0 | Buy the plan. Rent the box. One command. `claude setup-token`. | 35 min | The dashboard loads, empty |
+| 1 | The interview. Name it. Their business goes in. | 25 min | It answers a question about their own business |
+| 2 | Upload documents. The vault fills. | 30 min | It answers something only their own PDF knew |
+| 3 | Meet the map: 150 agents. Turn the first ones on — content. | 35 min | A week of content, and the Content panel has numbers |
+| 4 | Newsletter and video. | 40 min | A sent newsletter and a rendered clip |
+| 5 | Connect Google. Then one tool of their own. | 40 min | A tentacle they chose, working |
+| 6 | Telegram. Text it, talk to it. | 30 min | A voice note answered from their pocket |
+| 7 | Timers, then their numbers. | 35 min | **They ask for a chart and get one, on the phone** |
+
+Day 7's last step is the best moment in the challenge. Build it that way: once the
+collector has run once, they ask their own AIOS about their own business and a chart comes
+back. **That is the screenshot.** Do not bury it under the inspection.
+
+### Task 7.1 — Day 0: the box
+
+**DO:** Rewrite `curriculum/days/day-0.md`. This is the day that changed most and the day
+with the highest drop-off, so it gets the most care.
+
+Order: **buy the Claude plan first**, then rent the box, then one command, then
+`claude setup-token`, then open the dashboard. Say the monthly cost out loud — the
+subscription plus about $5 for the server — and say that the subscription includes usage so
+there is no per-message charge. Then say plainly: **do not create an Anthropic API key**,
+that is the pay-per-word route and nothing here needs one.
+
+Keep the existing honesty about what a beginner will hit. Add one line on what to do if
+`setup-token` is approved on a phone and the paste fails, because it will.
+
+**CHECK:** A stranger who has never used a terminal reaches a loaded dashboard in under 40
+minutes, and the only accounts they created are Claude and a VPS host.
+
+### Task 7.2 — Day 1: the interview
+
+**DO:** Light edit of `curriculum/days/day-1.md`. Delete "get the kit onto your machine"
+and the one-paste install — both happened on Day 0. Keep the seven questions, keep naming
+it, keep the wow moment. It now happens in the dashboard's ask bar rather than a terminal.
+
+**CHECK:** Nothing on this day asks them to install, clone or copy anything.
+
+### Task 7.3 — Day 2: the vault
+
+**DO:** Rewrite `curriculum/days/day-2.md`. It currently teaches the Content wing; content
+moves to Day 3. The new Day 2 is documents: drop files into `vault/documents/`, run
+`ingest`, watch `vault/context/` fill up.
+
+**End it on the Tier 1 moment**, which is the best cheap win in the product: they ask a
+question whose answer is one line on page 30 of something they uploaded, and get it back
+with the filename. Say that this search runs on their own box and costs nothing.
+
+**CHECK:** The day works with a single uploaded PDF, and works on a box with no local model
+installed (keyword fallback, per Task 0.5).
+
+### Task 7.4 — Day 3: the map
+
+**DO:** Rewrite `curriculum/days/day-3.md`. This is the day the product reveals itself —
+150 agents, seven wings, on one page. Teach the map: wings, departments, the ladder dots.
+
+Then **turn the first agents on**, and make them the content ones, because content gives
+the fastest visible result. This is where the old Day 2's `content-week` material lands.
+
+**Teach promotion here, explicitly.** Run one agent at `manual`, read what it did, then
+promote it to `assisted` and run it again. That contrast is the lesson the rest of the week
+builds on.
+
+**CHECK:** They end with a week of content, one agent promoted a rung, and the Content
+panel showing a real number.
+
+### Task 7.5 — Day 4: newsletter and video
+
+**DO:** Lightest edit of the eight. `curriculum/days/day-4.md` mostly survives — Resend
+domain verification and the Remotion presets are unchanged. Remove the skill-install step,
+point at the agents already on the map, and end on the dashboard rather than a file path.
+
+**CHECK:** No install commands remain, and the day still fits 40 minutes.
+
+### Task 7.6 — Day 5: the tentacles
+
+**DO:** Edit `curriculum/days/day-5.md`. Composio for Google stays, and it is already
+correct after this session's fixes. Two changes: drop the skill-install step, and **add the
+second half the plan promises — connecting one tool of their own** (Build 4's
+`connect-api`), so the day teaches the general mechanism and not just Google.
+
+Keep the prompt-injection warning verbatim. It is the most important safety paragraph in
+the curriculum.
+
+**CHECK:** They connect one service that was not on our list, and it appears on the
+connections page.
+
+### Task 7.7 — Day 6: Telegram
+
+**DO:** Edit `curriculum/days/day-6.md`. Move the BotFather step here from Day 0. **Delete
+the entire laptop-first framing** — "the bridge runs on your laptop today" and "moving it
+to an always-on server is the graduation step after the challenge" are now backwards, since
+the bridge has been a systemd service since Day 0. Their job today is to point it at their
+own chat and lock it to their ID.
+
+Keep voice notes as the closing moment.
+
+**CHECK:** No sentence implies the system runs anywhere but their server.
+
+### Task 7.8 — Day 7: autopilot and their numbers
+
+**DO:** Rewrite the back half of `curriculum/days/day-7.md`. Replace every `cron` command
+with the systemd timers from Task 5.5. Keep the inspection and the graduation.
+
+**Then add the ending the product deserves.** After the timers are on and the collector has
+run, they ask their own AIOS a question about their own business — *"how are my views
+doing?"* — and get a chart back, on the dashboard and on Telegram. Put it last. Put the
+inspection before it, not after.
+
+**CHECK:** A timer fires with nobody logged in, and the final step produces a chart on a
+phone.
+
+### Task 7.9 — The contradiction sweep
+
+**DO:** After all eight days are rewritten, run the sweep. **Sweep the whole repo, not just
+`curriculum/days/`** — the same claims are duplicated in index and helper files that are
+easy to miss. These must all print nothing:
+
+```bash
+grep -rn "cp -r skill-vault" curriculum/
+grep -rn "crontab\|cron " curriculum/
+grep -rniE "your laptop|on your machine|your terminal" curriculum/ scripts/README.md README.md
+grep -rniE "graduation step|Go 24/7|go 24/7" curriculum/ README.md
+grep -rn "ANTHROPIC_API_KEY" curriculum/
+```
+
+**Four files outside `curriculum/days/` are known to carry the old framing** and are part of
+this task: `curriculum/README.md` (the day index still says "bridge on your laptop"),
+`scripts/README.md` (says `bridge.py` "runs on your laptop"), `README.md` (its weekly-rhythm
+step still ends "move in — go 24/7", which is now Day 0), and
+`curriculum/days/day-3.md` ("once we go 24/7").
+
+Then read all eight in one sitting, in order, as a customer. **You are looking for a day
+that references something a previous day never set up.** That class of error is invisible
+when you edit one file at a time and obvious when you read them back to back.
+
+**CHECK:** All four greps are empty, and the eight days read as one continuous week.
+
+---
+
 # What ships when
 
 Build 6 roughly doubles the work. Sept 14 is a pre-sale, so what we promise has to be
@@ -2036,6 +2255,12 @@ what we deliver. Here is the split.
 voice both ways, the vault, the installer, Composio and Google, Blotato, and **two panels
 fully finished** — Command, because it needs no outside connection, and Content, because it
 is the one with the best screenshot in it.
+
+**All eight curriculum days must be rewritten before Sept 14. This is not a weekly drop.**
+The customer buys the week, not the folder, and Build 7 is the week. A day that still tells
+them to install an agent they already have is the first thing they will hit, on Day 0, and
+it undoes every other thing in this plan. **If something has to slip, slip a panel, never a
+day.**
 
 **Weekly drops after:** the other five panels, one per week, each with its cards and its
 empty states. Then new agents on request from the community.
@@ -2051,27 +2276,32 @@ themselves. Sell that as the method, which it is.
 
 ---
 
-# How this maps to the 7 days
+# How this maps to the 8 days
 
-The seven days are the setup. This is what each day installs.
+The days are the setup. This is what each one turns on — and **which build has to exist
+before that day can be written.** Build 7 rewrites the files themselves.
 
-| Day | What they set up | Build |
-|---|---|---|
-| 0 | **Buy the Claude plan.** Their server, one command, `claude setup-token`. Dashboard loads. | 0, 5.4 |
-| 1 | The interview. Their business goes into the brain. | 5.3 |
-| 2 | Upload company documents. Watch the brain fill up. | 5.2 |
-| 3 | Meet the map. Turn on their first agents. | 1 |
-| 4 | Content and video. Remotion. | existing |
-| 5 | Connect Google, then connect their own tools. | 4 |
-| 6 | Telegram. Talk to it, it talks back. | 2 |
-| 7 | Schedules and their numbers. It runs without them. | 5.5, 6 |
+| Day | What they turn on | Needs build | Target |
+|---|---|---|---|
+| 0 | **Buy the Claude plan.** Their box, one command, `claude setup-token`. | 0, 5.4 | 35 min |
+| 1 | The interview. Their business goes into the brain. | 5.3 | 25 min |
+| 2 | Upload documents. The vault fills, and search is free. | 5.2, 5.2b | 30 min |
+| 3 | Meet the map. Turn on the first agents, and promote one. | 1, 3 | 35 min |
+| 4 | Newsletter and video. Remotion. | existing | 40 min |
+| 5 | Connect Google, then one tool of their own. | 4 | 40 min |
+| 6 | Telegram. Text it, talk to it. | 2 | 30 min |
+| 7 | Timers, then their numbers as a chart. | 5.5, 6 | 35 min |
+
+**Nothing on this table is installed by the customer.** They arrive on Day 0 to a complete
+system and spend the week turning it on, feeding it, and promoting agents up the autonomy
+ladder. See Build 7 for why that is the whole teaching arc.
 
 Day 7 gains the best moment in the challenge, so build it that way. Once the collector
 has run even once, they ask their own AIOS a question about their own business and get a
 chart back. **That is the screenshot they post**, and it is the last thing they do before
 the challenge ends, which is exactly where you want it.
 
-That is a real seven days of work. Not seven days of reading.
+That is a real week of work. Not a week of reading.
 
 ---
 
@@ -2091,8 +2321,9 @@ exist only for the owner's Bedrock test box.
 | `TELEGRAM_BOT_TOKEN` | Telegram |
 | `TELEGRAM_CHAT_ID` | locking the bot to one person |
 | `GROQ_API_KEY` | hearing voice notes |
-| `ELEVEN_API_KEY` | speaking back |
+| `ELEVEN_API_KEY` | speaking back. **Not `ELEVENLABS_API_KEY`** — `.env.example` used to say that, and nothing is built yet, so this name is the one that wins. |
 | `ELEVEN_VOICE_ID` | speaking back |
+| `RESEND_API_KEY` | sending the newsletter, Day 4 |
 | `DASHBOARD_PASSWORD` | the dashboard |
 | `COMPOSIO_API_KEY` | Google Workspace |
 | `SOCIALCLAW_API_KEY` | social posting |
@@ -2153,6 +2384,11 @@ Config files only ever hold `${THE_VARIABLE_NAME}`. Never a key.
       `ANTHROPIC_API_KEY` set anywhere, and timers fire with nobody logged in
 - [ ] One box ran a full week on the cheapest recommended plan with the default schedule on,
       without hitting a weekly limit, and the recommendation cites that measurement
+- [ ] **The owner has personally read the current Anthropic usage policy and confirmed in
+      writing that scheduled unattended use on a subscription is covered.** The whole
+      pricing model rests on this. See Task 0.1.
+- [ ] `RESEND_API_KEY` and every other key in `.env.example` appears in Appendix A, and
+      every name matches between the two files exactly
 - [ ] `grep -rn "ANTHROPIC_API_KEY" curriculum/ deploy/` finds nothing that tells a customer
       to set one. The only permitted hit is `deploy/install.sh` refusing to run when it
       is already set.
@@ -2196,5 +2432,12 @@ Config files only ever hold `${THE_VARIABLE_NAME}`. Never a key.
       than a silent gap in the chart
 - [ ] The dashboard makes zero outbound API calls when a page loads
 - [ ] `grep -rIE 'sk-|ak_|xi-api' --exclude-dir=.git .` prints nothing
+- [ ] All four Build 7 greps are empty: no `cp -r skill-vault`, no `cron`, no
+      "your laptop", no `ANTHROPIC_API_KEY` anywhere in `curriculum/`
+- [ ] No day asks the customer to install an agent. They arrive to all 150.
+- [ ] Every day ends at the dashboard, and every day promotes at least one agent a rung
+- [ ] The eight days have been read start to finish in one sitting, and no day references
+      something an earlier day never set up
+- [ ] No day exceeds 40 minutes, and no two 40-minute days are adjacent
 - [ ] A stranger completes Day 0 to Day 7 using only the written docs
 

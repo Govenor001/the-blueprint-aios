@@ -1,8 +1,14 @@
 # The Blueprint — Build Your Own AI Operating System
 
-A starter kit that turns Claude Code into a personal **AI Operating System (AIOS)** — a named AI staff member that writes your content, monitors your market, works your leads, handles your inbox, and takes orders from your phone. It starts on your laptop on day one, with a clear graduation path to running 24/7 on a cloud server.
+A starter kit that turns Claude Code into a personal **AI Operating System (AIOS)** — a named AI staff member that writes your content, monitors your market, works your leads, handles your inbox, and takes orders from your phone. **It runs on your own server from day one**, so it keeps working while your laptop is shut.
 
 This is the kit you build in **The 7-Day Agent Architect Challenge**. It's the same architecture that runs our own companies — packaged so you can run yours on it.
+
+> **Building this, rather than following it?** Start at
+> **[IMPLEMENTATION-PLAN.md](IMPLEMENTATION-PLAN.md)** — the build specification. Eight
+> builds, 49 tasks, each with a DO and a CHECK. Read **BUILD 0** before writing any code,
+> and read the "Start here" section before that. This README describes the product; the
+> plan describes how to construct it.
 
 ---
 
@@ -10,7 +16,7 @@ This is the kit you build in **The 7-Day Agent Architect Challenge**. It's the s
 
 > **While your laptop is closed, your AIOS observes one real event and produces an output faster and better than you would have — and it reaches you on your phone.**
 
-Every part of this kit rolls up to that. If a floor, a wing, or a skill doesn't move you toward it, it doesn't ship. The 7-day challenge gets you the phone part with your laptop open; the post-challenge **Go 24/7** module closes the lid for good.
+Every part of this kit rolls up to that. If a floor, a wing, or a skill doesn't move you toward it, it doesn't ship. Because it lives on your own server, the lid is closed from Day 0 — that test is the product, not a graduation step you reach later.
 
 ---
 
