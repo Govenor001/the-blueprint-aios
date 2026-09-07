@@ -43,6 +43,6 @@ def test_build_map_groups_and_counts(tmp_path):
     result = build_map(tmp_path)
     assert result["counts"]["total"] == 1
     assert result["wings"][0]["wing"] == "intelligence"
-    assert result["wings"][0]["departments"][0]["agents"][0]["name"] == "scout"
+    assert result["wings"][0]["departments"][0]["functions"][0]["agents"][0]["name"] == "scout"
     output = json.loads((tmp_path / "dashboard" / "static" / "map.json").read_text())
     assert output["counts"]["assisted"] == 1
