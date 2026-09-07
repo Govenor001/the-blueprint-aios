@@ -1,7 +1,10 @@
 # Python dependencies for The Blueprint AIOS
 
 # Day 5 - Composio integration for Google Workspace
-composio-core>=0.5.0
+composio>=0.8.0
+
+# Skill frontmatter and manifest validation
+pyyaml>=6.0
 
 # Build 6 - turning dashboard charts into PNGs for Telegram
 # The dashboard itself needs nothing extra: charts are SVG, generated in Python.
