@@ -1,19 +1,6 @@
 #!/usr/bin/env python3
-"""The Command Wing bridge — talk to your AIOS from Telegram.
+"""Telegram bridge for the owner-facing AIOS command wing."""
 
-Runs on your laptop (Day 6). Text your bot -> it runs `claude -p` in this
-repo -> the answer comes back to your phone. Voice notes are transcribed
-via Groq Whisper (free) if GROQ_API_KEY is set. Stdlib only.
-
-Usage:
-  python3 scripts/bridge.py --check       # verify setup, then exit
-  python3 scripts/bridge.py               # run the bridge (Ctrl+C to stop)
-  echo "hello" | python3 scripts/bridge.py --send-stdin   # one-shot push
-
-Safety: replies only to TELEGRAM_CHAT_ID once it's set. Claude runs with
-its DEFAULT permissions — it can read your AIOS files and answer, but it
-will not take privileged actions unattended.
-"""
 import json
 import os
 import subprocess
@@ -21,8 +8,12 @@ import sys
 import urllib.parse
 import urllib.request
 import uuid
+from pathlib import Path
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from activity import log
+from model_for import model_for
+
+ROOT = Path(__file__).resolve().parents[1]
 TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
 GROQ_KEY = os.environ.get("GROQ_API_KEY", "")
@@ -47,13 +38,21 @@ def send(chat_id, text):
 
 def ask_claude(prompt):
     try:
-        run = subprocess.run(["claude", "-p", prompt], cwd=ROOT,
-                             capture_output=True, text=True, timeout=300)
-        return run.stdout.strip() or run.stderr.strip() or "(no reply)"
+        resolved_model = model_for(ROOT, tier="smart")
+        log("skill_started", detail=f"telegram model={resolved_model}")
+        run = subprocess.run(["claude", "--model", resolved_model, "-p", prompt], cwd=ROOT, capture_output=True, text=True, timeout=300)
+        output = run.stdout.strip() or run.stderr.strip() or "(no reply)"
+        log("skill_finished", detail=output[-1000:], status="ok" if run.returncode == 0 else "error")
+        return output
     except subprocess.TimeoutExpired:
+        log("skill_error", detail="telegram request timed out", status="error")
         return "That took over 5 minutes — try a smaller question."
     except FileNotFoundError:
+        log("skill_error", detail="claude CLI is not installed", status="error")
         return "`claude` isn't installed on the machine running the bridge."
+    except Exception as exc:
+        log("skill_error", detail=str(exc), status="error")
+        return "The AIOS could not answer that request."
 
 
 def transcribe(audio_bytes):
@@ -61,19 +60,11 @@ def transcribe(audio_bytes):
         return None
     boundary = uuid.uuid4().hex
     parts = [
-        ('--%s\r\nContent-Disposition: form-data; name="model"\r\n\r\n'
-         'whisper-large-v3-turbo\r\n' % boundary).encode(),
-        ('--%s\r\nContent-Disposition: form-data; name="file"; '
-         'filename="voice.oga"\r\nContent-Type: audio/ogg\r\n\r\n'
-         % boundary).encode() + audio_bytes + b"\r\n",
+        ('--%s\r\nContent-Disposition: form-data; name="model"\r\n\r\nwhisper-large-v3-turbo\r\n' % boundary).encode(),
+        ('--%s\r\nContent-Disposition: form-data; name="file"; filename="voice.oga"\r\nContent-Type: audio/ogg\r\n\r\n' % boundary).encode() + audio_bytes + b"\r\n",
         ("--%s--\r\n" % boundary).encode(),
     ]
-    req = urllib.request.Request(
-        "https://api.groq.com/openai/v1/audio/transcriptions",
-        data=b"".join(parts),
-        headers={"Authorization": "Bearer " + GROQ_KEY,
-                 "Content-Type":
-                     "multipart/form-data; boundary=" + boundary})
+    req = urllib.request.Request("https://api.groq.com/openai/v1/audio/transcriptions", data=b"".join(parts), headers={"Authorization": "Bearer " + GROQ_KEY, "Content-Type": "multipart/form-data; boundary=" + boundary})
     with urllib.request.urlopen(req, timeout=60) as resp:
         return json.loads(resp.read()).get("text", "").strip()
 
@@ -81,15 +72,13 @@ def transcribe(audio_bytes):
 def voice_to_text(file_id):
     path = tg("getFile", {"file_id": file_id})["file_path"]
     url = "https://api.telegram.org/file/bot%s/%s" % (TOKEN, path)
-    audio = urllib.request.urlopen(url, timeout=60).read()
-    return transcribe(audio)
+    return transcribe(urllib.request.urlopen(url, timeout=60).read())
 
 
 def check():
     problems = []
     if not TOKEN:
-        problems.append("TELEGRAM_BOT_TOKEN is not set "
-                        "(run: set -a && . ./.env && set +a)")
+        problems.append("TELEGRAM_BOT_TOKEN is not set")
     else:
         try:
             me = tg("getMe", timeout=15)
@@ -97,79 +86,71 @@ def check():
         except Exception as exc:
             problems.append("Bot token rejected by Telegram: %s" % exc)
     if CHAT_ID:
-        print("+ TELEGRAM_CHAT_ID set (%s) — bridge is locked to you" % CHAT_ID)
+        print("+ TELEGRAM_CHAT_ID set — bridge is locked to you")
     else:
-        print("! TELEGRAM_CHAT_ID not set — first message will tell you "
-              "your id; set it before leaving the bridge running")
+        print("! TELEGRAM_CHAT_ID not set — first message will tell you your id")
     try:
-        v = subprocess.run(["claude", "--version"], capture_output=True,
-                           text=True, timeout=30)
+        v = subprocess.run(["claude", "--version"], capture_output=True, text=True, timeout=30)
         print("+ claude CLI found: %s" % v.stdout.strip())
     except Exception:
-        problems.append("`claude` CLI not found on PATH")
-    print("+ Voice notes: %s" % ("ON (Groq key set)" if GROQ_KEY
-                                 else "off (no GROQ_API_KEY — text only)"))
+        problems.append("claude CLI not found on PATH")
+    print("+ Voice notes: %s" % ("ON" if GROQ_KEY else "off"))
     if problems:
         print("\nFIX THESE FIRST:")
-        for p in problems:
-            print("  x " + p)
-        sys.exit(1)
-    print("\nAll good. Run:  python3 scripts/bridge.py")
+        for problem in problems:
+            print("  x " + problem)
+        return 1
+    print("\nAll good.")
+    return 0
 
 
 def run_bridge():
     if not TOKEN:
-        sys.exit("TELEGRAM_BOT_TOKEN not set. Run --check first.")
-    print("Bridge running. Message your bot from your phone. Ctrl+C stops.")
+        raise SystemExit("TELEGRAM_BOT_TOKEN not set. Run --check first.")
     offset = 0
-    while True:
-        try:
+    (ROOT / "var").mkdir(exist_ok=True)
+    (ROOT / "var" / "bridge.pid").write_text(str(os.getpid()), encoding="utf-8")
+    try:
+        while True:
             updates = tg("getUpdates", {"offset": offset, "timeout": 60})
-        except KeyboardInterrupt:
-            raise
-        except Exception as exc:
-            print("(poll error, retrying: %s)" % exc)
-            continue
-        for u in updates:
-            offset = u["update_id"] + 1
-            msg = u.get("message") or {}
-            chat = str(msg.get("chat", {}).get("id", ""))
-            if not chat:
-                continue
-            if CHAT_ID and chat != CHAT_ID:
-                continue  # someone else found your bot — ignore silently
-            if not CHAT_ID:
-                send(chat, "Your chat id is %s — put TELEGRAM_CHAT_ID=%s "
-                     "in your .env and restart the bridge."
-                     % (chat, chat))
-                continue
-            text = msg.get("text")
-            if not text and msg.get("voice"):
-                text = voice_to_text(msg["voice"]["file_id"])
-                if text is None:
-                    send(chat, "Voice notes need GROQ_API_KEY set. "
-                         "Text works right now.")
+            for update in updates:
+                offset = update["update_id"] + 1
+                msg = update.get("message") or {}
+                chat = str(msg.get("chat", {}).get("id", ""))
+                if not chat or (CHAT_ID and chat != CHAT_ID):
                     continue
-                send(chat, "Heard: %s" % text)
-            if not text:
-                continue
-            print("-> " + text[:80])
-            send(chat, ask_claude(text))
+                text = msg.get("text")
+                log("message_received", detail=text or "voice message")
+                if not CHAT_ID:
+                    send(chat, "Your chat id is %s — put TELEGRAM_CHAT_ID=%s in .env and restart the bridge." % (chat, chat))
+                    continue
+                if not text and msg.get("voice"):
+                    text = voice_to_text(msg["voice"]["file_id"])
+                    if text is None:
+                        send(chat, "Voice notes need GROQ_API_KEY set. Text works right now.")
+                        continue
+                    send(chat, "Heard: %s" % text)
+                if text:
+                    send(chat, ask_claude(text))
+    finally:
+        try:
+            (ROOT / "var" / "bridge.pid").unlink()
+        except FileNotFoundError:
+            pass
 
 
 def main():
     if "--check" in sys.argv:
-        check()
-    elif "--send-stdin" in sys.argv:
+        raise SystemExit(check())
+    if "--send-stdin" in sys.argv:
         if not (TOKEN and CHAT_ID):
-            sys.exit("--send-stdin needs TELEGRAM_BOT_TOKEN and "
-                     "TELEGRAM_CHAT_ID set.")
+            raise SystemExit("--send-stdin needs TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID set.")
         send(CHAT_ID, sys.stdin.read().strip())
-    else:
-        try:
-            run_bridge()
-        except KeyboardInterrupt:
-            print("\nBridge stopped.")
+        return
+    try:
+        run_bridge()
+    except KeyboardInterrupt:
+        print("\nBridge stopped.")
 
 
 if __name__ == "__main__":
