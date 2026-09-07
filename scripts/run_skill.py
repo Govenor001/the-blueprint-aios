@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 from activity import log
+from model_for import model_for
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -29,23 +30,29 @@ def main(argv: list[str] | None = None) -> int:
         for function in department.get("functions", [])
         for agent in function.get("agents", [])
     }
-    if args[0] not in names:
+    skill = args[0]
+    if skill not in names:
         print("skill is not allow-listed", file=sys.stderr)
         return 1
-    log("skill_started", skill=args[0])
+    try:
+        resolved_model = model_for(root, skill=skill)
+    except (OSError, KeyError, ValueError) as exc:
+        log("skill_error", skill=skill, detail=str(exc), status="error")
+        return 1
+    log("skill_started", skill=skill, detail=f"model={resolved_model}")
     try:
         result = subprocess.run(
-            ["claude", "-p", f"Use the /{args[0]} skill for the owner's request."],
+            ["claude", "--model", resolved_model, "-p", f"Use the /{skill} skill for the owner's request."],
             cwd=root,
             text=True,
             capture_output=True,
             timeout=300,
             check=False,
         )
-        log("skill_finished", skill=args[0], detail=result.stdout[-1000:], status="ok" if result.returncode == 0 else "error")
+        log("skill_finished", skill=skill, detail=f"model={resolved_model}; {result.stdout[-1000:]}", status="ok" if result.returncode == 0 else "error")
         return result.returncode
     except Exception as exc:
-        log("skill_error", skill=args[0], detail=str(exc), status="error")
+        log("skill_error", skill=skill, detail=str(exc), status="error")
         return 1
 
 
