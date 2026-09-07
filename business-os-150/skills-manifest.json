@@ -1,0 +1,909 @@
+{
+  "name": "Business OS \u2014 Curated 150 Skills",
+  "version": "1.0",
+  "generated": "2026-09-08",
+  "primary_source": "https://github.com/borghei/Claude-Skills",
+  "skill_count": 150,
+  "skills": [
+    {
+      "name": "channel-economics",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/channel-economics"
+    },
+    {
+      "name": "churn-prevention",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/churn-prevention"
+    },
+    {
+      "name": "commercial-policy",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/commercial-policy"
+    },
+    {
+      "name": "competitive-teardown",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/competitive-teardown"
+    },
+    {
+      "name": "competitor-alternatives",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/competitor-alternatives"
+    },
+    {
+      "name": "contract-and-proposal-writer",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/contract-and-proposal-writer"
+    },
+    {
+      "name": "customer-success-manager",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/customer-success-manager"
+    },
+    {
+      "name": "deal-desk",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/deal-desk"
+    },
+    {
+      "name": "form-cro",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/form-cro"
+    },
+    {
+      "name": "free-tool-strategy",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/free-tool-strategy"
+    },
+    {
+      "name": "onboarding-cro",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/onboarding-cro"
+    },
+    {
+      "name": "page-cro",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/page-cro"
+    },
+    {
+      "name": "partnerships-architect",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/partnerships-architect"
+    },
+    {
+      "name": "paywall-upgrade-cro",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/paywall-upgrade-cro"
+    },
+    {
+      "name": "popup-cro",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/popup-cro"
+    },
+    {
+      "name": "pricing-strategy",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/pricing-strategy"
+    },
+    {
+      "name": "referral-program",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/referral-program"
+    },
+    {
+      "name": "revenue-operations",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/revenue-operations"
+    },
+    {
+      "name": "sales-engineer",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/sales-engineer"
+    },
+    {
+      "name": "signup-flow-cro",
+      "category": "business-growth",
+      "repo": "borghei/Claude-Skills",
+      "path": "business-growth/signup-flow-cro"
+    },
+    {
+      "name": "board-deck-builder",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/board-deck-builder"
+    },
+    {
+      "name": "board-meeting",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/board-meeting"
+    },
+    {
+      "name": "ceo-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/ceo-advisor"
+    },
+    {
+      "name": "cfo-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/cfo-advisor"
+    },
+    {
+      "name": "change-management",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/change-management"
+    },
+    {
+      "name": "chief-ai-officer-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/chief-ai-officer-advisor"
+    },
+    {
+      "name": "chief-customer-officer-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/chief-customer-officer-advisor"
+    },
+    {
+      "name": "chief-data-officer-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/chief-data-officer-advisor"
+    },
+    {
+      "name": "chief-of-staff",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/chief-of-staff"
+    },
+    {
+      "name": "chro-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/chro-advisor"
+    },
+    {
+      "name": "ciso-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/ciso-advisor"
+    },
+    {
+      "name": "cmo-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/cmo-advisor"
+    },
+    {
+      "name": "company-os",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/company-os"
+    },
+    {
+      "name": "competitive-intel",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/competitive-intel"
+    },
+    {
+      "name": "coo-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/coo-advisor"
+    },
+    {
+      "name": "cpo-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/cpo-advisor"
+    },
+    {
+      "name": "cro-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/cro-advisor"
+    },
+    {
+      "name": "cs-onboard",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/cs-onboard"
+    },
+    {
+      "name": "cto-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/cto-advisor"
+    },
+    {
+      "name": "culture-architect",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/culture-architect"
+    },
+    {
+      "name": "decision-logger",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/decision-logger"
+    },
+    {
+      "name": "executive-mentor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/executive-mentor"
+    },
+    {
+      "name": "founder-coach",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/founder-coach"
+    },
+    {
+      "name": "general-counsel-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/general-counsel-advisor"
+    },
+    {
+      "name": "internal-narrative",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/internal-narrative"
+    },
+    {
+      "name": "intl-expansion",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/intl-expansion"
+    },
+    {
+      "name": "ma-playbook",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/ma-playbook"
+    },
+    {
+      "name": "org-health-diagnostic",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/org-health-diagnostic"
+    },
+    {
+      "name": "scenario-war-room",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/scenario-war-room"
+    },
+    {
+      "name": "strategic-alignment",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/strategic-alignment"
+    },
+    {
+      "name": "vpe-advisor",
+      "category": "c-level",
+      "repo": "borghei/Claude-Skills",
+      "path": "c-level-advisor/vpe-advisor"
+    },
+    {
+      "name": "agent-designer",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/agent-designer"
+    },
+    {
+      "name": "agent-workflow-designer",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/agent-workflow-designer"
+    },
+    {
+      "name": "agentic-evaluation-framework",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/agentic-evaluation-framework"
+    },
+    {
+      "name": "ai-security",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/ai-security"
+    },
+    {
+      "name": "browser-automation",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/browser-automation"
+    },
+    {
+      "name": "claude-code-mastery",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/claude-code-mastery"
+    },
+    {
+      "name": "cloud-security",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/cloud-security"
+    },
+    {
+      "name": "codex-cli-specialist",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/codex-cli-specialist"
+    },
+    {
+      "name": "computer-use-automation",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/computer-use-automation"
+    },
+    {
+      "name": "context-engine",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/context-engine"
+    },
+    {
+      "name": "data-quality-auditor",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/data-quality-auditor"
+    },
+    {
+      "name": "database-designer",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/database-designer"
+    },
+    {
+      "name": "database-schema-designer",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/database-schema-designer"
+    },
+    {
+      "name": "google-workspace-cli",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/google-workspace-cli"
+    },
+    {
+      "name": "incident-commander",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/incident-commander"
+    },
+    {
+      "name": "interview-system-designer",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/interview-system-designer"
+    },
+    {
+      "name": "llm-cost-optimizer",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/llm-cost-optimizer"
+    },
+    {
+      "name": "mcp-server-builder",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/mcp-server-builder"
+    },
+    {
+      "name": "ms365-tenant-manager",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/ms365-tenant-manager"
+    },
+    {
+      "name": "observability-designer",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/observability-designer"
+    },
+    {
+      "name": "performance-profiler",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/performance-profiler"
+    },
+    {
+      "name": "prompt-engineer-toolkit",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/prompt-engineer-toolkit"
+    },
+    {
+      "name": "prompt-governance",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/prompt-governance"
+    },
+    {
+      "name": "qa-browser-automation",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/qa-browser-automation"
+    },
+    {
+      "name": "spec-driven-workflow",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/spec-driven-workflow"
+    },
+    {
+      "name": "stripe-integration-expert",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/stripe-integration-expert"
+    },
+    {
+      "name": "tdd-guide",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/tdd-guide"
+    },
+    {
+      "name": "tech-debt-tracker",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/tech-debt-tracker"
+    },
+    {
+      "name": "tech-stack-evaluator",
+      "category": "engineering",
+      "repo": "borghei/Claude-Skills",
+      "path": "engineering/tech-stack-evaluator"
+    },
+    {
+      "name": "business-investment-advisor",
+      "category": "finance",
+      "repo": "borghei/Claude-Skills",
+      "path": "finance/business-investment-advisor"
+    },
+    {
+      "name": "financial-analyst",
+      "category": "finance",
+      "repo": "borghei/Claude-Skills",
+      "path": "finance/financial-analyst"
+    },
+    {
+      "name": "saas-metrics-coach",
+      "category": "finance",
+      "repo": "borghei/Claude-Skills",
+      "path": "finance/saas-metrics-coach"
+    },
+    {
+      "name": "ab-test-setup",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/ab-test-setup"
+    },
+    {
+      "name": "ad-creative",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/ad-creative"
+    },
+    {
+      "name": "aeo",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/aeo"
+    },
+    {
+      "name": "ai-seo",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/ai-seo"
+    },
+    {
+      "name": "analytics-tracking",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/analytics-tracking"
+    },
+    {
+      "name": "app-store-optimization",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/app-store-optimization"
+    },
+    {
+      "name": "brand-guidelines",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/brand-guidelines"
+    },
+    {
+      "name": "brand-strategist",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/brand-strategist"
+    },
+    {
+      "name": "campaign-analytics",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/campaign-analytics"
+    },
+    {
+      "name": "cold-email",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/cold-email"
+    },
+    {
+      "name": "content-creator",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/content-creator"
+    },
+    {
+      "name": "content-humanizer",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/content-humanizer"
+    },
+    {
+      "name": "content-production",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/content-production"
+    },
+    {
+      "name": "content-strategy",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/content-strategy"
+    },
+    {
+      "name": "copy-editing",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/copy-editing"
+    },
+    {
+      "name": "copywriting",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/copywriting"
+    },
+    {
+      "name": "email-sequence",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/email-sequence"
+    },
+    {
+      "name": "email-template-builder",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/email-template-builder"
+    },
+    {
+      "name": "growth-marketer",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/growth-marketer"
+    },
+    {
+      "name": "landing-page-generator",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/landing-page-generator"
+    },
+    {
+      "name": "launch-strategy",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/launch-strategy"
+    },
+    {
+      "name": "marketing-analyst",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/marketing-analyst"
+    },
+    {
+      "name": "marketing-context",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/marketing-context"
+    },
+    {
+      "name": "marketing-demand-acquisition",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/marketing-demand-acquisition"
+    },
+    {
+      "name": "marketing-ideas",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/marketing-ideas"
+    },
+    {
+      "name": "marketing-ops",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/marketing-ops"
+    },
+    {
+      "name": "marketing-psychology",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/marketing-psychology"
+    },
+    {
+      "name": "marketing-strategy-pmm",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/marketing-strategy-pmm"
+    },
+    {
+      "name": "paid-ads",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/paid-ads"
+    },
+    {
+      "name": "programmatic-seo",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/programmatic-seo"
+    },
+    {
+      "name": "schema-markup",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/schema-markup"
+    },
+    {
+      "name": "seo-audit",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/seo-audit"
+    },
+    {
+      "name": "seo-specialist",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/seo-specialist"
+    },
+    {
+      "name": "site-architecture",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/site-architecture"
+    },
+    {
+      "name": "social-content",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/social-content"
+    },
+    {
+      "name": "social-media-analyzer",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/social-media-analyzer"
+    },
+    {
+      "name": "social-media-manager",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/social-media-manager"
+    },
+    {
+      "name": "video-content-strategist",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/video-content-strategist"
+    },
+    {
+      "name": "x-twitter-growth",
+      "category": "marketing",
+      "repo": "borghei/Claude-Skills",
+      "path": "marketing/x-twitter-growth"
+    },
+    {
+      "name": "agile-product-owner",
+      "category": "product",
+      "repo": "borghei/Claude-Skills",
+      "path": "product-team/agile-product-owner"
+    },
+    {
+      "name": "apple-hig-expert",
+      "category": "product",
+      "repo": "borghei/Claude-Skills",
+      "path": "product-team/apple-hig-expert"
+    },
+    {
+      "name": "design-system-lead",
+      "category": "product",
+      "repo": "borghei/Claude-Skills",
+      "path": "product-team/design-system-lead"
+    },
+    {
+      "name": "product-analytics",
+      "category": "product",
+      "repo": "borghei/Claude-Skills",
+      "path": "product-team/product-analytics"
+    },
+    {
+      "name": "product-designer",
+      "category": "product",
+      "repo": "borghei/Claude-Skills",
+      "path": "product-team/product-designer"
+    },
+    {
+      "name": "product-manager-toolkit",
+      "category": "product",
+      "repo": "borghei/Claude-Skills",
+      "path": "product-team/product-manager-toolkit"
+    },
+    {
+      "name": "product-strategist",
+      "category": "product",
+      "repo": "borghei/Claude-Skills",
+      "path": "product-team/product-strategist"
+    },
+    {
+      "name": "research-summarizer",
+      "category": "product",
+      "repo": "borghei/Claude-Skills",
+      "path": "product-team/research-summarizer"
+    },
+    {
+      "name": "roadmap-communicator",
+      "category": "product",
+      "repo": "borghei/Claude-Skills",
+      "path": "product-team/roadmap-communicator"
+    },
+    {
+      "name": "spec-to-repo",
+      "category": "product",
+      "repo": "borghei/Claude-Skills",
+      "path": "product-team/spec-to-repo"
+    },
+    {
+      "name": "ui-design-system",
+      "category": "product",
+      "repo": "borghei/Claude-Skills",
+      "path": "product-team/ui-design-system"
+    },
+    {
+      "name": "ux-researcher-designer",
+      "category": "product",
+      "repo": "borghei/Claude-Skills",
+      "path": "product-team/ux-researcher-designer"
+    },
+    {
+      "name": "agile-coach",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/agile-coach"
+    },
+    {
+      "name": "atlassian-admin",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/atlassian-admin"
+    },
+    {
+      "name": "atlassian-templates",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/atlassian-templates"
+    },
+    {
+      "name": "confluence-expert",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/confluence-expert"
+    },
+    {
+      "name": "delivery-manager",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/delivery-manager"
+    },
+    {
+      "name": "jira-expert",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/jira-expert"
+    },
+    {
+      "name": "linear-expert",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/linear-expert"
+    },
+    {
+      "name": "meeting-analyzer",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/meeting-analyzer"
+    },
+    {
+      "name": "notion-pm",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/notion-pm"
+    },
+    {
+      "name": "productboard-expert",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/productboard-expert"
+    },
+    {
+      "name": "program-manager",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/program-manager"
+    },
+    {
+      "name": "scrum-master",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/scrum-master"
+    },
+    {
+      "name": "senior-pm",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/senior-pm"
+    },
+    {
+      "name": "sprint-retrospective",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/sprint-retrospective"
+    },
+    {
+      "name": "team-communications",
+      "category": "project-management",
+      "repo": "borghei/Claude-Skills",
+      "path": "project-management/team-communications"
+    },
+    {
+      "name": "contract-review",
+      "category": "legal",
+      "repo": "borghei/Claude-Skills",
+      "path": "legal/contract-review"
+    }
+  ]
+}
