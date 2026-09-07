@@ -29,3 +29,9 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+
+# Local connector configuration may contain bearer tokens
+.claude/settings*.json
+.mcp.json
+# Generated dashboard data
+/dashboard/static/map.json
