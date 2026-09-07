@@ -23,7 +23,7 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 | Service | What it's for | Cost |
 |---|---|---|
 | Groq | Fast AI for scoring/drafting + voice transcription | Free tier |
-| Composio | Connects Gmail, Calendar, Drive, Sheets, Docs, GitHub, Notion in one place | Free tier (20k actions/mo) |
+| Composio | Connects Gmail, Calendar, Drive, Sheets, Docs, GitHub, Notion in one place | Free tier (100k actions/mo) |
 | Telegram | Text/voice your AIOS from your phone | Free |
 | Resend | Sends your newsletter so it lands in the inbox | Free tier (3k emails/mo) |
 | ElevenLabs | Gives your AIOS a voice (optional) | Free tier |

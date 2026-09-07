@@ -10,6 +10,16 @@
 
 Follow section 1 of [00-SERVICES-AND-SETUP.md](../00-SERVICES-AND-SETUP.md): subscribe to Claude Pro ($20/mo — the one real cost), install Claude Code, run `claude` in your terminal, confirm it replies. **Don't move on until it does.**
 
+**A word on cost, because it's the question everyone asks.** Your subscription includes your usage. You are not billed per message, per agent, or per hour — it's the same $20 whether your AIOS runs once today or fifty times. There is a fair-use ceiling (Claude tracks usage in rolling windows), and if you ever hit it, Claude tells you and it resets. What you must **not** do is set up an Anthropic **API key**. That's the pay-per-word route, it has no ceiling, and it's how people accidentally spend $300 in a weekend. Nothing in this build needs one.
+
+**Building on a server instead of your laptop?** (That's Day 7, but read this now if you already know you're going that route.) A server has no browser, so the normal sign-in won't work. Run:
+
+```bash
+claude setup-token
+```
+
+It prints a link. Open that link on your phone or laptop, approve it, and paste the code back into the server. That's a long-lived token tied to your subscription — the same flat monthly cost — and it's what lets your AIOS keep working on schedule while your laptop is shut.
+
 ## Step 2 — Telegram bot (2 minutes now saves fumbling on Day 6)
 
 Install Telegram on your phone. Message **@BotFather**, send `/newbot`, follow the prompts (the username must end in `bot`), and copy the **bot token** it gives you.
