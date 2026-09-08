@@ -33,6 +33,8 @@ Gather facts.
 """)
 
 def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch):
+    monkeypatch.setenv("CLAUDE_CODE_USE_BEDROCK", "1")
+    monkeypatch.setenv("AWS_REGION", "us-east-1")
     monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "present")
     monkeypatch.setenv("TELEGRAM_CHAT_ID", "present")
     monkeypatch.setenv("BLOTATO_API_KEY", "present")
@@ -73,6 +75,8 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     assert "connections" in connections.json()
     telegram = next(item for item in connections.json()["connections"] if item["name"] == "Telegram")
     assert telegram["status"] == "connected"
+    brain = next(item for item in connections.json()["connections"] if item["name"] == "Claude via Bedrock")
+    assert brain["status"] == "connected"
     panel_cards = client.get("/api/panels", headers=headers).json()["panels"][0]["cards"]
     assert panel_cards[0]["id"] == "intelligence-signals"
     metrics = tmp_path / "var" / "metrics"
