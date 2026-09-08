@@ -17,6 +17,15 @@ except ModuleNotFoundError:  # direct `python scripts/student_check.py` executio
 WINGS = {"intelligence", "content", "growth", "comms", "command", "back-office", "build"}
 
 
+def _password_present(root: Path) -> bool:
+    if os.environ.get("DASHBOARD_PASSWORD"):
+        return True
+    for env_file in (root / ".env", root.parent / ".env"):
+        if env_file.exists() and any(line.startswith("DASHBOARD_PASSWORD=") and line.split("=", 1)[1].strip() for line in env_file.read_text(encoding="utf-8").splitlines()):
+            return True
+    return False
+
+
 def check(root: Path) -> dict:
     root = Path(root).resolve()
     map_path = root / "dashboard" / "static" / "map.json"
@@ -25,6 +34,10 @@ def check(root: Path) -> dict:
         seven_wings = {item.get("wing") for item in map_payload.get("wings", [])} == WINGS
     except (OSError, json.JSONDecodeError, AttributeError):
         seven_wings = False
+    try:
+        business_os_manifest = load_manifest(root / "business-os-150" / "skills-manifest.json")["skill_count"] == 150
+    except (OSError, ValueError, json.JSONDecodeError):
+        business_os_manifest = False
     checks = {
         "models_config": (root / "config" / "models.yaml").exists(),
         "core_roles": (root / "config" / "core-roles.yaml").exists(),
@@ -35,8 +48,8 @@ def check(root: Path) -> dict:
         "panel_definitions": len(list((root / "config" / "panels").glob("*.yaml"))) == 7,
         "metric_collector": (root / "scripts" / "collect.py").exists() and (root / "deploy" / "timers" / "aios-collect.timer").exists(),
         "activity_log": (root / "var" / "activity.jsonl").exists(),
-        "business_os_manifest": load_manifest(root / "business-os-150" / "skills-manifest.json")["skill_count"] == 150,
-        "dashboard_password": bool(os.environ.get("DASHBOARD_PASSWORD")),
+        "business_os_manifest": business_os_manifest,
+        "dashboard_password": _password_present(root),
         "no_anthropic_api_key": not bool(os.environ.get("ANTHROPIC_API_KEY")),
     }
     return {"passed": all(checks.values()), "checks": checks}
