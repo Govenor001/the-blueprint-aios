@@ -50,3 +50,9 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     response = client.post("/api/run", headers=headers, json={"skill": "../etc/passwd"})
     assert response.status_code == 400
     assert json.loads(client.get("/api/map", headers=headers).text)["counts"]["total"] == 1
+    activity = client.get("/api/activity?limit=10", headers=headers)
+    assert activity.status_code == 200
+    assert activity.json() == {"items": []}
+    connections = client.get("/api/connections", headers=headers)
+    assert connections.status_code == 200
+    assert "connections" in connections.json()

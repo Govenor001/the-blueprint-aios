@@ -116,7 +116,31 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
                     rows.append(json.loads(line))
                 except json.JSONDecodeError:
                     continue
-        return JSONResponse(rows)
+        return JSONResponse({"items": rows})
+
+    @app.get("/api/connections")
+    async def connections_endpoint(request: Request) -> JSONResponse:
+        """Report integration readiness without ever returning credential values."""
+        if not authorized(request):
+            return _deny()
+        definitions = (
+            ("Claude", ("CLAUDE_CODE_OAUTH_TOKEN",)),
+            ("Telegram", ("TELEGRAM_BOT_TOKEN", "TELEGRAM_OWNER_CHAT_ID")),
+            ("Composio", ("COMPOSIO_API_KEY",)),
+            ("ElevenLabs", ("ELEVENLABS_API_KEY",)),
+            ("Blotato", ("BLOTATO_API_KEY",)),
+            ("Local model", ("AIOS_LOCAL_MODEL_URL",)),
+        )
+        connections = []
+        for name, variables in definitions:
+            present = [key for key in variables if os.environ.get(key)]
+            connections.append({
+                "name": name,
+                "status": "connected" if len(present) == len(variables) else "needs_setup",
+                "configured": len(present),
+                "required": len(variables),
+            })
+        return JSONResponse({"connections": connections})
 
     @app.get("/api/panels")
     async def panels_endpoint(request: Request) -> JSONResponse:

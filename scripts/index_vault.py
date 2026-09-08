@@ -28,7 +28,9 @@ def passages(path: Path, words: int = 240) -> list[dict]:
 
 def index_vault(root: Path) -> int:
     root = Path(root).resolve()
-    source_dirs = [root / "vault" / "documents" / "processed", root / "vault" / "context"]
+    # Processed files are the private source archive. Their extracted context
+    # counterpart is the single searchable representation, avoiding duplicate hits.
+    source_dirs = [root / "vault" / "context"]
     rows = []
     for directory in source_dirs:
         if directory.exists():
