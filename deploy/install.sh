@@ -57,8 +57,19 @@ if [ ! -e /opt/aios/.env ]; then
 fi
 echo "Dashboard password saved in /opt/aios/.env; optional connectors can be added there later."
 
+selected_route="${AIOS_MODEL_ROUTE:-claude-subscription}"
+case "$selected_route" in
+  claude-subscription|bedrock|openrouter) ;;
+  *) fail "AIOS_MODEL_ROUTE must be claude-subscription, bedrock, or openrouter" ;;
+esac
+install -o aios -g aios -m 600 /dev/null /opt/aios/route.env
+printf 'AIOS_MODEL_ROUTE=%s\n' "$selected_route" > /opt/aios/route.env
+if [ "$selected_route" = "bedrock" ]; then
+  printf 'CLAUDE_CODE_USE_BEDROCK=1\nAWS_REGION=%s\n' "${AWS_REGION:-us-east-1}" >> /opt/aios/route.env
+fi
+
 run_step 9 "Claude subscription authentication"
-if [ "${AIOS_MODEL_ROUTE:-claude-subscription}" = "bedrock" ]; then
+if [ "$selected_route" = "bedrock" ]; then
   echo "Bedrock route selected; Claude subscription setup-token is not required."
 else
   echo "A browser link will open. Approve it on your phone, then paste the code back."

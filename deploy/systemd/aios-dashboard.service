@@ -6,12 +6,10 @@ After=network-online.target
 User=aios
 WorkingDirectory=/opt/aios/app
 EnvironmentFile=/opt/aios/.env
+EnvironmentFile=-/opt/aios/route.env
 EnvironmentFile=-/opt/bot/.env
 EnvironmentFile=-/opt/bot/token.env
 EnvironmentFile=-/opt/firehose-system/.env
-Environment=AIOS_MODEL_ROUTE=bedrock
-Environment=CLAUDE_CODE_USE_BEDROCK=1
-Environment=AWS_REGION=us-east-1
 ExecStart=/opt/aios/venv/bin/python -m dashboard.server
 Restart=always
 RestartSec=5
