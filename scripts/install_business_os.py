@@ -13,7 +13,10 @@ from typing import Any
 
 import yaml
 
-from validate_skills import ALLOWED_TOP_LEVEL, parse_frontmatter
+try:
+    from .validate_skills import ALLOWED_TOP_LEVEL, parse_frontmatter
+except ImportError:  # direct script execution
+    from validate_skills import ALLOWED_TOP_LEVEL, parse_frontmatter
 
 DEFAULT_MANIFEST = Path(__file__).resolve().parents[1] / "business-os-150" / "skills-manifest.json"
 CATEGORY_WINGS = {
