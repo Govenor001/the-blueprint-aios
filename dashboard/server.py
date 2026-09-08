@@ -185,6 +185,10 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
             return _deny()
         body = await request.json()
         name = body.get("skill") if isinstance(body, dict) else None
+        owner_input = body.get("input", "") if isinstance(body, dict) else ""
+        if not isinstance(owner_input, str):
+            owner_input = ""
+        owner_input = owner_input.strip()[:5000]
         map_path = static_dir / "map.json"
         if not map_path.exists():
             build_map(root_path)
@@ -195,8 +199,11 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
         try:
             resolved_model = model_for(root_path, skill=name)
             run_id = uuid.uuid4().hex
+            command = [sys.executable, str(root_path / "scripts" / "run_skill.py"), name]
+            if owner_input:
+                command.append(owner_input)
             subprocess.Popen(
-                [sys.executable, str(root_path / "scripts" / "run_skill.py"), name],
+                command,
                 cwd=root_path,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
