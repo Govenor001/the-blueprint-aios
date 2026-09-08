@@ -79,7 +79,7 @@
           const latest = card.latest;
           const value = latest && latest.status === "available" ? (latest.value ?? "Available") : "Not connected";
           const note = latest ? (latest.error || latest.status) : "Waiting for first collection";
-          return \`<div class="card"><span class="subtle">${card.title}</span><strong style="font-size:18px">${value}</strong><span class="subtle">${note}</span></div>\`;
+          return "<div class=\"card\"><span class=\"subtle\">" + card.title + "</span><strong style=\"font-size:18px\">" + value + "</strong><span class=\"subtle\">" + note + "</span></div>";
         }).join("")}</div>
       </article>`).join("");
   }
