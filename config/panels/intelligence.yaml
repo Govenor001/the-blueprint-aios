@@ -1,0 +1,5 @@
+cards:
+  - id: intelligence-signals
+    title: Latest verified signals
+    shape: table
+    source: {local: context}
