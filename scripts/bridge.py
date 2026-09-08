@@ -14,9 +14,13 @@ from pathlib import Path
 try:
     from .activity import log
     from .model_for import model_for
+    from .metric_query import answer as metric_answer
+    from .chart import to_png
 except ImportError:  # direct script execution
     from activity import log
     from model_for import model_for
+    from metric_query import answer as metric_answer
+    from chart import to_png
 
 ROOT = Path(__file__).resolve().parents[1]
 TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
@@ -39,6 +43,31 @@ def send(chat_id, text):
     text = text or "(empty reply)"
     for i in range(0, len(text), 3900):
         tg("sendMessage", {"chat_id": chat_id, "text": text[i:i + 3900]})
+
+
+def send_photo(chat_id, png_bytes, caption=""):
+    """Send a generated chart without exposing its source files."""
+    if not png_bytes:
+        return False
+    boundary = uuid.uuid4().hex
+    body = (
+        (f"--{boundary}\r\nContent-Disposition: form-data; name=\"chat_id\"\r\n\r\n{chat_id}\r\n").encode()
+        + (f"--{boundary}\r\nContent-Disposition: form-data; name=\"caption\"\r\n\r\n{caption[:900]}\r\n").encode()
+        + (f"--{boundary}\r\nContent-Disposition: form-data; name=\"photo\"; filename=\"aios-chart.png\"\r\nContent-Type: image/png\r\n\r\n").encode()
+        + png_bytes
+        + (f"\r\n--{boundary}--\r\n").encode()
+    )
+    request = urllib.request.Request(
+        "https://api.telegram.org/bot%s/sendPhoto" % TOKEN,
+        data=body,
+        headers={"Content-Type": "multipart/form-data; boundary=%s" % boundary},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            return json.loads(response.read()).get("ok", False)
+    except Exception as exc:
+        log("chart_photo_error", detail=str(exc), status="error")
+        return False
 
 
 def ask_claude(prompt):
@@ -187,6 +216,12 @@ def run_bridge():
                 if text:
                     reply = ask_claude(text)
                     send(chat, reply)
+                    metric = metric_answer(ROOT, text)
+                    if metric.get("svg"):
+                        with tempfile.TemporaryDirectory() as directory:
+                            chart_path = Path(directory) / "aios-chart.png"
+                            if to_png(metric["svg"], str(chart_path)):
+                                send_photo(chat, chart_path.read_bytes(), metric["message"])
                     if is_voice:
                         excerpt = reply[:800].rsplit(".", 1)[0].strip()
                         excerpt = (excerpt or reply[:800]).rstrip() + ". Full answer above."
