@@ -9,7 +9,10 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 
-from local_model import embed
+try:
+    from .local_model import embed
+except ImportError:  # direct script execution
+    from local_model import embed
 
 
 def passages(path: Path, words: int = 240) -> list[dict]:
