@@ -43,3 +43,15 @@ Safety: the bridge answers **only** your `TELEGRAM_CHAT_ID`. Until you
 set it, it replies to any message with your id and does nothing else.
 
 If either script misbehaves, run `/rescue` in Claude Code.
+
+## usage_report.py — measure the route honestly
+
+After the bridge or a skill has run, inspect structured activity without inventing
+token counts or provider billing:
+
+```
+python3 scripts/usage_report.py
+```
+
+The report counts skill starts and finishes and groups them by resolved model. Cost
+stays `UNAVAILABLE` unless the provider supplies billing data.
