@@ -62,6 +62,10 @@ A fresh question — "what does my business do and who am I?" — gets answered 
 
 Post your AIOS's **name** and its **answer to "what should I focus on this week?"** Everyone's is different — that's what makes the thread fun, and it's proof your Foundation is real.
 
+## Dashboard checkpoint
+
+Return to Mission Control, review the onboarding agent's output, and promote it from manual to assisted only when the context and voice feel accurate.
+
 ## Tomorrow
 
 Day 2 — your AIOS writes a week of your content, in your voice, in ten minutes.
