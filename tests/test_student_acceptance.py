@@ -21,4 +21,4 @@ def test_student_acceptance_reports_complete_platform(tmp_path):
         (tmp_path / "deploy" / "timers" / f"job-{index}.timer").write_text("ok", encoding="utf-8")
     result = run_acceptance(tmp_path)
     assert result["passed"] is True
-
+    assert result["checks"]["no_anthropic_api_key_in_curriculum"] is True

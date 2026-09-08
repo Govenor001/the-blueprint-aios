@@ -10,7 +10,7 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 
 | Service | What it's for | Cost | Required? |
 |---|---|---|---|
-| **Claude (Claude Code)** ⭐ | The brain — writes, reasons, runs everything | $20/mo (Claude Pro) for hands-on use; optional API pay-as-you-go (~$3–15/mo typical) for scheduled jobs | **Yes** — the one real cost |
+| **Claude (Claude Code)** ⭐ | The brain — writes, reasons, runs everything | $20/mo Claude Pro subscription; the supported customer route uses subscription authentication | **Yes** — the one real cost |
 | **Cloud server** | Runs your AIOS 24/7 from Day 0 | $0–$6/mo | **Yes** — the platform is installed there before you personalize it |
 | **Social scheduler (Blotato)** | Auto-posts across your social channels | ~$29/mo | Optional — free alternatives given |
 
@@ -38,7 +38,7 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 
 **What it is:** Claude Code is Anthropic's AI running on the server. It's the engine of your whole AIOS — it writes your content, reasons about your business, and drives every other tool. This is the one thing worth paying for.
 
-**Cost:** A **Claude Pro** subscription ($20/mo) covers everything you do hands-on in this challenge. **Two honest caveats:** Pro has weekly usage limits, and Anthropic's consumer terms cover *you* using Claude — not unattended scripts running while you sleep. For anything you put on a schedule (Day 7), the right tool is an **API key** (console.anthropic.com, pay-as-you-go — a daily brief and content draft typically runs a few dollars a month). We show both paths.
+**Cost:** A **Claude Pro** subscription ($20/mo) is the supported customer route for this challenge. The server authenticates with `claude setup-token`; it does not use an Anthropic API key and does not introduce per-token billing. Before enabling unattended schedules, read Anthropic's current usage policy and confirm that your intended scheduled use is permitted for your account. If it is not, leave schedules disabled and use the owner/Bedrock route instead.
 
 **Setup:**
 1. Go to **claude.com** and create an account.
@@ -47,7 +47,7 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 4. The server installer configures Claude Code for the supported subscription or Bedrock route.
 5. Verify from Mission Control that the health check reports Claude as available.
 
-> **Cheaper/heavier option:** an Anthropic **API key** (console.anthropic.com → API Keys) instead of Pro. Pay only for what you use. We'll show both paths.
+> **Important:** Do not create or set an Anthropic per-token API credential for a customer install. The installer refuses to run when one is present. The supported alternatives are Claude subscription authentication or the owner's configured Bedrock route.
 
 ---
 
