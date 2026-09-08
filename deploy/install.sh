@@ -6,7 +6,8 @@ fail() { echo "[${STEP}/15] failed: $*" >&2; exit 1; }
 run_step() { STEP="$1"; shift; echo "[${STEP}/15] $*"; }
 
 run_step 1 "checking platform and target"
-[ "$(lsb_release -rs 2>/dev/null || true)" = "24.04" ] || fail "Ubuntu 24.04 is required"
+. /etc/os-release
+[ "${VERSION_ID:-}" = "24.04" ] || fail "Ubuntu 24.04 is required"
 [ ! -e /opt/aios ] || fail "/opt/aios already exists; choose a fresh box"
 [ -z "${ANTHROPIC_API_KEY:-}" ] || fail "ANTHROPIC_API_KEY is forbidden; use Claude subscription or Bedrock auth"
 
@@ -21,10 +22,14 @@ for source in /etc/apt/sources.list.d/*.list; do
   fi
 done
 apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip python3-venv git ffmpeg curl ca-certificates
+DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip python3-venv git ffmpeg curl ca-certificates lsb-release
 
-run_step 3 "checking Node 22 and Claude Code prerequisites"
-command -v node >/dev/null || fail "Node 22 is required; install it before running this script"
+run_step 3 "installing Node 22 and Claude Code prerequisites"
+node_major="$(node --version 2>/dev/null | sed 's/^v//' | cut -d. -f1 || true)"
+if [ -z "$node_major" ] || [ "$node_major" -lt 22 ]; then
+  curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+  DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
+fi
 node_major="$(node --version | sed 's/^v//' | cut -d. -f1)"
 [ "$node_major" -ge 22 ] || fail "Node 22 or newer is required (found $(node --version))"
 command -v npm >/dev/null || fail "npm is required for Claude Code"
@@ -53,8 +58,14 @@ fi
 echo "Dashboard password saved in /opt/aios/.env; optional connectors can be added there later."
 
 run_step 9 "Claude subscription authentication"
-echo "Run as aios: sudo -u aios claude setup-token"
-echo "Approve the link on your phone, paste the code, then verify: sudo -u aios claude -p 'say ok'"
+if [ "${AIOS_MODEL_ROUTE:-claude-subscription}" = "bedrock" ]; then
+  echo "Bedrock route selected; Claude subscription setup-token is not required."
+else
+  echo "A browser link will open. Approve it on your phone, then paste the code back."
+  sudo -u aios claude setup-token
+  verification="$(sudo -u aios claude -p 'say ok' 2>/dev/null || true)"
+  printf '%s\n' "$verification" | grep -qiE '(^|[^a-z])ok([^a-z]|$)' || fail "Claude authentication did not verify; rerun sudo -u aios claude setup-token"
+fi
 
 run_step 10 "optional local model"
 echo "Tier 1 is optional; vault search falls back to keyword matching if it is unavailable."
