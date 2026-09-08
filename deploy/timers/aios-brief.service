@@ -6,4 +6,5 @@ Type=oneshot
 User=aios
 WorkingDirectory=/opt/aios/app
 EnvironmentFile=/opt/aios/.env
+EnvironmentFile=-/opt/aios/route.env
 ExecStart=/opt/aios/venv/bin/python scripts/run_skill.py brief
