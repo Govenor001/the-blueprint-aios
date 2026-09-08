@@ -1,6 +1,6 @@
 ---
 name: plan-day
-description: name: plan-day
+description: Turn the owner's priorities into a practical daily plan.
 
 metadata:
   wing: comms

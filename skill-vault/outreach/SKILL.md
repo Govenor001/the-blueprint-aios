@@ -1,6 +1,6 @@
 ---
 name: outreach
-description: name: outreach
+description: Draft targeted outreach while keeping sending behind approval.
 
 metadata:
   wing: growth

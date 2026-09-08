@@ -1,6 +1,6 @@
 ---
 name: brief
-description: name: brief
+description: Produce the owner's ranked daily intelligence brief.
 
 metadata:
   wing: intelligence

@@ -1,6 +1,6 @@
 ---
 name: followup
-description: name: followup
+description: Prepare the next approved follow-up for a contact or opportunity.
 
 metadata:
   wing: growth

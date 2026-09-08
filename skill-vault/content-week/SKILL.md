@@ -1,6 +1,6 @@
 ---
 name: content-week
-description: name: content-week
+description: Plan a useful weekly content slate from the owner's priorities.
 
 metadata:
   wing: content

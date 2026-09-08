@@ -1,6 +1,6 @@
 ---
 name: remember
-description: name: remember
+description: Save an approved durable fact to the local business context.
 
 metadata:
   wing: intelligence

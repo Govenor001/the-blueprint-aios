@@ -1,6 +1,6 @@
 ---
 name: newsletter
-description: name: newsletter
+description: Draft a source-backed newsletter for owner review.
 
 metadata:
   wing: content

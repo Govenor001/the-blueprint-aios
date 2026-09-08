@@ -1,6 +1,6 @@
 ---
 name: inbox
-description: name: inbox
+description: Triage the owner's inbox and prepare safe next actions.
 
 metadata:
   wing: comms

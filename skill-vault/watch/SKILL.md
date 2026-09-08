@@ -1,6 +1,6 @@
 ---
 name: watch
-description: name: watch
+description: Watch an approved source and report meaningful changes with evidence.
 
 metadata:
   wing: intelligence
