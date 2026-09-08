@@ -13,3 +13,5 @@ def test_agent_drawer_accepts_a_plain_language_request():
     assert '/api/chat' in javascript
     assert 'SpeechRecognition' in javascript
     assert 'whole-brain' in html
+    assert 'role-channel' in javascript
+    assert 'Three ranked decisions' in javascript
