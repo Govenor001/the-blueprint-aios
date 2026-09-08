@@ -1,8 +1,30 @@
 ---
 name: remember
-description: Save a fact to the AIOS's long-term memory so it stops asking twice. Use when someone says "remember that…", "make a note", "don't forget", or when a durable fact surfaces mid-conversation. One fact per file, indexed so it loads next session.
-scaffolding-phase: 1
+description: name: remember
+
+metadata:
+  wing: intelligence
+  department: Knowledge
+  function: Context Maintenance
+  replaces: Re-answering the same durable preference because it was never saved in a reliable place.
+  the-human: The owner decides what is durable enough to remember.
+  ladder:
+    manual: Run it manually and review every step.
+    assisted: Prepare the work and wait for the owner's review.
+    autonomous: Run on schedule after the owner has approved the pattern.
+  trigger: Run when the user asks for this job or its schedule fires.
+  outputs:
+    - A structured context maintenance result
+  kpis:
+    - Completed outputs per run
+    - Items flagged for owner review
+  tools: [claude]
+  requires-context: []
+  model: smart
+  autonomy: assisted
+  scaffolding-phase: 1
 ---
+
 
 ## What this does
 The Foundation's memory workshop. When a fact worth keeping shows up — a preference, a decision, a person, a recurring detail — this saves it as a small memory file and indexes it, so the AIOS knows it in every future session instead of re-asking. This is what makes it feel like it actually knows the user over time.
