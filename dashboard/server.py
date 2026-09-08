@@ -127,18 +127,20 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
             ("Claude", ("CLAUDE_CODE_OAUTH_TOKEN",)),
             ("Telegram", ("TELEGRAM_BOT_TOKEN", "TELEGRAM_OWNER_CHAT_ID")),
             ("Composio", ("COMPOSIO_API_KEY",)),
-            ("ElevenLabs", ("ELEVENLABS_API_KEY",)),
+            ("ElevenLabs", ("ELEVEN_API_KEY", "ELEVENLABS_API_KEY")),
             ("Blotato", ("BLOTATO_API_KEY",)),
             ("Local model", ("AIOS_LOCAL_MODEL_URL",)),
         )
         connections = []
         for name, variables in definitions:
             present = [key for key in variables if os.environ.get(key)]
+            # ElevenLabs supports both the current and legacy variable spelling.
+            satisfied = bool(present) if name == "ElevenLabs" else len(present) == len(variables)
             connections.append({
                 "name": name,
-                "status": "connected" if len(present) == len(variables) else "needs_setup",
+                "status": "connected" if satisfied else "needs_setup",
                 "configured": len(present),
-                "required": len(variables),
+                "required": 1 if name == "ElevenLabs" else len(variables),
             })
         return JSONResponse({"connections": connections})
 

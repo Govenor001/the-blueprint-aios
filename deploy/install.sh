@@ -14,8 +14,10 @@ run_step 2 "installing system packages"
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip python3-venv git ffmpeg curl ca-certificates
 
-run_step 3 "checking Node and Claude Code prerequisites"
-command -v node >/dev/null || echo "Install Node 22 before continuing if it is not already present."
+run_step 3 "checking Node 22 and Claude Code prerequisites"
+command -v node >/dev/null || fail "Node 22 is required; install it before running this script"
+node_major="$(node --version | sed 's/^v//' | cut -d. -f1)"
+[ "$node_major" -ge 22 ] || fail "Node 22 or newer is required (found $(node --version))"
 command -v npm >/dev/null || fail "npm is required for Claude Code"
 
 run_step 4 "installing Claude Code"
@@ -34,8 +36,12 @@ sudo -u aios python3 -m venv /opt/aios/venv
 sudo -u aios /opt/aios/venv/bin/pip install -r /opt/aios/app/requirements.txt -r /opt/aios/app/dashboard/requirements.txt
 
 run_step 8 "creating the environment file"
-[ -e /opt/aios/.env ] || install -o aios -g aios -m 600 /dev/null /opt/aios/.env
-echo "Put Telegram, dashboard, and optional connector values in /opt/aios/.env."
+[ -n "${DASHBOARD_PASSWORD:-}" ] || fail "set DASHBOARD_PASSWORD to a strong value before installation"
+if [ ! -e /opt/aios/.env ]; then
+  install -o aios -g aios -m 600 /dev/null /opt/aios/.env
+  printf 'DASHBOARD_PASSWORD=%s\n' "$DASHBOARD_PASSWORD" > /opt/aios/.env
+fi
+echo "Dashboard password saved in /opt/aios/.env; optional connectors can be added there later."
 
 run_step 9 "Claude subscription authentication"
 echo "Run as aios: sudo -u aios claude setup-token"
@@ -44,9 +50,12 @@ echo "Approve the link on your phone, paste the code, then verify: sudo -u aios 
 run_step 10 "optional local model"
 echo "Tier 1 is optional; vault search falls back to keyword matching if it is unavailable."
 
-run_step 11 "installing systemd services"
+run_step 11 "installing systemd services and schedules"
 install -o root -g root -m 644 /opt/aios/app/deploy/systemd/aios-dashboard.service /etc/systemd/system/aios-dashboard.service
 install -o root -g root -m 644 /opt/aios/app/deploy/systemd/aios-bridge.service /etc/systemd/system/aios-bridge.service
+for unit in /opt/aios/app/deploy/timers/*; do
+  install -o root -g root -m 644 "$unit" "/etc/systemd/system/$(basename "$unit")"
+done
 systemctl daemon-reload
 
 run_step 12 "keeping the dashboard private"
@@ -55,9 +64,9 @@ echo "The dashboard binds to localhost. Use an SSH tunnel or add a reviewed HTTP
 run_step 13 "building the map"
 sudo -u aios bash -lc "cd /opt/aios/app && /opt/aios/venv/bin/python scripts/bootstrap.py && /opt/aios/venv/bin/python scripts/build_map.py" || echo "Map build needs the installed skills and will be retried after setup."
 
-run_step 14 "enabling services"
-systemctl enable aios-dashboard aios-bridge
-systemctl start aios-dashboard aios-bridge
+run_step 14 "enabling services and schedules"
+systemctl enable --now aios-dashboard aios-bridge
+systemctl enable --now aios-brief.timer aios-inbox.timer aios-newsletter.timer
 
 run_step 15 "complete"
 echo "Dashboard: http://127.0.0.1:8787 through an SSH tunnel"
