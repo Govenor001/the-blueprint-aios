@@ -25,7 +25,8 @@ def run_scout(inputs: dict[str, Any]) -> dict[str, Any]:
         value = item.get("value")
         status = str(item.get("status") or ("available" if source != "UNAVAILABLE" else "unavailable"))
         observations.append({"source": source, "retrieved_at": timestamp, "status": status, "value": value})
-    return {"role": "scout", "generated_at": _now(), "status": "available" if observations else "unavailable", "observations": observations}
+    has_available = any(row["status"] == "available" for row in observations)
+    return {"role": "scout", "generated_at": _now(), "status": "available" if has_available else "unavailable", "observations": observations}
 
 
 def run_operator(request: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
@@ -46,7 +47,10 @@ def run_advisor(scout: dict[str, Any], operator: dict[str, Any]) -> dict[str, An
     evidence_text = f"{evidence[0].get('source')} at {evidence[0].get('retrieved_at')}" if evidence else "UNAVAILABLE: connect a source before acting."
     draft_state = operator.get("status", "unavailable") if isinstance(operator, dict) else "unavailable"
     labels = ["Resolve the highest-confidence signal", "Review the next owner decision", "Keep the system bounded"]
-    recommendations = [{"rank": index, "recommendation": label, "evidence": evidence_text, "consequence_of_waiting": "The decision remains unverified." if not evidence else f"The {draft_state} work remains pending owner review."} for index, label in enumerate(labels, 1)]
+    if not evidence:
+        recommendations = [{"rank": index, "recommendation": "UNAVAILABLE: connect a source before ranking a decision", "evidence": evidence_text, "consequence_of_waiting": "No evidence-backed decision can be ranked."} for index in range(1, 4)]
+        return {"role": "advisor", "generated_at": _now(), "status": "unavailable", "recommendations": recommendations}
+    recommendations = [{"rank": index, "recommendation": label, "evidence": evidence_text, "consequence_of_waiting": f"The {draft_state} work remains pending owner review."} for index, label in enumerate(labels, 1)]
     return {"role": "advisor", "generated_at": _now(), "status": "available", "recommendations": recommendations}
 
 
