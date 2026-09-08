@@ -73,7 +73,7 @@ The kit ships four core skills plus a **Skill Vault** of ten more you unlock as 
 | `/expand` | Weekly ritual. Finds one thing worth automating, scopes it, ships it. |
 | `/rescue` | Any time something breaks. Reads the error, checks known failures, fixes it or tells you exactly what to paste for help. |
 
-See [.claude/skills/](.claude/skills/) for the four core skills and [skill-vault/](skill-vault/) for the ten bonus skills.
+See [.claude/skills/](.claude/skills/) for the core runtime skills and [skill-vault/](skill-vault/) for the curated platform procedures. Fresh installs also import the Business OS manifest before building the map, so the student starts with the full agent library already available.
 
 ---
 

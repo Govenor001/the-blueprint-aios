@@ -71,7 +71,7 @@ run_step 12 "keeping the dashboard private"
 echo "The dashboard binds to localhost. Use an SSH tunnel or add a reviewed HTTPS reverse proxy."
 
 run_step 13 "building the map"
-sudo -u aios bash -lc "cd /opt/aios/app && /opt/aios/venv/bin/python scripts/bootstrap.py && /opt/aios/venv/bin/python scripts/sync_runtime_skills.py && /opt/aios/venv/bin/python scripts/build_map.py" || echo "Map build needs the installed skills and will be retried after setup."
+sudo -u aios bash -lc "cd /opt/aios/app && /opt/aios/venv/bin/python scripts/bootstrap.py && /opt/aios/venv/bin/python scripts/install_business_os.py --root . && /opt/aios/venv/bin/python scripts/sync_runtime_skills.py && /opt/aios/venv/bin/python scripts/build_map.py" || echo "Skill import or map build needs the installed skills and will be retried after setup."
 
 run_step 14 "enabling services and schedules"
 systemctl enable --now aios-dashboard aios-bridge
