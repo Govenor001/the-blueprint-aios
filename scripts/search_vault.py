@@ -9,7 +9,10 @@ import math
 import re
 from pathlib import Path
 
-from local_model import embed
+try:
+    from .local_model import embed
+except ImportError:  # direct script execution
+    from local_model import embed
 
 
 def _cosine(left: list[float], right: list[float]) -> float:
