@@ -146,6 +146,14 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
                 "required": 1 if name == "ElevenLabs" else len(variables),
             })
         for server in configured_servers(root_path):
+            cached_accounts = []
+            if server["name"] == "blotato":
+                cache = root_path / "var" / "connections" / "blotato.json"
+                if cache.exists():
+                    try:
+                        cached_accounts = json.loads(cache.read_text(encoding="utf-8")).get("accounts", [])
+                    except (OSError, json.JSONDecodeError):
+                        cached_accounts = []
             connections.append({
                 "name": f"MCP: {server['name']}",
                 "status": server["status"],
@@ -154,6 +162,7 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
                 "tier": server["tier"],
                 "missing": server["missing"],
                 "tools": server["tools"],
+                "accounts": cached_accounts,
             })
         return JSONResponse({"connections": connections})
 

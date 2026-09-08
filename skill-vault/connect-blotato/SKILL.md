@@ -39,7 +39,9 @@ Connects the official Blotato MCP server while keeping the API key in the local 
 3. Store the key only as BLOTATO_API_KEY in the local environment file, quoted.
 4. Register the official MCP endpoint with the repository helper:
    `python scripts/mcp_connections.py blotato`. It writes `${BLOTATO_API_KEY}` into
-   `.claude/settings.json`, never the key value, and then test with a read-only account listing.
+   `.claude/settings.json`, never the key value. Run
+   `python scripts/verify_blotato.py` for the read-only account listing; it caches
+   only platform/name pairs, source, status, and timestamp for Mission Control.
 5. Report account names and leave publishing in draft mode.
 
 ## Rules

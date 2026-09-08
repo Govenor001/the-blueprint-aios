@@ -78,7 +78,7 @@
   }
 
   function renderConnections(payload) {
-    connections.innerHTML = payload.connections.map((connection) => `<div class="health-row"><span>${escape(connection.name)}</span><span class="badge ${escape(connection.status)}">${connection.status === "connected" ? "Connected" : `${connection.configured}/${connection.required} configured`}</span></div>`).join("");
+    connections.innerHTML = payload.connections.map((connection) => { const accounts = Array.isArray(connection.accounts) && connection.accounts.length ? ` · ${connection.accounts.map((account) => `${escape(account.platform)}: ${escape(account.name)}`).join(", ")}` : ""; return `<div class="health-row"><span>${escape(connection.name)}${accounts}</span><span class="badge ${escape(connection.status)}">${connection.status === "connected" ? "Connected" : `${connection.configured}/${connection.required} configured`}</span></div>`; }).join("");
   }
 
   function renderActivity(payload) {
