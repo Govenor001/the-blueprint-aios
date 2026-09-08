@@ -33,6 +33,8 @@ Gather facts.
 """)
 
 def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch):
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "present")
+    monkeypatch.setenv("TELEGRAM_CHAT_ID", "present")
     skill = tmp_path / "skill-vault" / "scout" / "SKILL.md"
     skill.parent.mkdir(parents=True)
     skill.write_text(SKILL, encoding="utf-8")
@@ -56,3 +58,5 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     connections = client.get("/api/connections", headers=headers)
     assert connections.status_code == 200
     assert "connections" in connections.json()
+    telegram = next(item for item in connections.json()["connections"] if item["name"] == "Telegram")
+    assert telegram["status"] == "connected"

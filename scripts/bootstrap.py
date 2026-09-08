@@ -9,6 +9,11 @@ import stat
 import sys
 from pathlib import Path
 
+try:
+    from .sync_runtime_skills import sync_runtime_skills
+except ImportError:  # direct script execution
+    from sync_runtime_skills import sync_runtime_skills
+
 REQUIRED_DIRS = [
     "context",
     "vault/documents",
@@ -33,6 +38,7 @@ def bootstrap(root: Path) -> None:
     if env_file.exists():
         env_file.chmod(stat.S_IRUSR | stat.S_IWUSR)
     (root / "var" / "activity.jsonl").touch(exist_ok=True)
+    sync_runtime_skills(root)
 
 
 def main(argv: list[str] | None = None) -> int:

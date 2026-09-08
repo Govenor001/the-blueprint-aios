@@ -125,7 +125,7 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
             return _deny()
         definitions = (
             ("Claude", ("CLAUDE_CODE_OAUTH_TOKEN",)),
-            ("Telegram", ("TELEGRAM_BOT_TOKEN", "TELEGRAM_OWNER_CHAT_ID")),
+            ("Telegram", ("TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID")),
             ("Composio", ("COMPOSIO_API_KEY",)),
             ("ElevenLabs", ("ELEVEN_API_KEY", "ELEVENLABS_API_KEY")),
             ("Blotato", ("BLOTATO_API_KEY",)),
