@@ -1,0 +1,10 @@
+[Unit]
+Description=Run AIOS newsletter draft
+
+[Timer]
+OnCalendar=Mon *-*-* 09:00:00
+Persistent=true
+Unit=aios-newsletter.service
+
+[Install]
+WantedBy=timers.target
