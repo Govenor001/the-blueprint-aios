@@ -8,20 +8,20 @@
 
 ## Why cadence is last
 
-We saved automation for the end on purpose: **never put a job on a timer until it works when you run it by hand.** You've spent a week proving each wing works on demand. Now — and only now — we let them run without you.
+We verify automation at the end on purpose: **never trust a scheduled job until it works when you run it by hand.** The timers are already installed on the server. Today you run one manually, inspect the local activity record, and then confirm the scheduled version is enabled.
 
-## Step 1 — Schedule your morning brief
+## Step 1 — Verify the morning brief timer
 
-You'll use `cron`, the scheduler already on your Mac/Linux machine. One honest note first: a schedule only fires while this machine is awake — that's fine this week (pick a time your laptop is open; going 24/7 is the post-challenge module). And unattended jobs are the right place for an **API key** (`ANTHROPIC_API_KEY` in your `.env`) rather than your Pro login — Anthropic's consumer terms cover you at the keyboard, not scripts running alone, and a daily brief costs a few dollars a month on the API.
+The platform uses systemd timers on the server, so the schedule continues while your laptop is closed. The installer already enabled the brief, inbox, and newsletter timers.
 
-Run `crontab -e` and add (adjust the path to your kit folder):
+Confirm the installed timers:
 
 ```
-SHELL=/bin/bash
-0 7 * * * cd /path/to/the-blueprint-aios && set -a && . ./.env && set +a && python3 scripts/engine.py --quiet && claude -p "Run the brief skill on context/signals.json. Output plain text only." | python3 scripts/bridge.py --send-stdin
+systemctl list-timers --all | grep aios
+sudo systemctl start aios-brief.service
 ```
 
-Tomorrow at 7am, a brief about your market lands on your phone with no action from you. (The `SHELL=/bin/bash` line matters — it's the #1 cron gotcha in `references/known-failures.md`.)
+The manually started brief should create a local activity record and, when Telegram is connected, reach your phone.
 
 ## Step 2 — Schedule your content
 
@@ -35,7 +35,7 @@ Whatever wings you've made solid — lead follow-up, a weekly newsletter — put
 
 ## Step 4 — Confirm it fired on its own
 
-Don't take it on faith. Set a test schedule two minutes out (`crontab -e`, change `0 7` to the coming minute), watch it fire, then set the real time. Seeing your AIOS do something while you did nothing is the proof that Floor 4 is real.
+Don't take it on faith. Inspect the next timer run, or start one service manually and then confirm the timer remains enabled. Seeing your AIOS do something while you did nothing is the proof that Floor 4 is real.
 
 ## Step 5 — Run the inspection
 
@@ -56,7 +56,7 @@ Stop and take this in. In seven days you built an AI Operating System that:
 - watches your market overnight and briefs you,
 - qualifies your leads and drafts your outreach,
 - triages your inbox and plans your day,
-- runs on a schedule while your laptop's open — with a clear path to full 24/7,
+- runs on a schedule while your laptop is closed,
 - and answers you by text or voice from your phone.
 
 The only thing you pay for is Claude. Everything else is free. And it's *yours* — built on your business, your voice, your priorities.

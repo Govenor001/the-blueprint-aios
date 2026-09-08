@@ -1,6 +1,6 @@
 # The Blueprint — Build Your Own AI Operating System
 
-A starter kit that turns Claude Code into a personal **AI Operating System (AIOS)** — a named AI staff member that writes your content, monitors your market, works your leads, handles your inbox, and takes orders from your phone. **It runs on your own server from day one**, so it keeps working while your laptop is shut.
+A complete platform that turns Claude Code into a personal **AI Operating System (AIOS)** — a named AI staff member that writes your content, monitors your market, works your leads, handles your inbox, and takes orders from your phone. **The interface, map, bridge, vault, schedules, and safety controls are already built; students connect their own services and context on their server.**
 
 This is the kit you build in **The 7-Day Agent Architect Challenge**. It's the same architecture that runs our own companies — packaged so you can run yours on it.
 
@@ -46,9 +46,9 @@ Full detail: [references/the-blueprint-framework.md](references/the-blueprint-fr
 
 ---
 
-## The five Wings
+## The operating map
 
-Your AIOS is one house with five wings. Each is a scaled-down version of a system that runs in production — every one built on free tools.
+Your AIOS is one second brain with seven operating wings. Each wing is a visible part of the map and contains departments, functions, and named agents.
 
 | Wing | What it does for you |
 |---|---|
@@ -57,6 +57,8 @@ Your AIOS is one house with five wings. Each is a scaled-down version of a syste
 | **Growth Wing** | Qualifies leads, drafts outreach, runs your follow-up |
 | **Comms Wing** | Triage, drafts, and daily plan for your email and calendar |
 | **Command Wing** | Your phone HQ — text or voice-note your AIOS from anywhere |
+| **Back-office Wing** | Finance, records, and internal administration |
+| **Build Wing** | Platform health, delivery, and expansion |
 
 ---
 
@@ -77,11 +79,11 @@ See [.claude/skills/](.claude/skills/) for the four core skills and [skill-vault
 
 ## Quick start
 
-1. **Clone this repo** into a folder on your machine.
-2. **Open it in Claude Code** and run `/blueprint`. Answer honestly, name your AIOS. ~15 minutes.
-3. **Use it for a week.** Bring it real questions, make real decisions.
-4. **Day 7:** run `/inspect`. Read your score. Fix the top gap.
-5. **Weekly:** run `/expand`. Ship one new automation. Move in — go 24/7.
+1. **Install the platform** on an Ubuntu 24.04 server with `deploy/install.sh`.
+2. **Authenticate Claude headlessly** with `claude setup-token`, then connect Telegram and your chosen services.
+3. **Follow the seven-day challenge.** Add your business context, keys, sources, and approval choices; do not rebuild the platform.
+4. **Day 7:** run `/inspect`, test a timer, and confirm the student acceptance checklist.
+5. **Weekly:** run `/expand`. Add one approved automation to the existing map.
 
 Full day-by-day path: **The 7-Day Agent Architect Challenge** (see `curriculum/`).
 

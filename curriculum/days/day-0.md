@@ -1,8 +1,8 @@
 # Day 0 — Prepare the Site
 
-*Before we build, we gather materials — but only the materials we need tomorrow. Two required signups, two installs, ~25 minutes. Every other account in the services guide gets created on the day it's used, when you can see why you're signing up.*
+*The platform is already built. Today you connect its home server, Claude access, Telegram, and the private environment file that the rest of the challenge will use. ~25 minutes.*
 
-**By the end of Day 0 you'll have:** Claude Code replying in your terminal, a Telegram bot waiting for Day 6, and a safe home for your keys.
+**By the end of Day 0 you'll have:** the AIOS installed on your server, Claude authenticated for headless work, a Telegram bot connected, and a safe home for your keys.
 
 ---
 
@@ -12,7 +12,7 @@ Follow section 1 of [00-SERVICES-AND-SETUP.md](../00-SERVICES-AND-SETUP.md): sub
 
 **A word on cost, because it's the question everyone asks.** Your subscription includes your usage. You are not billed per message, per agent, or per hour — it's the same $20 whether your AIOS runs once today or fifty times. There is a fair-use ceiling (Claude tracks usage in rolling windows), and if you ever hit it, Claude tells you and it resets. What you must **not** do is set up an Anthropic **API key**. That's the pay-per-word route, it has no ceiling, and it's how people accidentally spend $300 in a weekend. Nothing in this build needs one.
 
-**Building on a server instead of your laptop?** (That's Day 7, but read this now if you already know you're going that route.) A server has no browser, so the normal sign-in won't work. Run:
+**The server is the normal route.** It has no browser, so the normal sign-in won't work. Run:
 
 ```bash
 claude setup-token

@@ -37,6 +37,6 @@ or writes your help post for you.
 - **Voice notes answer with a complaint about Groq** — put your Day-3 `GROQ_API_KEY` in `.env` and restart the bridge.
 
 ## Day 7
-- **Cron job never fires** — the classic. `SHELL=/bin/bash` must be the first crontab line, and the cron line must `cd` into the kit folder. See the first entry in `references/known-failures.md`.
-- **Cron fires but nothing reaches Telegram** — `TELEGRAM_CHAT_ID` isn't in `.env`, or the env-load isn't in the cron line. Copy the Day 7 line exactly and only change the path and time.
-- **Laptop was asleep at 7am** — schedules run while the machine is awake this week. Pick a time it's open, or take the post-challenge Go-24/7 module.
+- **A systemd timer never fires** — check `systemctl list-timers --all | grep aios`, then inspect `journalctl -u aios-brief.service`. The timer is installed on the server and does not depend on your laptop being awake.
+- **A timer fires but nothing reaches Telegram** — confirm `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are present in the server environment, then run `python scripts/bridge.py --check` as the `aios` user.
+- **The laptop was asleep** — that is expected. The bridge, timers, and vault run on the server; use the dashboard health card to see whether the server-side services are ready.

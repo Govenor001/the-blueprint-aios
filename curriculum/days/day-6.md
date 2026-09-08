@@ -1,14 +1,14 @@
 # Day 6 — The Command Wing: Your AIOS in Your Pocket
 
-*Floor 4 begins. Today you text your AIOS from your phone — from the couch, the car, the school run — and it answers. The bridge runs on your laptop today; moving it to an always-on server is the graduation step after the challenge. ~30 minutes.*
+*Floor 4 begins. Today you text your AIOS from your phone — from the couch, the car, the school run — and it answers. The bridge is already running as a service on the server; today you connect and verify it. ~30 minutes.*
 
 **By the end of Day 6:** you send a message from your phone and your AIOS answers — text and voice.
 
 ---
 
-## Why laptop-first
+## Why connection-first
 
-The magic of Day 6 is the conversation, not the hosting. Running the bridge on your laptop gets you the full experience today with zero new accounts, zero server setup, and zero risk. Once you trust it — and once you've decided it's worth keeping — the post-challenge **Go 24/7** module moves the exact same bridge to an always-on server properly (with honest talk about servers and API keys). Never deploy something you haven't loved locally first.
+The magic of Day 6 is the conversation, not another build. The bridge is already installed on the server. You connect Telegram, confirm the owner gate, send a text and a voice note, and verify that the response and activity record behave correctly.
 
 ## Step 1 — Load your keys
 
@@ -44,9 +44,9 @@ Watch the terminal light up, and the reply land on your phone. Then ask it somet
 
 Send your bot a **voice message**. It transcribes what you said (Groq's free Whisper) and answers it. Now you can talk to your AIOS while you drive.
 
-## Want it running with the laptop closed?
+## Verify the server handoff
 
-That's the graduation: the same `bridge.py` on a small always-on server. Two honest things before you do it, both covered properly in the post-challenge **Go 24/7** module: pick a server with eyes open (a ~$5/mo VPS is boring and reliable; "free" tiers have real catches — see section 2 of the services guide), and put scheduled/unattended jobs on an **API key** rather than your Pro login (that's usage Anthropic's consumer terms don't cover, and the honest cost is a few dollars a month). Nothing about today's build changes — it just moves.
+The server is already the home of this bridge. If you use a Claude subscription, complete the headless `claude setup-token` step from Day 0. If you use Bedrock, verify the AWS model route and billing settings. The challenge does not ask students to build or host the bridge; it asks them to connect, personalize, and verify it.
 
 ---
 

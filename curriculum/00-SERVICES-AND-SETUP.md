@@ -11,7 +11,7 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 | Service | What it's for | Cost | Required? |
 |---|---|---|---|
 | **Claude (Claude Code)** ⭐ | The brain — writes, reasons, runs everything | $20/mo (Claude Pro) for hands-on use; optional API pay-as-you-go (~$3–15/mo typical) for scheduled jobs | **Yes** — the one real cost |
-| **Cloud server** | Runs your AIOS 24/7 *after* the challenge | $0–$6/mo | **No** — the challenge runs from your laptop; the server is the post-challenge graduation |
+| **Cloud server** | Runs your AIOS 24/7 from Day 0 | $0–$6/mo | **Yes** — the platform is installed there before you personalize it |
 | **Social scheduler (Blotato)** | Auto-posts across your social channels | ~$29/mo | Optional — free alternatives given |
 
 **Everything else on this page is free.** If you only ever pay for Claude, your AIOS still does the vast majority of what ours does.
@@ -51,11 +51,11 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 
 ---
 
-# 2. Cloud server — optional, for after the challenge
+# 2. Cloud server — the home of your AIOS
 
 **What it is:** A small always-on computer in the cloud, so your AIOS can keep working with your laptop closed.
 
-**Do you need it this week? No.** Day 6 runs the phone bridge from your laptop. Moving to a server is the graduation step after the challenge, and we walk it properly then.
+**Do you need it this week? Yes.** The installer puts the dashboard, bridge, vault, and timers on the server first. The challenge is for connecting your services, adding your context, and proving the system works.
 
 **Honest options when you're ready:**
 - **A cheap paid VPS (~$4–6/mo)** — Hetzner, DigitalOcean, or similar. Boring, reliable, five-minute setup. This is what we actually recommend.
