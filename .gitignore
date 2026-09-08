@@ -35,3 +35,13 @@ Thumbs.db
 .mcp.json
 # Generated dashboard data
 /dashboard/static/map.json
+
+# Student-private documents and derived search index
+/vault/*
+!/vault/.gitkeep
+/vault/documents/*
+!/vault/documents/.gitkeep
+/vault/context/*
+!/vault/context/.gitkeep
+/vault/index.jsonl
+/imports/raw/
