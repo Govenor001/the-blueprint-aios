@@ -48,9 +48,9 @@ recommend, the default schedule switched on, recording real usage. Every day you
 day the plan recommendation stays a guess. **The subscription usage limits colliding with
 scheduled agents is the single most likely cause of refunds in week two** — see Task 0.3.
 
-**4. Prototype the headless OAuth question in Task 4.5 early.** It is the one genuine unknown
-left in this plan. If it does not work, Build 4 loses a tier and that is a scope decision for
-the owner, not something to discover on the day it is needed.
+**4. Keep CRM setup API-key based.** OAuth is not a student setup requirement. CRM
+connections use an API key or private app token through the generic OpenAPI bridge,
+with a small read-only whitelist.
 
 **One scheduling trap to plan around now.** Build 7 rewrites all eight curriculum days, and
 it has to come last because Days 3 and 7 describe screens Build 6 builds. But it **gates
@@ -1342,7 +1342,7 @@ both services the owner asked for by name.
 | Tier | How it connects | Covers | What the owner does |
 |---|---|---|---|
 | A | Official remote MCP server, API key in a header | Blotato | Pastes a key. Done. |
-| B | Official remote MCP server, OAuth login | HubSpot, GoHighLevel | Browser login. See the warning in Task 4.5. |
+| B | Official or generic connector with API key/private app token | CRM services that expose a token path | Pastes a key and approves a read-only whitelist. |
 | C | Generic bridge that reads the service's OpenAPI spec | ManyChat, Pipedrive, most software | Pastes a key. |
 | D | Pick from the public MCP registry | the long tail, about 9,100 servers | Picks from a shortlist. |
 | E | Composio | apps with no MCP server and no public spec | Login through Composio. |
@@ -1532,38 +1532,21 @@ Two corrections to what we previously wrote in the curriculum:
 only what is written there, then ask for your five most recent email subject lines and
 get real subjects back.
 
-### Task 4.5 — Prototype the OAuth problem before you build anything else
+### Task 4.5 — CRM OAuth is out of scope for the student build
 
-**Do this task early. Out of order if you like. It is the one thing that could break
-the design.**
+For the seven-day challenge, CRM connections use an API key or private app token
+through the generic OpenAPI bridge. The owner chooses a small whitelist of read-only
+operations, AIOS registers the bridge, and AIOS performs one read-only verification.
+No student is asked to create an OAuth application or run a browser on the headless
+server.
 
-Tier B services, HubSpot and GoHighLevel, use OAuth. OAuth opens a browser. Our AIOS
-runs on a headless server with no browser and no screen. `claude mcp login <name>
---no-browser` prints a link the owner can open on their laptop, but the reply from the
-login has to get back to a port on the server.
+Do not build or document a speculative HubSpot/GoHighLevel OAuth flow for launch.
+If a future service offers no API-key or private-token path, mark it unavailable and
+design a separate approved connector later.
 
-**DO:** On a real VPS with no desktop, try to connect HubSpot end to end. Write down
-exactly what happens in `decisions/oauth-on-a-headless-server.md`. Then pick one:
-
-- It works with `--no-browser` plus an SSH tunnel → document the steps and ship it.
-- It does not work → Tier B services connect through Composio instead, which handles
-  the login on its own servers. Say so plainly and move on.
-
-**Do not guess.** Do not write curriculum for Tier B until this file exists with a real
-answer in it.
-
-Two notes for when you get there:
-
-- HubSpot through Composio currently shows the owner an **"unverified app" warning**
-  during login, because Composio's shared HubSpot app is still waiting on approval. To a
-  non-technical business owner that looks like a scam. Fix: we register our own HubSpot
-  OAuth app and ship its ID, which we should do anyway.
-- GoHighLevel's own MCP server is worth copying as a design. It exposes only **four**
-  tools — list locations, search operations, describe operation, execute operation — and
-  those four front over 550 operations. That is how you avoid the tool-count problem in
-  Task 4.2. If our generic bridge grows past a handful of services, switch it to this
-  shape: one `search_operations` tool and one `execute_operation` tool per service,
-  instead of hundreds of individual tools.
+Future connector work may add OAuth-backed services, but that is outside this launch.
+The generic bridge must continue to enforce a small whitelist so a CRM never floods
+Claude with hundreds of operations.
 
 ### Task 4.6 — Show the tentacles on the dashboard
 
@@ -2415,7 +2398,7 @@ Config files only ever hold `${THE_VARIABLE_NAME}`. Never a key.
 - [ ] A tentacle added by pasting a key, working, with the key only in `.env`
 - [ ] Blotato connected through its own MCP server, accounts listed by name
 - [ ] ManyChat connected through the generic bridge, under 25 tools registered
-- [ ] `decisions/oauth-on-a-headless-server.md` exists with a real tested answer
+- [x] CRM setup decision documented: API key/private app token; OAuth is out of scope
 - [ ] Every `${VAR}` in every MCP config has a matching entry in `.env`
 - [ ] Every card in every panel has a designed empty state, and a fresh install with
       nothing connected screenshots well enough for the sales page

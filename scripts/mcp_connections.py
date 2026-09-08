@@ -120,12 +120,16 @@ def configured_servers(root: Path) -> list[dict[str, Any]]:
     for name, server in payload.get("mcpServers", {}).items():
         variables = sorted(set(_values(server)))
         missing = [variable for variable in variables if variable not in configured]
+        whitelist = server.get("env", {}).get("TOOL_WHITELIST") if isinstance(server.get("env"), dict) else None
+        tool_count = len([item for item in str(whitelist).split(",") if item.strip()]) if whitelist else None
+        if isinstance(server.get("tool_whitelist"), list):
+            tool_count = len(server["tool_whitelist"])
         result.append({
             "name": name,
             "tier": server.get("tier", "unknown"),
             "status": "needs_setup" if missing else "connected",
             "missing": missing,
-            "tools": len(server.get("tool_whitelist", [])) if isinstance(server.get("tool_whitelist"), list) else None,
+            "tools": tool_count,
         })
     return result
 

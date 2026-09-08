@@ -31,7 +31,7 @@ def redact(value: Any) -> Any:
     return result
 
 
-def log(event: str, skill: str | None = None, detail: str | None = None, status: str = "ok") -> None:
+def log(event: str, skill: str | None = None, detail: str | None = None, status: str = "ok", model: str | None = None) -> None:
     path = root_path() / "var" / "activity.jsonl"
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists() and path.stat().st_size > 10 * 1024 * 1024:
@@ -43,6 +43,7 @@ def log(event: str, skill: str | None = None, detail: str | None = None, status:
         "ts": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "event": redact(event),
         "skill": redact(skill),
+        "model": redact(model),
         "detail": redact(detail)[:200] if isinstance(redact(detail), str) else redact(detail),
         "status": redact(status),
     }

@@ -106,6 +106,13 @@ If you connected Google Sheets, close the loop between the wings:
 
 Now Growth and Comms work together — leads scored and recorded automatically.
 
+### Optional CRM connection
+
+If you use a CRM, ask your AIOS to connect it through the OpenAPI bridge. Provide
+the CRM API key or private app token when asked, choose only the read-only operations
+you need, and let AIOS run one read-only verification. CRM setup does not require
+you to create an OAuth application or run a browser on the server.
+
 ---
 
 ## Adapt-to-you note

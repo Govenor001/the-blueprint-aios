@@ -1,5 +1,17 @@
 # OAuth on a headless server
 
+## CRM decision
+
+OAuth is not part of the student setup for CRM connections. A student who wants a
+CRM supplies that service's API key or private app token, and AIOS registers only
+the explicitly approved read-only operations through the OpenAPI bridge. This keeps
+the setup server-first and avoids asking students to create or troubleshoot an
+OAuth application.
+
+The headless OAuth experiment described in the original implementation plan is
+therefore not a launch gate. It remains useful background for future connectors,
+but it is intentionally out of scope for the seven-day challenge.
+
 ## Decision
 
 Keep the browser step on the owner's device and keep the resulting credential on the

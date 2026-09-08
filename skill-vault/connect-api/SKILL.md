@@ -29,6 +29,9 @@ metadata:
 
 ## What this does
 Turns a service's OpenAPI description into a small, reviewable MCP connection.
+This is the standard path for CRM connections: the owner supplies the CRM's API
+key or private app token; AIOS does not require an OAuth app or a browser on the
+server.
 
 ## Inputs it reads
 - The service documentation or api.apis.guru directory
@@ -37,7 +40,7 @@ Turns a service's OpenAPI description into a small, reviewable MCP connection.
 ## Execution
 1. Find the official specification, then use the public directory only as a fallback.
 2. Show the owner the available operations and select no more than twenty.
-3. Ask for the API key and store it only in the local environment file.
+3. Ask for the API key or private app token and store it only in the local environment file.
 4. Register mcp-openapi-proxy with the specification URL, auth settings, and TOOL_WHITELIST
    using `python scripts/mcp_connections.py openapi ... --whitelist ...`; the helper keeps
    the key as an environment placeholder and rejects more than twenty operations.
@@ -47,4 +50,7 @@ Turns a service's OpenAPI description into a small, reviewable MCP connection.
 ## Rules
 - Never register a service without a whitelist.
 - Never call a write operation during setup.
+- For a CRM, prefer an API key/private app token over OAuth. If the service only
+  offers OAuth, report that it needs a separate approved connection path; do not
+  improvise a headless OAuth flow.
 - If auth or the spec is uncertain, say UNAVAILABLE and stop.
