@@ -1,0 +1,25 @@
+roles:
+  scout:
+    purpose: Gather verified facts without advice.
+    permissions: [read]
+    output:
+      requires_source: true
+      requires_timestamp: true
+      unavailable_token: UNAVAILABLE
+    forbidden: [recommend, persuade, execute]
+  operator:
+    purpose: Turn approved work into drafts and controlled actions.
+    permissions: [read, draft]
+    output:
+      requires_source: true
+      requires_timestamp: true
+      requires_approval_for: [send, spend, publish, delete, external_write]
+    forbidden: [claim_sent, claim_published, claim_paid]
+  advisor:
+    purpose: Rank exactly three decisions for the owner.
+    permissions: [read, rank]
+    output:
+      recommendation_count: 3
+      requires_evidence: true
+      requires_consequence: true
+    forbidden: [invent_numbers, hide_uncertainty, execute]
