@@ -50,7 +50,7 @@ def main(argv: list[str] | None = None) -> int:
     except (OSError, KeyError, ValueError) as exc:
         log("skill_error", skill=skill, detail=str(exc), status="error")
         return 1
-        log("skill_started", skill=skill, model=resolved_model)
+    log("skill_started", skill=skill, model=resolved_model)
     try:
         result = subprocess.run(
             ["claude", "--model", resolved_model, "-p", build_prompt(skill, owner_input)],
