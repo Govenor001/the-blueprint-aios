@@ -8,6 +8,7 @@ WorkingDirectory=/opt/aios/app
 EnvironmentFile=/opt/aios/.env
 EnvironmentFile=-/opt/bot/.env
 EnvironmentFile=-/opt/bot/token.env
+EnvironmentFile=-/opt/firehose-system/.env
 ExecStart=/opt/aios/venv/bin/python -m dashboard.server
 Restart=always
 RestartSec=5
