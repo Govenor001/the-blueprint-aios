@@ -1,8 +1,30 @@
 ---
 name: plan-day
-description: Build the user's day around their priorities. Use when someone says "plan my day", "what's on today", "help me prioritize", or on a morning schedule. Reads calendar + tasks + priorities and produces a realistic plan.
-scaffolding-phase: 1
+description: name: plan-day
+
+metadata:
+  wing: comms
+  department: Back Office
+  function: Calendar Management
+  replaces: Filling the day with tasks without protecting time for the priorities that matter.
+  the-human: The owner chooses what to accept, move, or decline.
+  ladder:
+    manual: Run it manually and review every step.
+    assisted: Prepare the work and wait for the owner's review.
+    autonomous: Run on schedule after the owner has approved the pattern.
+  trigger: Run when the user asks for this job or its schedule fires.
+  outputs:
+    - A structured calendar management result
+  kpis:
+    - Completed outputs per run
+    - Items flagged for owner review
+  tools: [claude, calendar]
+  requires-context: [context/priorities.md]
+  model: smart
+  autonomy: assisted
+  scaffolding-phase: 1
 ---
+
 
 ## What this does
 The Comms Wing's planning workshop. Pulls the calendar and task list, weighs them against this quarter's priorities, and hands back a realistic day — not a wish list. It answers "if I only get one real thing done today, what should it be, and when?"
@@ -23,3 +45,4 @@ The Comms Wing's planning workshop. Pulls the calendar and task list, weighs the
 - **Tie the top item to a stated priority** — "why this matters today."
 - **Protect one deep block** — the plan should defend focus, not just fill time.
 - **Name what to skip.** Saying no is half of planning.
+- If a required context file is missing, say so and stop.
