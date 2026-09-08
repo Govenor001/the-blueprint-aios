@@ -14,3 +14,12 @@ def test_configure_blotato_uses_environment_placeholder_and_never_key(tmp_path, 
     assert blotato["headers"]["blotato-api-key"] == "${BLOTATO_API_KEY}"
     assert "secret-value" not in json.dumps(settings)
     assert configured_servers(tmp_path)[0]["status"] == "connected"
+
+
+def test_configured_servers_reads_private_env_file_names_only(tmp_path, monkeypatch):
+    monkeypatch.delenv("BLOTATO_API_KEY", raising=False)
+    (tmp_path / ".env").write_text("BLOTATO_API_KEY=private-value\n", encoding="utf-8")
+    configure_blotato(tmp_path)
+    row = configured_servers(tmp_path)[0]
+    assert row["status"] == "connected"
+    assert "private-value" not in json.dumps(row)

@@ -95,13 +95,31 @@ def _values(value: Any) -> list[str]:
     return []
 
 
+def _configured_variables(root: Path) -> set[str]:
+    """Read only variable names with non-empty values from private env files."""
+    names = {key for key, value in os.environ.items() if value}
+    for env_path in (Path(root).resolve() / ".env", Path(root).resolve().parent / ".env"):
+        try:
+            for line in env_path.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                key, value = line.split("=", 1)
+                if key.strip() and value.strip().strip("'\""):
+                    names.add(key.strip())
+        except OSError:
+            continue
+    return names
+
+
 def configured_servers(root: Path) -> list[dict[str, Any]]:
     """Report MCP readiness using names and counts only; never return values."""
     payload = _load(root)
+    configured = _configured_variables(root)
     result = []
     for name, server in payload.get("mcpServers", {}).items():
         variables = sorted(set(_values(server)))
-        missing = [variable for variable in variables if not os.environ.get(variable)]
+        missing = [variable for variable in variables if variable not in configured]
         result.append({
             "name": name,
             "tier": server.get("tier", "unknown"),
