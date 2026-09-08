@@ -8,7 +8,10 @@ import json
 import os
 from pathlib import Path
 
-from scripts.install_business_os import load_manifest
+try:
+    from scripts.install_business_os import load_manifest
+except ModuleNotFoundError:  # direct `python scripts/student_check.py` execution
+    from install_business_os import load_manifest
 
 
 def check(root: Path) -> dict:
