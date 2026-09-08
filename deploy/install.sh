@@ -28,7 +28,7 @@ id aios >/dev/null 2>&1 || useradd --system --create-home --home-dir /opt/aios -
 install -d -o aios -g aios -m 700 /opt/aios /opt/aios/vault /opt/aios/vault/documents /opt/aios/vault/context /opt/aios/var
 
 run_step 6 "cloning the application"
-git clone "${AIOS_REPO:-https://github.com/Govenor001/the-blueprint-aios.git}" /opt/aios/app
+git clone --branch "${AIOS_BRANCH:-main}" --single-branch "${AIOS_REPO:-https://github.com/Govenor001/the-blueprint-aios.git}" /opt/aios/app
 chown -R aios:aios /opt/aios
 
 run_step 7 "creating the Python environment"
