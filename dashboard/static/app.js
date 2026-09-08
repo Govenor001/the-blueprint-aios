@@ -51,13 +51,12 @@
 
   function openAgent(agent) {
     if (!agent) return;
-    drawerContent.innerHTML = `<p class="eyebrow">${escape(agent.autonomy)} agent</p><h2>${escape(agent.name)}</h2><p class="description">${escape(agent.description)}</p><div class="details"><div class="detail"><b>Job it replaces</b><p>${escape(agent.replaces)}</p></div><div class="detail"><b>Your role</b><p>${escape(agent["the-human"])}</p></div><div class="detail"><b>Trigger</b><p>${escape(agent.trigger)}</p></div><div class="detail"><b>Outputs</b><p>${list(agent.outputs)}</p></div><div class="detail"><b>Measures</b><p>${list(agent.kpis)}</p></div><div class="detail"><b>Tools</b><p>${list(agent.tools)}</p></div></div><label class="run-label" for="run-input">What should this agent do?</label><textarea id="run-input" class="run-input" rows="4" placeholder="Describe the task in plain English."></textarea><button id="run-agent" class="run" type="button">Run ${escape(agent.name)}</button><p id="drawer-message" class="drawer-message"></p>`;
+    drawerContent.innerHTML = `<p class="eyebrow">${escape(agent.autonomy)} agent</p><h2>${escape(agent.name)}</h2><p class="description">${escape(agent.description)}</p><div class="details"><div class="detail"><b>Job it replaces</b><p>${escape(agent.replaces)}</p></div><div class="detail"><b>Your role</b><p>${escape(agent["the-human"])}</p></div><div class="detail"><b>Trigger</b><p>${escape(agent.trigger)}</p></div><div class="detail"><b>Outputs</b><p>${list(agent.outputs)}</p></div><div class="detail"><b>Measures</b><p>${list(agent.kpis)}</p></div><div class="detail"><b>Tools</b><p>${list(agent.tools)}</p></div></div><button id="run-agent" class="run" type="button">Run ${escape(agent.name)}</button><p id="drawer-message" class="drawer-message"></p>`;
     el("#run-agent").addEventListener("click", async (event) => {
       event.currentTarget.disabled = true;
       el("#drawer-message").textContent = "Starting this run…";
       try {
-        const input = el("#run-input").value.trim();
-        const result = await api("/api/run", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({skill:agent.name, input})});
+        const result = await api("/api/run", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({skill:agent.name})});
         el("#drawer-message").textContent = `Run accepted: ${result.run_id.slice(0, 8)}.`;
       } catch {
         el("#drawer-message").textContent = "This run could not start. Check the system connection and setup status.";

@@ -5,6 +5,7 @@ import textwrap
 from fastapi.testclient import TestClient
 
 from dashboard.server import create_app
+import dashboard.server as dashboard_server
 
 
 SKILL = textwrap.dedent("""---
@@ -66,6 +67,26 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     assert client.get("/api/map", headers=headers).status_code == 200
     response = client.post("/api/run", headers=headers, json={"skill": "../etc/passwd"})
     assert response.status_code == 400
+    models = tmp_path / "config" / "models.yaml"
+    models.write_text(
+        "route: claude-subscription\ntiers:\n  claude-subscription:\n    fast: haiku\n    smart: sonnet\n    deep: opus\n",
+        encoding="utf-8",
+    )
+    launched = {}
+
+    def fake_popen(command, **kwargs):
+        launched["command"] = command
+        launched["kwargs"] = kwargs
+
+    monkeypatch.setattr(dashboard_server.subprocess, "Popen", fake_popen)
+    accepted = client.post(
+        "/api/run",
+        headers=headers,
+        json={"skill": "scout", "input": "Find three verified signals."},
+    )
+    assert accepted.status_code == 202
+    assert "Find three verified signals." in launched["command"]
+    assert launched["kwargs"]["cwd"] == tmp_path
     assert json.loads(client.get("/api/map", headers=headers).text)["counts"]["total"] == 1
     activity = client.get("/api/activity?limit=10", headers=headers)
     assert activity.status_code == 200
