@@ -13,7 +13,7 @@ a domain pointed at the server, set `AIOS_DOMAIN` so Caddy provisions HTTPS.
 ```bash
 export DASHBOARD_PASSWORD='choose-a-long-password'
 export AIOS_DOMAIN='aios.example.com'       # optional
-curl -fsSL https://raw.githubusercontent.com/Govenor001/the-blueprint-aios/launch-fixes/deploy/install.sh -o /tmp/aios-install.sh
+curl -fsSL https://raw.githubusercontent.com/Govenor001/the-blueprint-aios/main/deploy/install.sh -o /tmp/aios-install.sh
 sudo -E bash /tmp/aios-install.sh
 ```
 
