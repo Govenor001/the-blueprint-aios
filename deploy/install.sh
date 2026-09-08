@@ -11,6 +11,15 @@ run_step 1 "checking platform and target"
 [ -z "${ANTHROPIC_API_KEY:-}" ] || fail "ANTHROPIC_API_KEY is forbidden; use Claude subscription or Bedrock auth"
 
 run_step 2 "installing system packages"
+# Existing Jarvis boxes may have an old GitHub CLI apt source whose signing key
+# has expired. It is not needed by AIOS; keep a reversible copy out of apt's
+# active sources so the required Ubuntu/Node repositories can update normally.
+for source in /etc/apt/sources.list.d/*.list; do
+  [ -f "$source" ] || continue
+  if grep -q "cli.github.com" "$source"; then
+    mv "$source" "$source.aios-disabled"
+  fi
+done
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip python3-venv git ffmpeg curl ca-certificates
 
