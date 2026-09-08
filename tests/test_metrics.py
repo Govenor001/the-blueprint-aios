@@ -28,6 +28,31 @@ def test_collect_records_connection_source_without_calling_live_api(tmp_path):
     assert row["status"] == "unavailable"
 
 
+def test_collect_reads_an_explicit_local_endpoint_and_extracts_field(tmp_path, monkeypatch):
+    (tmp_path / "config" / "panels").mkdir(parents=True)
+    (tmp_path / "config" / "panels" / "comms.yaml").write_text(
+        "cards:\n  - id: inbox\n    title: Inbox\n    shape: kpi\n    source:\n      connection: gmail\n      operation: unread_count\n      endpoint_env: TEST_INBOX_URL\n      field: unread\n",
+        encoding="utf-8",
+    )
+
+    class Response:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self, limit):
+            return b'{"unread": 7}'
+
+    monkeypatch.setenv("TEST_INBOX_URL", "http://127.0.0.1:9999/read")
+    monkeypatch.setattr("scripts.collect.urllib.request.urlopen", lambda request, timeout: Response())
+    collect(tmp_path)
+    row = json.loads((tmp_path / "var" / "metrics" / "inbox.jsonl").read_text().strip())
+    assert row["status"] == "available"
+    assert row["value"] == 7
+
+
 def test_chart_has_source_note_for_all_shapes():
     specs = [
         {"shape": "kpi", "title": "K", "value": 1},
