@@ -37,7 +37,9 @@ Connects the official Blotato MCP server while keeping the API key in the local 
 1. Warn plainly that generating a Blotato API key requires a paid plan and may end the free trial.
 2. Wait for the owner to confirm before asking for a key.
 3. Store the key only as BLOTATO_API_KEY in the local environment file, quoted.
-4. Register the official MCP endpoint and test with a read-only account listing.
+4. Register the official MCP endpoint with the repository helper:
+   `python scripts/mcp_connections.py blotato`. It writes `${BLOTATO_API_KEY}` into
+   `.claude/settings.json`, never the key value, and then test with a read-only account listing.
 5. Report account names and leave publishing in draft mode.
 
 ## Rules

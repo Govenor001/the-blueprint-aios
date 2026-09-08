@@ -21,6 +21,7 @@ import yaml
 from scripts.activity import log
 from scripts.build_map import build_map
 from scripts.model_for import model_for
+from scripts.mcp_connections import configured_servers
 
 
 def _authorized(request: Request, password: str) -> bool:
@@ -141,6 +142,16 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
                 "status": "connected" if satisfied else "needs_setup",
                 "configured": len(present),
                 "required": 1 if name == "ElevenLabs" else len(variables),
+            })
+        for server in configured_servers(root_path):
+            connections.append({
+                "name": f"MCP: {server['name']}",
+                "status": server["status"],
+                "configured": 0 if server["missing"] else 1,
+                "required": 1,
+                "tier": server["tier"],
+                "missing": server["missing"],
+                "tools": server["tools"],
             })
         return JSONResponse({"connections": connections})
 

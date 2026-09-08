@@ -38,7 +38,9 @@ Turns a service's OpenAPI description into a small, reviewable MCP connection.
 1. Find the official specification, then use the public directory only as a fallback.
 2. Show the owner the available operations and select no more than twenty.
 3. Ask for the API key and store it only in the local environment file.
-4. Register mcp-openapi-proxy with the specification URL, auth settings, and TOOL_WHITELIST.
+4. Register mcp-openapi-proxy with the specification URL, auth settings, and TOOL_WHITELIST
+   using `python scripts/mcp_connections.py openapi ... --whitelist ...`; the helper keeps
+   the key as an environment placeholder and rejects more than twenty operations.
 5. Cache the specification in vault/specs/ and run one read-only operation.
 6. Report the source, timestamp, operation, and result.
 

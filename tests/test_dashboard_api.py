@@ -35,6 +35,7 @@ Gather facts.
 def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch):
     monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "present")
     monkeypatch.setenv("TELEGRAM_CHAT_ID", "present")
+    monkeypatch.setenv("BLOTATO_API_KEY", "present")
     skill = tmp_path / "skill-vault" / "scout" / "SKILL.md"
     skill.parent.mkdir(parents=True)
     skill.write_text(SKILL, encoding="utf-8")
@@ -45,6 +46,12 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     panels.mkdir(parents=True)
     (panels / "intelligence.yaml").write_text(
         "cards:\n  - id: intelligence-signals\n    title: Latest verified signals\n    shape: table\n    source: {local: context}\n",
+        encoding="utf-8",
+    )
+    settings = tmp_path / ".claude" / "settings.json"
+    settings.parent.mkdir(parents=True)
+    settings.write_text(
+        '{"mcpServers":{"blotato":{"url":"https://mcp.blotato.com/mcp","headers":{"blotato-api-key":"${BLOTATO_API_KEY}"},"tier":"A"}}}',
         encoding="utf-8",
     )
     from scripts.build_map import build_map
@@ -68,3 +75,5 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     assert telegram["status"] == "connected"
     panel_cards = client.get("/api/panels", headers=headers).json()["panels"][0]["cards"]
     assert panel_cards[0]["id"] == "intelligence-signals"
+    mcp = next(item for item in connections.json()["connections"] if item["name"] == "MCP: blotato")
+    assert mcp["status"] == "connected"
