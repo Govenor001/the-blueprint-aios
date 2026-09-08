@@ -57,6 +57,10 @@ You have a week of posts in your voice that you'd actually be happy to publish, 
 
 Post one AI-generated post next to something you wrote by hand. Ask the community: can they tell which is which? When they can't, you've nailed the voice.
 
+## Dashboard checkpoint
+
+Review the content agent in Mission Control, approve the draft boundary, and promote it from manual to assisted only after reading the full output.
+
 ## Tonight's homework (5 minutes, for Day 4)
 
 Sign up at **resend.com** and add your domain (section 6 of the services guide walks the DNS records). Verification sometimes takes hours — starting tonight means it's green when you need it. No domain? Skip this; Day 4 has a test route.

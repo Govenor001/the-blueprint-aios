@@ -42,6 +42,10 @@ The dashboard loads, the health check is green, and the server reports the map a
 
 Post in the community: a screenshot of **Mission Control showing the green health check**, and a one-line "Day 0 done — platform ready." Read a few others' while you're there.
 
+## Dashboard checkpoint
+
+Open the map, choose the agent you will use first, read its safety boundary, and promote it from manual to assisted only after you understand its output.
+
 ## Tomorrow
 
 Day 1 — you run one command, name your AIOS, and it learns your business well enough to tell *you* what to focus on this week.

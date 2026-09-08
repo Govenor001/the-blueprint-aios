@@ -52,6 +52,10 @@ You send a message from your phone and get a real answer back — text and voice
 
 Post a screenshot of a **real conversation with your AIOS on your phone.** Film the moment if you can.
 
+## Dashboard checkpoint
+
+Open the Command agent in Mission Control, confirm the Telegram bridge and approval boundary, and promote it from manual to assisted after the text or voice exchange works.
+
 ## Tomorrow
 
 Day 7 — the finish line. Schedules that run without being asked, your inspection score, and your certification.
