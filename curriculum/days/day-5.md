@@ -127,6 +127,10 @@ Your AIOS scores a real lead list, drafts real outreach, and successfully triage
 
 Post either the outreach campaign it drafted (redact names) **or** your AIOS's plan for your day. This is also the day it's worth learning to *sell*: the same Google-Workspace setup is something businesses pay consultants $1,500+ to build — see the "Sell This" bonus.
 
+## Dashboard checkpoint
+
+Review the connected Comms or Growth agent in Mission Control, confirm the connection status and read-only boundary, and promote it from manual to assisted after the verification call succeeds.
+
 ## Tomorrow
 
 Day 6 — the big one. Your AIOS lands in your pocket: you'll text it (and talk to it) from your phone.

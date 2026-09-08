@@ -75,6 +75,10 @@ Your schedules match your life — maybe your brief comes at 6am before the gym,
 
 Your `/inspect` scoreboard + a phone screenshot. Then claim your certificate.
 
+## Dashboard checkpoint
+
+Open the agent that completed the verified timer run, review its activity and source trail, and promote it one final rung only if the output is understood and the approval boundary is still clear.
+
 ## After the challenge
 
 - **`/expand`** — your weekly ritual. Every Friday, find one more thing to automate and ship it. Your AIOS grows forever.

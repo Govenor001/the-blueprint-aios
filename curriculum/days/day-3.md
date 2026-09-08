@@ -62,6 +62,10 @@ Your engine returns real, current, on-topic signals for your niche, and the brie
 
 Post your first morning brief about *your* industry. Seeing everyone's different-niche briefs side by side is one of the best threads in the challenge.
 
+## Dashboard checkpoint
+
+Open the Scout/brief agent in Mission Control, confirm every signal has a source and timestamp, and promote it from manual to assisted after reviewing the brief.
+
 ## Tomorrow
 
 Day 4 — a send-ready newsletter that lands in the inbox, plus your video engine.

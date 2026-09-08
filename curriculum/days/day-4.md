@@ -80,6 +80,10 @@ A test newsletter is confirmed in your own Primary inbox, and you've rendered on
 
 Post a screenshot of your test newsletter **in your own inbox (Primary tab)** — the deliverability proof. Bonus: drop your first rendered video.
 
+## Dashboard checkpoint
+
+Open the Operator agent, inspect the draft and approval gate, and promote it from manual to assisted only after confirming that nothing sends without your approval.
+
 ## Tomorrow
 
 Day 5 — leads and your inbox: your AIOS qualifies prospects, drafts outreach, and plugs into your entire Google Workspace.
