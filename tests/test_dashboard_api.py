@@ -75,5 +75,15 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     assert telegram["status"] == "connected"
     panel_cards = client.get("/api/panels", headers=headers).json()["panels"][0]["cards"]
     assert panel_cards[0]["id"] == "intelligence-signals"
+    metrics = tmp_path / "var" / "metrics"
+    metrics.mkdir(parents=True)
+    (metrics / "intelligence-signals.jsonl").write_text(
+        '{"status":"available","value":3,"source_label":"fixture","retrieved_at":"2026-01-01T00:00:00+00:00"}\n',
+        encoding="utf-8",
+    )
+    chart = client.get("/api/chart/intelligence-signals", headers=headers)
+    assert chart.status_code == 200
+    assert chart.headers["content-type"].startswith("image/svg+xml")
+    assert "fixture" in chart.text
     mcp = next(item for item in connections.json()["connections"] if item["name"] == "MCP: blotato")
     assert mcp["status"] == "connected"

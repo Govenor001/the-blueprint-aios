@@ -6,6 +6,7 @@ from __future__ import annotations
 import base64
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -14,7 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, Request
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 import yaml
 
@@ -22,6 +23,7 @@ from scripts.activity import log
 from scripts.build_map import build_map
 from scripts.model_for import model_for
 from scripts.mcp_connections import configured_servers
+from scripts.chart import render as render_chart
 
 
 def _authorized(request: Request, password: str) -> bool:
@@ -178,6 +180,54 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
                 cards.append({"id": card_id, "title": card.get("title", card_id), "shape": card.get("shape", "table"), "latest": latest})
             panels.append({"name": config_path.stem, "cards": cards})
         return JSONResponse({"panels": panels})
+
+    @app.get("/api/chart/{card_id}")
+    async def chart_endpoint(card_id: str, request: Request) -> Response:
+        """Render a chart from append-only local history; never call a connector here."""
+        if not authorized(request):
+            return _deny()
+        if not re.fullmatch(r"[a-z0-9-]+", card_id):
+            return JSONResponse({"detail": "Invalid card"}, status_code=400)
+        card_config = None
+        for config_path in sorted((root_path / "config" / "panels").glob("*.yaml")):
+            payload = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
+            for card in payload.get("cards", []):
+                value = str(card.get("id") or card.get("title", "card")).lower().replace(" ", "-")
+                if value == card_id:
+                    card_config = card
+                    break
+            if card_config:
+                break
+        if not card_config:
+            return JSONResponse({"detail": "Unknown card"}, status_code=404)
+        metric = root_path / "var" / "metrics" / f"{card_id}.jsonl"
+        rows: list[dict[str, Any]] = []
+        if metric.exists():
+            for line in metric.read_text(encoding="utf-8").splitlines()[-30:]:
+                try:
+                    row = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if row.get("status") == "available":
+                    rows.append(row)
+        latest = rows[-1] if rows else {}
+        shape = card_config.get("shape", "table")
+        spec: dict[str, Any] = {
+            "shape": shape,
+            "title": card_config.get("title", card_id),
+            "source": latest.get("source_label", "UNAVAILABLE"),
+            "collected_at": latest.get("retrieved_at", "UNAVAILABLE"),
+        }
+        values = [(row.get("retrieved_at", ""), row.get("value")) for row in rows if isinstance(row.get("value"), (int, float))]
+        if shape in {"line", "bar"}:
+            spec["series"] = [{"label": card_config.get("title", card_id), "points": values}]
+        elif shape == "table":
+            spec["rows"] = [row.get("value") for row in rows[-7:]] or ["UNAVAILABLE"]
+        elif shape == "donut":
+            spec["value"] = latest.get("value", 0) if isinstance(latest.get("value", 0), (int, float)) else 0
+        else:
+            spec["value"] = latest.get("value", "UNAVAILABLE")
+        return Response(content=render_chart(spec), media_type="image/svg+xml")
 
     @app.post("/api/run")
     async def run_endpoint(request: Request) -> JSONResponse:

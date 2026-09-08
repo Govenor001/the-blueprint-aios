@@ -73,7 +73,7 @@
       const latest = card.latest;
       const value = latest?.status === "available" ? (latest.value ?? "Available") : "Not connected";
       const source = latest?.source_label || latest?.error || `Set up ${card.panel}`;
-      return `<article class="panel-card"><small>${escape(card.title)}</small><strong>${escape(value)}</strong><span>${escape(source)}</span></article>`;
+      return `<article class="panel-card"><small>${escape(card.title)}</small><strong>${escape(value)}</strong><span>${escape(source)}</span><a href="/api/chart/${escape(card.id)}" target="_blank" rel="noreferrer" style="display:inline-block;margin-top:8px;color:#376d6b;font-size:10px">Open sourced chart</a></article>`;
     }).join("") : `<article class="panel-card"><small>First panel</small><strong>Not connected</strong><span>Connect your tools during setup.</span></article>`;
   }
 
