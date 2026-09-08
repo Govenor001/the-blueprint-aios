@@ -5,6 +5,7 @@ import textwrap
 from fastapi.testclient import TestClient
 
 from dashboard.server import create_app
+import dashboard.server as dashboard_server
 
 
 SKILL = textwrap.dedent("""---
@@ -66,6 +67,26 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     assert client.get("/api/map", headers=headers).status_code == 200
     response = client.post("/api/run", headers=headers, json={"skill": "../etc/passwd"})
     assert response.status_code == 400
+    models = tmp_path / "config" / "models.yaml"
+    models.write_text(
+        "route: claude-subscription\ntiers:\n  claude-subscription:\n    fast: haiku\n    smart: sonnet\n    deep: opus\n",
+        encoding="utf-8",
+    )
+    launched = {}
+
+    def fake_popen(command, **kwargs):
+        launched["command"] = command
+        launched["kwargs"] = kwargs
+
+    monkeypatch.setattr(dashboard_server.subprocess, "Popen", fake_popen)
+    accepted = client.post(
+        "/api/run",
+        headers=headers,
+        json={"skill": "scout", "input": "Find three verified signals."},
+    )
+    assert accepted.status_code == 202
+    assert "Find three verified signals." in launched["command"]
+    assert launched["kwargs"]["cwd"] == tmp_path
     assert json.loads(client.get("/api/map", headers=headers).text)["counts"]["total"] == 1
     activity = client.get("/api/activity?limit=10", headers=headers)
     assert activity.status_code == 200
@@ -91,3 +112,30 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     assert "fixture" in chart.text
     mcp = next(item for item in connections.json()["connections"] if item["name"] == "MCP: blotato")
     assert mcp["status"] == "connected"
+
+def test_chat_endpoint_runs_brain_and_rejects_unknown_agent(tmp_path, monkeypatch):
+    skill = tmp_path / "skill-vault" / "scout" / "SKILL.md"
+    skill.parent.mkdir(parents=True)
+    skill.write_text(SKILL, encoding="utf-8")
+    (tmp_path / "config").mkdir()
+    (tmp_path / "config" / "models.yaml").write_text("route: claude-subscription\ntiers:\n  claude-subscription:\n    smart: sonnet\n", encoding="utf-8")
+    registry = tmp_path / "references" / "tool-registry.md"
+    registry.parent.mkdir(parents=True)
+    registry.write_text("| key | Display name | Brand hex |\n|---|---|---|\n| claude | Claude | #D97757 |\n", encoding="utf-8")
+    from scripts.build_map import build_map
+    build_map(tmp_path)
+    app = create_app(tmp_path, password="test")
+    client = TestClient(app)
+    auth = base64.b64encode(b"owner:test").decode()
+    headers = {"Authorization": "Basic " + auth}
+    assert client.post("/api/chat", headers=headers, json={"scope": "unknown", "message": "hello"}).status_code == 400
+
+    async def fake_to_thread(function, command, **kwargs):
+        assert command[:3] == ["claude", "--model", "sonnet"]
+        assert "hello brain" in command[-1]
+        return dashboard_server.subprocess.CompletedProcess(command, 0, stdout="Brain reply", stderr="")
+
+    monkeypatch.setattr(dashboard_server.asyncio, "to_thread", fake_to_thread)
+    response = client.post("/api/chat", headers=headers, json={"scope": "brain", "message": "hello brain"})
+    assert response.status_code == 200
+    assert response.json()["message"] == "Brain reply"
