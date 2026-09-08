@@ -1,8 +1,30 @@
 ---
 name: outreach
-description: Draft personalized first-touch messages from a lead list. Use when someone says "write outreach", "draft cold emails", "message these leads", or after /qualify. One tailored opener per lead, in the user's voice, ready to review and send.
-scaffolding-phase: 1
+description: name: outreach
+
+metadata:
+  wing: growth
+  department: Sales
+  function: Outreach Writing
+  replaces: Sending generic outreach that gives good leads no reason to reply.
+  the-human: The owner approves each message and decides who should be contacted.
+  ladder:
+    manual: Run it manually and review every step.
+    assisted: Prepare the work and wait for the owner's review.
+    autonomous: Run on schedule after the owner has approved the pattern.
+  trigger: Run when the user asks for this job or its schedule fires.
+  outputs:
+    - A structured outreach writing result
+  kpis:
+    - Completed outputs per run
+    - Items flagged for owner review
+  tools: [claude]
+  requires-context: [context/about-business.md, references/voice.md]
+  model: smart
+  autonomy: assisted
+  scaffolding-phase: 1
 ---
+
 
 ## What this does
 The Growth Wing's second workshop. Turns a (qualified) lead list into personalized first-touch drafts — email or DM — each one specific to the lead, in the user's voice, with a soft, single ask. Drafts only; the user approves before anything sends.
@@ -23,3 +45,4 @@ The Growth Wing's second workshop. Turns a (qualified) lead list into personaliz
 - **One ask.** Two asks is zero replies.
 - **Outcome, not features.** Lead with what changes for them.
 - **Draft, never auto-send.** Phase 1 is manual review, always.
+- If a required context file is missing, say so and stop.
