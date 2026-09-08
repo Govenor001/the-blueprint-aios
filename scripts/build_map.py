@@ -11,7 +11,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from validate_skills import iter_skill_files, load_tool_keys, parse_frontmatter, validate_skill
+try:
+    from .validate_skills import iter_skill_files, load_tool_keys, parse_frontmatter, validate_skill
+except ImportError:  # direct script execution
+    from validate_skills import iter_skill_files, load_tool_keys, parse_frontmatter, validate_skill
 
 WING_ORDER = ["intelligence", "content", "growth", "comms", "command", "back-office", "build"]
 
