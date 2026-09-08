@@ -1,0 +1,5 @@
+cards:
+  - id: back-office-files
+    title: Vault files
+    shape: kpi
+    source: {local: vault}
