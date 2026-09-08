@@ -43,7 +43,7 @@ def log(event: str, skill: str | None = None, detail: str | None = None, status:
         "ts": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "event": redact(event),
         "skill": redact(skill),
-        "detail": redact(detail),
+        "detail": redact(detail)[:200] if isinstance(redact(detail), str) else redact(detail),
         "status": redact(status),
     }
     with path.open("a", encoding="utf-8") as handle:
