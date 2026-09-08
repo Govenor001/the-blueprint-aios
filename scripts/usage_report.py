@@ -12,9 +12,11 @@ from typing import Iterable, Any
 
 def usage_report(records: Iterable[dict[str, Any]]) -> dict[str, Any]:
     rows = [record for record in records if isinstance(record, dict)]
-    statuses = Counter(str(row.get("status", "unknown")) for row in rows)
-    models = Counter(str(row.get("model", "unknown")) for row in rows if row.get("model"))
-    return {"runs": len(rows), "statuses": dict(statuses), "models": dict(models), "cost": "UNAVAILABLE unless the provider supplies billing data"}
+    starts = [row for row in rows if row.get("event") == "skill_started"] or rows
+    finishes = [row for row in rows if row.get("event") == "skill_finished"] or rows
+    statuses = Counter(str(row.get("status", "unknown")) for row in finishes)
+    models = Counter(str(row.get("model", "unknown")) for row in starts if row.get("model"))
+    return {"runs": len(starts), "statuses": dict(statuses), "models": dict(models), "cost": "UNAVAILABLE unless the provider supplies billing data"}
 
 
 def main(argv: list[str] | None = None) -> int:
