@@ -16,6 +16,7 @@ from typing import Any
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
+import yaml
 
 from scripts.activity import log
 from scripts.build_map import build_map
@@ -116,6 +117,30 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
                 except json.JSONDecodeError:
                     continue
         return JSONResponse(rows)
+
+    @app.get("/api/panels")
+    async def panels_endpoint(request: Request) -> JSONResponse:
+        if not authorized(request):
+            return _deny()
+        panels = []
+        panel_dir = root_path / "config" / "panels"
+        for config_path in sorted(panel_dir.glob("*.yaml")):
+            payload = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
+            cards = []
+            for card in payload.get("cards", []):
+                card_id = str(card.get("id") or card.get("title", "card")).lower().replace(" ", "-")
+                metric = root_path / "var" / "metrics" / f"{card_id}.jsonl"
+                latest = None
+                if metric.exists():
+                    for line in reversed(metric.read_text(encoding="utf-8").splitlines()):
+                        try:
+                            latest = json.loads(line)
+                            break
+                        except json.JSONDecodeError:
+                            continue
+                cards.append({"id": card_id, "title": card.get("title", card_id), "shape": card.get("shape", "table"), "latest": latest})
+            panels.append({"name": config_path.stem, "cards": cards})
+        return JSONResponse({"panels": panels})
 
     @app.post("/api/run")
     async def run_endpoint(request: Request) -> JSONResponse:
