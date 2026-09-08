@@ -139,3 +139,8 @@ def test_chat_endpoint_runs_brain_and_rejects_unknown_agent(tmp_path, monkeypatc
     response = client.post("/api/chat", headers=headers, json={"scope": "brain", "message": "hello brain"})
     assert response.status_code == 200
     assert response.json()["message"] == "Brain reply"
+
+    ask = client.post("/api/ask", headers=headers, json={"question": "show my scout signals"})
+    assert ask.status_code == 200
+    assert ask.json()["chart_url"] is None
+    assert "collected card" in ask.json()["message"].lower()
