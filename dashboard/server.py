@@ -126,8 +126,9 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
         """Report integration readiness without ever returning credential values."""
         if not authorized(request):
             return _deny()
+        bedrock_route = os.environ.get("CLAUDE_CODE_USE_BEDROCK") == "1" or os.environ.get("AIOS_MODEL_ROUTE") == "bedrock"
         definitions = (
-            ("Claude", ("CLAUDE_CODE_OAUTH_TOKEN",)),
+            (("Claude via Bedrock", ("AWS_REGION",)) if bedrock_route else ("Claude", ("CLAUDE_CODE_OAUTH_TOKEN",))),
             ("Telegram", ("TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID")),
             ("Composio", ("COMPOSIO_API_KEY",)),
             ("ElevenLabs", ("ELEVEN_API_KEY", "ELEVENLABS_API_KEY")),
@@ -139,6 +140,8 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
             present = [key for key in variables if os.environ.get(key)]
             # ElevenLabs supports both the current and legacy variable spelling.
             satisfied = bool(present) if name == "ElevenLabs" else len(present) == len(variables)
+            if name == "Claude via Bedrock":
+                satisfied = bedrock_route and bool(os.environ.get("AWS_REGION"))
             connections.append({
                 "name": name,
                 "status": "connected" if satisfied else "needs_setup",
