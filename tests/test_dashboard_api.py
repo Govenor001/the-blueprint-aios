@@ -100,6 +100,7 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     assert brain["status"] == "connected"
     panel_cards = client.get("/api/panels", headers=headers).json()["panels"][0]["cards"]
     assert panel_cards[0]["id"] == "intelligence-signals"
+    assert "Add data to context" in panel_cards[0]["empty_state"]
     metrics = tmp_path / "var" / "metrics"
     metrics.mkdir(parents=True)
     (metrics / "intelligence-signals.jsonl").write_text(
