@@ -12,13 +12,19 @@ We verify automation at the end on purpose: **never trust a scheduled job until 
 
 ## Step 1 — Verify the morning brief timer
 
-The platform uses systemd timers on the server, so the schedule continues after you close the dashboard. The installer already enabled the brief, inbox, and newsletter timers.
+The platform uses systemd timers on the server, so the schedule continues after you close the dashboard. The installer installed the timers but leaves them disabled until you approve the schedule today.
 
 Confirm the installed timers:
 
 ```
 systemctl list-timers --all | grep aios
 sudo systemctl start aios-brief.service
+```
+
+After the manual run succeeds and you explicitly approve the cadence, enable the timers:
+
+```
+sudo systemctl enable --now aios-brief.timer aios-inbox.timer aios-newsletter.timer aios-collect.timer aios-diagrams.timer
 ```
 
 The manually started brief should create a local activity record and, when Telegram is connected, reach your phone.

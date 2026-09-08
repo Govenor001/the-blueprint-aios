@@ -5,8 +5,8 @@ Run this at the end of each day. The point is to verify the platform and configu
 ## Day 0 — access
 
 - [ ] Claude subscription or approved Bedrock route is authenticated.
-- [ ] DASHBOARD_PASSWORD is set locally.
-- [ ] ANTHROPIC_API_KEY is not set.
+- [ ] The server-side dashboard password is set.
+- [ ] No API-key override is present.
 - [ ] The dashboard starts only with authentication.
 
 ## Day 1 — foundation

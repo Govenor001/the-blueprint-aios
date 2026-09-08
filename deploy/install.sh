@@ -75,7 +75,7 @@ sudo -u aios bash -lc "cd /opt/aios/app && /opt/aios/venv/bin/python scripts/boo
 
 run_step 14 "enabling services and schedules"
 systemctl enable --now aios-dashboard aios-bridge
-systemctl enable --now aios-brief.timer aios-inbox.timer aios-newsletter.timer aios-collect.timer aios-diagrams.timer
+echo "Schedules are installed but disabled until the owner approves them on Day 7."
 
 run_step 15 "complete"
 echo "Dashboard: http://127.0.0.1:8787 through an SSH tunnel"
