@@ -2,13 +2,13 @@
 
 *The platform is already built. Today you connect its home server, Claude access, Telegram, and the private environment file that the rest of the challenge will use. ~25 minutes.*
 
-**By the end of Day 0 you'll have:** the AIOS installed on your server, Claude authenticated for headless work, a Telegram bot connected, and a safe home for your keys.
+**By the end of Day 0 you'll have:** the AIOS installed on your server, Claude authenticated for headless work, the dashboard loading, and a safe home for your keys.
 
 ---
 
 ## Step 1 — Claude + Claude Code (the one that matters)
 
-Follow section 1 of [00-SERVICES-AND-SETUP.md](../00-SERVICES-AND-SETUP.md): subscribe to Claude Pro ($20/mo — the one real cost), install Claude Code, run `claude` in your terminal, confirm it replies. **Don't move on until it does.**
+Follow section 1 of [00-SERVICES-AND-SETUP.md](../00-SERVICES-AND-SETUP.md): subscribe to Claude Pro ($20/mo — the one real cost), rent the server, run the installer, and confirm the Mission Control dashboard loads. **Don't move on until it does.**
 
 **A word on cost, because it's the question everyone asks.** Your subscription includes your usage. You are not billed per message, per agent, or per hour — it's the same $20 whether your AIOS runs once today or fifty times. There is a fair-use ceiling (Claude tracks usage in rolling windows), and if you ever hit it, Claude tells you and it resets. What you must **not** do is set up an Anthropic **API key**. That's the pay-per-word route, it has no ceiling, and it's how people accidentally spend $300 in a weekend. Nothing in this build needs one.
 
@@ -18,29 +18,15 @@ Follow section 1 of [00-SERVICES-AND-SETUP.md](../00-SERVICES-AND-SETUP.md): sub
 claude setup-token
 ```
 
-It prints a link. Open that link on your phone or laptop, approve it, and paste the code back into the server. That's a long-lived token tied to your subscription — the same flat monthly cost — and it's what lets your AIOS keep working on schedule while your laptop is shut.
+It prints a link. Open that link on a browser, approve it, and paste the code back into the server. That's a long-lived token tied to your subscription — the same flat monthly cost — and it's what lets your AIOS keep working on schedule after you close the dashboard.
 
-## Step 2 — Telegram bot (2 minutes now saves fumbling on Day 6)
+## Step 2 — A safe home for your keys
 
-Install Telegram on your phone. Message **@BotFather**, send `/newbot`, follow the prompts (the username must end in `bot`), and copy the **bot token** it gives you.
-
-## Step 3 — A safe home for your keys
-
-In the kit folder, copy `.env.example` to a file called `.env` and paste your bot token into `TELEGRAM_BOT_TOKEN=`. That file is your key vault for the whole build — it's already git-ignored, and every script in the kit reads from it. (A password manager for backups is even better. A loose `keys.txt` on your desktop is not.)
-
-## Step 4 — Git + Node.js
-
-Install **Git** (git-scm.com) and **Node.js LTS** (nodejs.org). Quick test — all three print a version:
-
-```
-claude --version
-git --version
-node --version
-```
+The installer creates the server-side `.env` file with restricted permissions. Add connections from the dashboard as each day calls for them; never put secrets in a loose file or in the repository. (A password manager for backups is even better.)
 
 ## What about all the other services?
 
-They come later, on purpose: Groq on Day 3 (2 minutes), Resend as Day 2 homework, Composio on Day 5, and the rest only if you want them. The full setup guide for each lives in [00-SERVICES-AND-SETUP.md](../00-SERVICES-AND-SETUP.md) — you'll be pointed at the right section on the right day.
+They come later, on purpose: Groq on Day 3, Resend as Day 2 homework, Composio on Day 5, and Telegram on Day 6. The full setup guide for each lives in [00-SERVICES-AND-SETUP.md](../00-SERVICES-AND-SETUP.md) — you'll be pointed at the right section on the right day.
 
 ---
 
@@ -50,11 +36,11 @@ Some services map to *your* business, not ours. When a guide says "your niche," 
 
 ## Done when
 
-`claude` replies in your terminal, your `.env` exists with the bot token in it, and Git + Node answer with versions.
+The dashboard loads, the health check is green, and the server reports the map and activity log as ready.
 
 ## Proof of build
 
-Post in the community: a screenshot of **Claude Code replying in your terminal**, and a one-line "Day 0 done — tools ready." Read a few others' while you're there.
+Post in the community: a screenshot of **Mission Control showing the green health check**, and a one-line "Day 0 done — platform ready." Read a few others' while you're there.
 
 ## Tomorrow
 

@@ -12,7 +12,7 @@ We verify automation at the end on purpose: **never trust a scheduled job until 
 
 ## Step 1 — Verify the morning brief timer
 
-The platform uses systemd timers on the server, so the schedule continues while your laptop is closed. The installer already enabled the brief, inbox, and newsletter timers.
+The platform uses systemd timers on the server, so the schedule continues after you close the dashboard. The installer already enabled the brief, inbox, and newsletter timers.
 
 Confirm the installed timers:
 
@@ -56,7 +56,7 @@ Stop and take this in. In seven days you built an AI Operating System that:
 - watches your market overnight and briefs you,
 - qualifies your leads and drafts your outreach,
 - triages your inbox and plans your day,
-- runs on a schedule while your laptop is closed,
+- runs on a schedule while the dashboard is closed,
 - and answers you by text or voice from your phone.
 
 The only thing you pay for is Claude. Everything else is free. And it's *yours* — built on your business, your voice, your priorities.

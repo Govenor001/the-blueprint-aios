@@ -8,11 +8,9 @@
 
 ## Part A — The Growth Wing
 
-### Step 1 — Install the growth skills
+### Step 1 — Turn on the growth procedures
 
-```
-cp -r skill-vault/qualify skill-vault/outreach skill-vault/followup .claude/skills/
-```
+The complete Growth Wing is already installed on the server. Ask your AIOS to confirm `qualify`, `outreach`, and `followup` are available.
 
 ### Step 2 — Qualify a real lead list
 
@@ -86,13 +84,9 @@ The script will output JSON configuration. Copy it, then:
 
 If you see your actual email subjects, the connection is live.
 
-### Step 6 — Install and run the Comms skills
+### Step 6 — Turn on and run the Comms procedures
 
-```
-cp -r skill-vault/inbox skill-vault/plan-day .claude/skills/
-```
-
-Then, the two moments that make this real:
+The Inbox and Plan Day procedures are already installed on the server. Then, the two moments that make this real:
 
 > Triage my inbox.
 

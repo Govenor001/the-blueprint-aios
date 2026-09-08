@@ -10,35 +10,25 @@
 
 The magic of Day 6 is the conversation, not another build. The bridge is already installed on the server. You connect Telegram, confirm the owner gate, send a text and a voice note, and verify that the response and activity record behave correctly.
 
-## Step 1 — Load your keys
+## Step 1 — Create and connect Telegram
 
-You saved your bot token into `.env` on Day 0. Load it into this terminal:
-
-```
-set -a && . ./.env && set +a
-```
+In Telegram, open **@BotFather**, send `/newbot`, and copy the bot token. In Mission Control, open Connections and add the token. Message the new bot once so the server can identify your chat.
 
 ## Step 2 — Run the pre-flight check
 
-```
-python3 scripts/bridge.py --check
-```
+Open the dashboard health check and confirm the Telegram bridge is connected. It verifies the bot token with Telegram and confirms that the server can reach the AI engine.
 
 It verifies your bot token with Telegram, confirms the `claude` CLI is installed, and tells you whether voice notes are on (they are if your Day-3 `GROQ_API_KEY` is in `.env`). Fix anything it flags — it tells you exactly what.
 
-## Step 3 — Start the bridge and lock it to you
+## Step 3 — Lock the bridge to you
 
-```
-python3 scripts/bridge.py
-```
-
-Now message your bot from your **phone**. First message: the bridge replies with your **chat id**. Put it in `.env` as `TELEGRAM_CHAT_ID=`, then restart the bridge (Ctrl+C, re-run). From this moment the bridge answers *only you* — anyone else who finds your bot gets silence.
+Message your bot from your **phone**. The server records your **chat id**; add that ID in Mission Control and refresh the bridge. From this moment the bridge answers *only you* — anyone else who finds your bot gets silence.
 
 ## Step 4 — The moment
 
 Message your bot: *"Are you working?"*
 
-Watch the terminal light up, and the reply land on your phone. Then ask it something real — *"what should I focus on tomorrow?"* — and it answers from everything it learned this week. **Screenshot that exchange.** This is the one everyone remembers posting.
+Watch the activity panel update, and the reply land on your phone. Then ask it something real — *"what should I focus on tomorrow?"* — and it answers from everything it learned this week. **Screenshot that exchange.** This is the one everyone remembers posting.
 
 ## Step 5 — Voice notes
 

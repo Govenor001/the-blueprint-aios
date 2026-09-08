@@ -14,15 +14,9 @@ It's the fastest "holy, it actually works" moment, and it's the wing most people
 
 Open `skill-vault/content-week/SKILL.md` and read it. Notice the shape: a description of *when* to use it, the inputs it reads (your business, your voice), the steps it follows, and the rules it obeys. That's all a skill is — a repeatable job written in plain language. You'll build your own later; today you use a ready one.
 
-## Step 2 — Install the Content Wing skill
+## Step 2 — Turn on the Content Wing
 
-Copy the `content-week` skill from the Vault into your active skills:
-
-```
-cp -r skill-vault/content-week .claude/skills/
-```
-
-Ask your AIOS to confirm it sees it:
+The complete skill library was installed on the server before Day 0. Ask your AIOS to confirm it sees the ready procedure:
 
 > Do you have the content-week skill available? List your skills.
 

@@ -10,18 +10,13 @@
 
 The mistake almost everyone makes with AI is asking it to *do* things before it *knows* anything. You'd never hand a new hire a task list on day one without telling them what the company does. Today we give your AI that context, once — and it compounds forever.
 
-## Step 1 — Get the kit onto your machine
+## Step 1 — Open the installed platform
 
-Clone this repo into a working folder (or download and unzip it). Then, in your terminal:
-
-```
-cd the-blueprint-aios
-claude
-```
+The installer has already placed the complete platform on your server. Open Mission Control and choose the Foundation onboarding action; there is no local build step for students.
 
 ## Step 2 — Run the one-paste install
 
-Paste this into Claude Code exactly:
+Send this to the AIOS from Mission Control or Telegram exactly:
 
 > Read `INSTALL.md`, then set me up. Confirm the four core skills in `.claude/skills/` are present, read `references/the-blueprint-framework.md` and `references/the-architects-loop.md` so you understand the system, then run the `/blueprint` skill to onboard me.
 

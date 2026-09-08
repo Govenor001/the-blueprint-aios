@@ -5,9 +5,9 @@ run `/rescue` in Claude Code — it reads the error and either fixes it
 or writes your help post for you.
 
 ## Day 0
-- **`claude: command not found`** — Claude Code isn't installed or your terminal needs reopening after install. Redo section 1 of the services guide, open a *new* terminal, retry.
+- **Claude is unavailable in Mission Control** — the server authentication step is incomplete. Re-run the server's Claude setup-token flow and refresh the dashboard.
 - **BotFather never sends a token** — the bot's username must end in `bot` (e.g. `maya_aios_bot`). Try `/newbot` again.
-- **"Where do I paste the token?"** — into the `.env` file in the kit folder, on the `TELEGRAM_BOT_TOKEN=` line, no quotes, no spaces.
+- **"Where do I paste the token?"** — into the server connection setup, never into a chat message or a loose local file.
 
 ## Day 1
 - **The answers feel generic afterwards** — your Q2 voice samples were typed, not pasted, or too short. Paste two real sent emails/posts into `blueprint-intake.md` and re-run `/blueprint`.
@@ -18,7 +18,7 @@ or writes your help post for you.
 - **It writes about the wrong niche** — your Q1 answer was vague. Re-run `/blueprint` and name the customer precisely.
 
 ## Day 3
-- **`GROQ_API_KEY` errors** — you created the key but didn't load it: `set -a && . ./.env && set +a` in the same terminal you run the engine from.
+- **Voice transcription is unavailable** — add the optional Groq connection in Mission Control and restart the bridge from the service controls. Text messaging continues to work without it.
 - **Engine returns junk/off-topic items** — keywords too broad ("AI", "business"). Use 5–8 phrases your *customers* would search. Tuning this over a few days is the skill.
 - **Reddit shows as a source error** — normal; Reddit rate-limits scripts. The other two sources carry the brief.
 
@@ -37,6 +37,6 @@ or writes your help post for you.
 - **Voice notes answer with a complaint about Groq** — put your Day-3 `GROQ_API_KEY` in `.env` and restart the bridge.
 
 ## Day 7
-- **A systemd timer never fires** — check `systemctl list-timers --all | grep aios`, then inspect `journalctl -u aios-brief.service`. The timer is installed on the server and does not depend on your laptop being awake.
+- **A systemd timer never fires** — check `systemctl list-timers --all | grep aios`, then inspect `journalctl -u aios-brief.service`. The timer is installed on the server and does not depend on your dashboard being open.
 - **A timer fires but nothing reaches Telegram** — confirm `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are present in the server environment, then run `python scripts/bridge.py --check` as the `aios` user.
 - **The laptop was asleep** — that is expected. The bridge, timers, and vault run on the server; use the dashboard health card to see whether the server-side services are ready.

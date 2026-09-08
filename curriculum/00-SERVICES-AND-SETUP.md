@@ -22,7 +22,7 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 
 | Service | What it's for | Cost |
 |---|---|---|
-| Groq | Fast AI for scoring/drafting + voice transcription | Free tier |
+| Groq | Optional voice transcription for Telegram voice notes | Free tier |
 | Composio | Connects Gmail, Calendar, Drive, Sheets, Docs, GitHub, Notion in one place | Free tier (100k actions/mo) |
 | Telegram | Text/voice your AIOS from your phone | Free |
 | Resend | Sends your newsletter so it lands in the inbox | Free tier (3k emails/mo) |
@@ -36,7 +36,7 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 
 # ⭐ 1. Claude Code — the brain
 
-**What it is:** Claude Code is Anthropic's AI that runs in your terminal. It's the engine of your whole AIOS — it writes your content, reasons about your business, and drives every other tool. This is the one thing worth paying for.
+**What it is:** Claude Code is Anthropic's AI running on the server. It's the engine of your whole AIOS — it writes your content, reasons about your business, and drives every other tool. This is the one thing worth paying for.
 
 **Cost:** A **Claude Pro** subscription ($20/mo) covers everything you do hands-on in this challenge. **Two honest caveats:** Pro has weekly usage limits, and Anthropic's consumer terms cover *you* using Claude — not unattended scripts running while you sleep. For anything you put on a schedule (Day 7), the right tool is an **API key** (console.anthropic.com, pay-as-you-go — a daily brief and content draft typically runs a few dollars a month). We show both paths.
 
@@ -44,8 +44,8 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 1. Go to **claude.com** and create an account.
 2. Subscribe to **Claude Pro** (Settings → Billing).
 3. Install Claude Code: on Mac/Linux open Terminal; on Windows install via the instructions at **claude.com/code**. (We give exact commands in Day 0.)
-4. Run `claude` in your terminal and log in with your Claude account when prompted.
-5. Test: type `claude` and ask "are you working?" — you should get a reply.
+4. The server installer configures Claude Code for the supported subscription or Bedrock route.
+5. Verify from Mission Control that the health check reports Claude as available.
 
 > **Cheaper/heavier option:** an Anthropic **API key** (console.anthropic.com → API Keys) instead of Pro. Pay only for what you use. We'll show both paths.
 
@@ -53,7 +53,7 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 
 # 2. Cloud server — the home of your AIOS
 
-**What it is:** A small always-on computer in the cloud, so your AIOS can keep working with your laptop closed.
+**What it is:** A small always-on computer in the cloud, so your AIOS keeps working when you close the dashboard.
 
 **Do you need it this week? Yes.** The installer puts the dashboard, bridge, vault, and timers on the server first. The challenge is for connecting your services, adding your context, and proving the system works.
 
@@ -66,7 +66,7 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 
 # 3. Groq — fast, free AI (set up on Day 3)
 
-**What it is:** Groq runs open models extremely fast and free. Your AIOS uses it for the high-volume jobs where you don't need to spend Claude tokens — scoring news, quick drafts — and for **transcribing your voice notes** (Whisper).
+**What it is:** Groq provides optional **voice-note transcription** (Whisper) for the Telegram bridge. The Intelligence Wing works without it.
 
 **Cost:** Free tier (very generous).
 
@@ -148,9 +148,8 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 
 **Setup:**
 1. Go to **github.com** and create an account.
-2. Install **Git** on your machine (git-scm.com).
-3. Create a **Personal Access Token** (Settings → Developer settings → Tokens) — you'll use it for command-line pushes. Save it.
-4. That's it for now — you'll create your AIOS repo during the build.
+2. Create a **Personal Access Token** only if you want to maintain your own fork. The platform is already installed from the supplied repository.
+3. That's it for now — the student does not need to build or deploy the platform.
 
 ---
 
@@ -161,9 +160,8 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 **Cost:** Free / open source.
 
 **Setup:**
-1. Install **Node.js** (nodejs.org, LTS version) — this also gives you `npm`.
-2. Remotion installs itself into your project with one command on Day 2 (`npm install`); no account needed.
-3. The two ready-made presets ship in this kit under `video-presets/`.
+1. The server installer includes Node.js and the video runtime.
+2. The two ready-made presets ship in this kit under `video-presets/`.
 
 ---
 
@@ -201,10 +199,9 @@ Skool has no public API, and its Terms of Service prohibit automated access to a
 ## Day-0 checklist (only two things are required before Day 1)
 
 - [ ] ⭐ Claude account + Claude Pro + Claude Code installed and replying
-- [ ] ⭐ Telegram installed + bot created via @BotFather + token saved into `.env`
-- [ ] Git + Node.js installed (`git --version`, `node --version` both answer)
-- [ ] Copied `.env.example` to `.env` (your one safe home for keys — never a loose text file, never committed)
+- [ ] Mission Control dashboard loads and the health check is green
+- [ ] Server-side `.env` exists with restricted permissions (never a loose text file, never committed)
 
-Everything else on this page gets set up **on the day it's used** — the lesson tells you when. Optional head start if you have 10 spare minutes: create your Groq key (Day 3) and your Resend account (Day 4).
+Everything else on this page gets set up **on the day it's used** — the lesson tells you when. Optional head start if you have 10 spare minutes: create your Resend account (Day 4).
 
 Once these boxes are checked, Day 1 flies. See `days/day-0.md` for the walkthrough.

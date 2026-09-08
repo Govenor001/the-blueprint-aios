@@ -8,15 +8,11 @@
 
 ## Why this wing is the sleeper hit
 
-Most people never build market monitoring because the tools are expensive. Yours costs nothing: free public feeds (Google News, Reddit, Hacker News) plus Groq (free) to score and tag what matters. You wake up already knowing what happened in your world overnight — and so does your content.
+Most people never build market monitoring because the tools are expensive. Yours costs nothing: free public feeds (Google News, Reddit, Hacker News) plus the installed relevance procedure. You wake up already knowing what happened in your world overnight — and so does your content.
 
-## Step 1 — Get your Groq key (2 minutes)
+## Step 1 — Open the Intelligence Wing
 
-The intelligence engine uses Groq (free) to score news so you don't spend Claude tokens on it. Sign up at **console.groq.com**, create an API key (starts with `gsk_`), and put it in your `.env` file as `GROQ_API_KEY=gsk_...` (full steps: section 3 of the services guide). Then load it into your terminal:
-
-```
-set -a && . ./.env && set +a
-```
+The intelligence procedure is already installed on the server. It can use the built-in relevance fallback immediately, so no extra key is required for this day. Groq is an optional voice-transcription connection used on Day 6.
 
 ## Step 2 — Set your niche
 
@@ -34,15 +30,11 @@ The engine ships with the kit — it's `scripts/engine.py`, and it needs nothing
 python3 scripts/engine.py "your keyword one" "your keyword two" "your keyword three"
 ```
 
-It fetches recent items from Google News, Hacker News, and Reddit, uses Groq to score each for relevance (with a built-in fallback so it never runs dry), keeps the strongest signals, and saves them to `context/signals.json`. First run should surface real, current items about your niche. It remembers your keywords — from now on plain `python3 scripts/engine.py` refreshes the sweep.
+It fetches recent items from Google News, Hacker News, and Reddit, ranks them for relevance with a built-in fallback, keeps the strongest signals, and saves them to `context/signals.json`. First run should surface real, current items about your niche. It remembers your keywords — from now on the server schedule refreshes the sweep.
 
-## Step 4 — Install the morning brief
+## Step 4 — Turn on the morning brief
 
-```
-cp -r skill-vault/brief .claude/skills/
-```
-
-Then:
+The brief procedure is already installed on the server. Then:
 
 > Use the brief skill to give me this morning's brief.
 

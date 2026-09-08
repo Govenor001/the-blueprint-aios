@@ -18,13 +18,9 @@ In your Day 2 homework you created your Resend account and added your domain (if
 - In Resend → **Domains**, it should say **Verified**. If it still says pending, confirm the SPF and DKIM DNS records are in at your registrar and give it time.
 - Verified means your mail is authenticated. This one step is the difference between inbox and spam.
 
-### Step 2 — Install and configure the newsletter skill
+### Step 2 — Turn on and configure the newsletter skill
 
-```
-cp -r skill-vault/newsletter .claude/skills/
-```
-
-Tell your AIOS your sending details:
+The newsletter procedure is already installed on the server. Tell your AIOS your sending details:
 
 > Set my newsletter sender to "Your Name <newsletter@yourdomain.com>" and my Resend API key is re_... . Save these to my settings.
 
