@@ -19,3 +19,10 @@ def test_rotates_large_activity_file(tmp_path, monkeypatch):
     path.write_text("x" * (10 * 1024 * 1024 + 1), encoding="utf-8")
     log("rotate")
     assert (tmp_path / "var" / "activity.jsonl.1").exists()
+
+def test_records_structured_model_without_secret_values(tmp_path, monkeypatch):
+    monkeypatch.setenv("AIOS_ROOT", str(tmp_path))
+    log("skill_started", skill="brief", model="smart", detail="route=bedrock")
+    row = json.loads((tmp_path / "var" / "activity.jsonl").read_text().splitlines()[0])
+    assert row["model"] == "smart"
+    assert row["detail"] == "route=bedrock"

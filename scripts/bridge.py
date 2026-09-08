@@ -44,10 +44,10 @@ def send(chat_id, text):
 def ask_claude(prompt):
     try:
         resolved_model = model_for(ROOT, tier="smart")
-        log("skill_started", detail=f"telegram model={resolved_model}")
+        log("skill_started", skill="telegram", model=resolved_model)
         run = subprocess.run(["claude", "--model", resolved_model, "-p", prompt], cwd=ROOT, capture_output=True, text=True, timeout=300)
         output = run.stdout.strip() or run.stderr.strip() or "(no reply)"
-        log("skill_finished", detail=output[-1000:], status="ok" if run.returncode == 0 else "error")
+        log("skill_finished", skill="telegram", model=resolved_model, detail=output[-1000:], status="ok" if run.returncode == 0 else "error")
         return output
     except subprocess.TimeoutExpired:
         log("skill_error", detail="telegram request timed out", status="error")
