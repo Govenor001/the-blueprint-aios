@@ -1,7 +1,7 @@
 # Scripts — the two engines that ship with the kit
 
-Both are plain Python 3 (already on your Mac/Linux machine), standard
-library only — nothing to install. Load your keys first:
+Both are plain Python 3 on the AIOS server. The installer already creates the
+services and schedules. Load optional keys from the private environment file:
 
 ```
 set -a && . ./.env && set +a
@@ -29,8 +29,8 @@ python3 scripts/engine.py "small business bookkeeping" \
 
 ## bridge.py — the Command Wing (Day 6)
 
-Connects your Telegram bot to your AIOS. Runs on your laptop; texting
-your bot runs `claude -p` here and sends the answer back. Voice notes
+Connects your Telegram bot to your AIOS. It runs as the server's Command Wing;
+texting your bot runs `claude -p` there and sends the answer back. Voice notes
 work when `GROQ_API_KEY` is set.
 
 ```

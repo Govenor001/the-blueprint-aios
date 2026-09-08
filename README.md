@@ -14,7 +14,7 @@ This is the kit you build in **The 7-Day Agent Architect Challenge**. It's the s
 
 ## The one test that matters
 
-> **While your laptop is closed, your AIOS observes one real event and produces an output faster and better than you would have — and it reaches you on your phone.**
+> **While your computer is closed, your AIOS observes one real event and produces an output faster and better than you would have — and it reaches you on your phone.**
 
 Every part of this kit rolls up to that. If a floor, a wing, or a skill doesn't move you toward it, it doesn't ship. Because it lives on your own server, the lid is closed from Day 0 — that test is the product, not a graduation step you reach later.
 
@@ -64,7 +64,7 @@ Your AIOS is one second brain with seven operating wings. Each wing is a visible
 
 ## The skills
 
-The kit ships four core skills plus a **Skill Vault** of ten more you unlock as you build.
+The kit ships four core skills plus the complete preinstalled Business OS library and platform procedures.
 
 | Skill | When you run it |
 |---|---|
