@@ -58,7 +58,7 @@ def ask_claude(prompt):
 
 def speak(text):
     """Turn text into ElevenLabs audio, or return None when unavailable."""
-    api_key = os.environ.get("ELEVEN_API_KEY", "")
+    api_key = os.environ.get("ELEVEN_API_KEY") or os.environ.get("ELEVENLABS_API_KEY", "")
     voice_id = os.environ.get("ELEVEN_VOICE_ID", "")
     if not api_key or not voice_id:
         return None

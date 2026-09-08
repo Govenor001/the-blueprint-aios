@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -24,7 +25,7 @@ def _find_agent(payload: dict[str, Any], skill: str) -> dict[str, Any]:
 def model_for(root: Path, skill: str | None = None, tier: str | None = None) -> str:
     root = Path(root).resolve()
     config = yaml.safe_load((root / "config" / "models.yaml").read_text(encoding="utf-8"))
-    route = config["route"]
+    route = os.environ.get("AIOS_MODEL_ROUTE", config["route"])
     selected_tier = tier or "smart"
     if skill:
         map_path = root / "dashboard" / "static" / "map.json"
