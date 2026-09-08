@@ -88,9 +88,9 @@ def send_voice(chat_id, mp3_bytes):
             audio = target.read_bytes()
         boundary = uuid.uuid4().hex
         body = (
-            ("--%s\\r\\nContent-Disposition: form-data; name=\"chat_id\"\\r\\n\\r\\n%s\\r\\n" % (boundary, chat_id)).encode()
-            + ("--%s\\r\\nContent-Disposition: form-data; name=\"voice\"; filename=\"answer.ogg\"\\r\\nContent-Type: audio/ogg\\r\\n\\r\\n" % boundary).encode()
-            + audio + ("\\r\\n--%s--\\r\\n" % boundary).encode()
+            ("--%s\r\nContent-Disposition: form-data; name=\"chat_id\"\r\n\r\n%s\r\n" % (boundary, chat_id)).encode()
+            + ("--%s\r\nContent-Disposition: form-data; name=\"voice\"; filename=\"answer.ogg\"\r\nContent-Type: audio/ogg\r\n\r\n" % boundary).encode()
+            + audio + ("\r\n--%s--\r\n" % boundary).encode()
         )
         request = urllib.request.Request(
             "https://api.telegram.org/bot%s/sendVoice" % TOKEN,
