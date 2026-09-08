@@ -4,9 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import csv
-import io
-import re
 import shutil
 import zipfile
 from datetime import datetime, timezone
@@ -20,15 +17,17 @@ def extract(path: Path) -> str:
         return path.read_text(encoding="utf-8", errors="replace")
     if suffix == ".pdf":
         from pypdf import PdfReader
-        return "
 
-".join(page.extract_text() or "" for page in PdfReader(str(path)).pages)
+        return "\n\n".join(page.extract_text() or "" for page in PdfReader(str(path)).pages)
     if suffix == ".docx":
         with zipfile.ZipFile(path) as archive:
             xml = archive.read("word/document.xml")
         root = ElementTree.fromstring(xml)
-        return "
-".join("".join(node.itertext()).strip() for node in root.iter() if node.tag.endswith("}p"))
+        return "\n".join(
+            "".join(node.itertext()).strip()
+            for node in root.iter()
+            if node.tag.endswith("}p")
+        )
     raise ValueError(f"unsupported file type: {path.name}")
 
 
