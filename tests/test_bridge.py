@@ -23,6 +23,25 @@ def test_send_voice_fails_closed_without_audio():
     assert bridge.send_voice("123", b"") is False
 
 
+def test_send_photo_posts_png(monkeypatch):
+    calls = []
+
+    class Response:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self):
+            return json.dumps({"ok": True}).encode()
+
+    monkeypatch.setattr(bridge.urllib.request, "urlopen", lambda request, timeout=60: calls.append(request) or Response())
+    assert bridge.send_photo("123", b"png", "chart") is True
+    assert calls[0].full_url.endswith("/sendPhoto")
+    assert b"chart" in calls[0].data
+
+
 def test_transcribe_uses_groq_response(monkeypatch):
     bridge.GROQ_KEY = "test-key"
 
