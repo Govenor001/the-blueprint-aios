@@ -3,6 +3,7 @@
   const counts = document.querySelector("#counts");
   const map = document.querySelector("#map");
   const activity = document.querySelector("#activity");
+  const panels = document.querySelector("#panels");
 
   async function api(path, options = {}) {
     const response = await fetch(path, options);
@@ -71,11 +72,24 @@
     }));
   }
 
+  function renderPanels(data) {
+    panels.innerHTML = data.panels.map(panel => `
+      <article class="wing"><h2>${panel.name}</h2>
+        <div class="grid">${panel.cards.map(card => {
+          const latest = card.latest;
+          const value = latest && latest.status === "available" ? (latest.value ?? "Available") : "Not connected";
+          const note = latest ? (latest.error || latest.status) : "Waiting for first collection";
+          return \`<div class="card"><span class="subtle">${card.title}</span><strong style="font-size:18px">${value}</strong><span class="subtle">${note}</span></div>\`;
+        }).join("")}</div>
+      </article>`).join("");
+  }
+
   async function load() {
     try {
-      const [data, events] = await Promise.all([api("/api/map"), api("/api/activity?limit=50")]);
+      const [data, events, panelData] = await Promise.all([api("/api/map"), api("/api/activity?limit=50"), api("/api/panels")]);
       renderCounts(data);
       renderMap(data);
+      renderPanels(panelData);
       activity.textContent = events.items.length ? events.items.map(item => `${item.ts}  ${item.event}  ${item.skill || ""}`).join("\n") : "No activity yet.";
       status.textContent = "Connected";
     } catch {
