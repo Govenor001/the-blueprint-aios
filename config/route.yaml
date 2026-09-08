@@ -1,0 +1,6 @@
+# Provider selection is intentionally separate from skill metadata.
+route: claude-subscription
+allowed_routes:
+  - claude-subscription
+  - bedrock
+  - openrouter
