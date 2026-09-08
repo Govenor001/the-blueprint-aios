@@ -41,6 +41,7 @@ def run_acceptance(root: Path) -> dict[str, Any]:
         "core_roles": all((root / "skill-vault" / name / "SKILL.md").exists() for name in ("scout", "operator", "advisor")),
         "no_platform_install_on_days": not bool(re.search(r"cp -r skill-vault|git clone|install an agent", curriculum_text, re.I)),
         "no_laptop_first_flow": not bool(re.search(r"your laptop|on your machine|your terminal", curriculum_text, re.I)),
+        "no_anthropic_api_key_in_curriculum": "ANTHROPIC_API_KEY" not in curriculum_text,
         "systemd_schedules": len(list((root / "deploy" / "timers").glob("*.timer"))) >= 5,
     }
     return {"passed": all(checks.values()), "checks": checks, "link_errors": validate_curriculum_links(root)}
