@@ -113,6 +113,25 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     mcp = next(item for item in connections.json()["connections"] if item["name"] == "MCP: blotato")
     assert mcp["status"] == "connected"
 
+def test_metric_question_never_invents_data(tmp_path):
+    skill = tmp_path / "skill-vault" / "scout" / "SKILL.md"
+    skill.parent.mkdir(parents=True)
+    skill.write_text(SKILL, encoding="utf-8")
+    registry = tmp_path / "references" / "tool-registry.md"
+    registry.parent.mkdir(parents=True)
+    registry.write_text("| key | Display name | Brand hex |\n|---|---|---|\n| claude | Claude | #D97757 |\n", encoding="utf-8")
+    panels = tmp_path / "config" / "panels"
+    panels.mkdir(parents=True)
+    (panels / "content.yaml").write_text("cards:\n  - id: content-views\n    title: Views by platform\n    shape: line\n    source: {connection: blotato, operation: analytics}\n", encoding="utf-8")
+    from scripts.build_map import build_map
+    build_map(tmp_path)
+    client = TestClient(create_app(tmp_path, password="test"))
+    auth = base64.b64encode(b"owner:test").decode()
+    response = client.post("/api/ask", headers={"Authorization": "Basic " + auth}, json={"question": "how are my views?"})
+    assert response.status_code == 200
+    assert response.json()["chart_url"] is None
+    assert "not connected" in response.json()["message"].lower()
+
 def test_chat_endpoint_runs_brain_and_rejects_unknown_agent(tmp_path, monkeypatch):
     skill = tmp_path / "skill-vault" / "scout" / "SKILL.md"
     skill.parent.mkdir(parents=True)
