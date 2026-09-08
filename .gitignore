@@ -37,6 +37,7 @@ Thumbs.db
 /dashboard/static/map.json
 /dashboard/static/diagrams/
 /var/
+.venv/
 
 # Student-private documents and derived search index
 /vault/*

@@ -71,10 +71,11 @@ If you see actual subjects from your inbox, you're connected.
 **Claude Code doesn't prompt for MCP approval**: Make sure you fully quit and reopened Claude Code after editing settings.json
 
 ## Honest notes
-- **Cost:** free tier (2026-08-15 pricing) is 100,000 tool calls/month,
-  20,000 of them through Composio's shared Google app. A personal setup
-  uses a fraction of that. Some premium tools bill separately from
-  2026-09-01.
+- **Cost:** free tier is 100,000 tool calls/month and 50,000 trigger events/month,
+  with unlimited connected accounts when you use your own OAuth app. The
+  allowance pauses at the cap, and some premium tools may bill separately.
+  Check the current Composio pricing page before promising a client a specific
+  allowance.
 - **Privacy:** you're giving a third party OAuth access to your Google
   account. Connect only the apps you'll use; revoke any time at
   myaccount.google.com → Security → Third-party access.

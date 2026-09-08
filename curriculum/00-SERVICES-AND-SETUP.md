@@ -23,7 +23,7 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 | Service | What it's for | Cost |
 |---|---|---|
 | Groq | Optional voice transcription for Telegram voice notes | Free tier |
-| Composio | Connects Gmail, Calendar, Drive, Sheets, Docs, GitHub, Notion in one place | Free tier (100k actions/mo) |
+| Composio | Connects Gmail, Calendar, Drive, Sheets, Docs, GitHub, Notion in one place | Free tier (100,000 tool calls/mo; 50,000 trigger events/mo) |
 | Telegram | Text/voice your AIOS from your phone | Free |
 | Resend | Sends your newsletter so it lands in the inbox | Free tier (3k emails/mo) |
 | ElevenLabs | Gives your AIOS a voice (optional) | Free tier |
@@ -81,7 +81,7 @@ Only the ⭐ items are needed before Day 1. Everything else gets set up on the d
 
 **What it is:** Composio handles the hard part of connecting your AIOS to Gmail, Calendar, Drive, Sheets, Docs, GitHub, and Notion. It manages the sign-in and keeps it connected so your AIOS never has to re-authenticate. This is what powers your Comms Wing.
 
-**Cost:** Free tier — 100,000 tool calls/month on the pricing introduced 2026-08-15 (20,000 of them via Composio's shared Google app; some premium tools bill separately from 2026-09-01). Far more than a personal setup uses.
+**Cost:** Free tier — 100,000 tool calls/month and 50,000 trigger events/month, with unlimited connected accounts when you use your own OAuth app. The allowance pauses at the cap; some premium tools may bill separately. Far more than a personal setup uses.
 
 **Setup:**
 1. Go to **composio.dev** and sign up (Google sign-in is quickest).

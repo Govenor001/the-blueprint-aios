@@ -68,7 +68,18 @@ done
 systemctl daemon-reload
 
 run_step 12 "keeping the dashboard private"
-echo "The dashboard binds to localhost. Use an SSH tunnel or add a reviewed HTTPS reverse proxy."
+if [ -n "${AIOS_DOMAIN:-}" ]; then
+  case "$AIOS_DOMAIN" in
+    *[!a-zA-Z0-9.-]*) fail "AIOS_DOMAIN must be a hostname without a scheme or path" ;;
+  esac
+  apt-get install -y caddy
+  install -d -o root -g root -m 755 /etc/caddy
+  printf '%s\n' "$AIOS_DOMAIN {" '    reverse_proxy 127.0.0.1:8787' '}' > /etc/caddy/Caddyfile
+  systemctl enable --now caddy
+  echo "Caddy is serving https://${AIOS_DOMAIN} and proxying to the private dashboard."
+else
+  echo "The dashboard binds to localhost. Use an SSH tunnel; set AIOS_DOMAIN on a fresh install for automatic HTTPS."
+fi
 
 run_step 13 "building the map"
 sudo -u aios bash -lc "cd /opt/aios/app && /opt/aios/venv/bin/python scripts/bootstrap.py && /opt/aios/venv/bin/python scripts/install_business_os.py --root . && /opt/aios/venv/bin/python scripts/sync_runtime_skills.py && /opt/aios/venv/bin/python scripts/build_map.py && /opt/aios/venv/bin/python scripts/build_diagrams.py" || echo "Skill import or map build needs the installed skills and will be retried after setup."
@@ -78,5 +89,9 @@ systemctl enable --now aios-dashboard aios-bridge
 echo "Schedules are installed but disabled until the owner approves them on Day 7."
 
 run_step 15 "complete"
-echo "Dashboard: http://127.0.0.1:8787 through an SSH tunnel"
+if [ -n "${AIOS_DOMAIN:-}" ]; then
+  echo "Dashboard: https://${AIOS_DOMAIN}"
+else
+  echo "Dashboard: http://127.0.0.1:8787 through an SSH tunnel"
+fi
 echo "Status: systemctl status aios-dashboard aios-bridge"
