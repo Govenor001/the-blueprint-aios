@@ -1,0 +1,20 @@
+[Unit]
+Description=AIOS Telegram bridge
+After=network-online.target
+
+[Service]
+User=aios
+WorkingDirectory=/opt/aios/app
+EnvironmentFile=/opt/aios/.env
+EnvironmentFile=-/opt/bot/.env
+EnvironmentFile=-/opt/bot/token.env
+EnvironmentFile=-/opt/firehose-system/.env
+Environment=AIOS_MODEL_ROUTE=bedrock
+Environment=CLAUDE_CODE_USE_BEDROCK=1
+Environment=AWS_REGION=us-east-1
+ExecStart=/opt/aios/venv/bin/python scripts/bridge.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Fixture feed — engine self-test</title>
+    <item>
+      <title>IRS announces new small business tax deadline changes for 2027</title>
+      <link>https://example.com/irs-deadline</link>
+      <pubDate>Tue, 18 Aug 2026 09:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>QuickBooks raises prices for small business bookkeeping plans</title>
+      <link>https://example.com/qb-prices</link>
+      <pubDate>Tue, 18 Aug 2026 08:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Celebrity gossip roundup: who wore what this weekend</title>
+      <link>https://example.com/gossip</link>
+      <pubDate>Mon, 17 Aug 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Study: small business owners spend 5 hours weekly on bookkeeping</title>
+      <link>https://example.com/study</link>
+      <pubDate>Mon, 17 Aug 2026 10:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Portland small business grants open for fall applications</title>
+      <link>https://example.com/grants</link>
+      <pubDate>Sun, 16 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

@@ -8,15 +8,26 @@
 
 ## Why cadence is last
 
-We saved automation for the end on purpose: **never put a job on a timer until it works when you run it by hand.** You've spent a week proving each wing works on demand. Now — and only now — we let them run without you.
+We verify automation at the end on purpose: **never trust a scheduled job until it works when you run it by hand.** The timers are already installed on the server. Today you run one manually, inspect the local activity record, and then confirm the scheduled version is enabled.
 
-## Step 1 — Schedule your morning brief
+## Step 1 — Verify the morning brief timer
 
-Tell your AIOS to run the Intelligence brief every morning and send it to your phone:
+The platform uses systemd timers on the server, so the schedule continues after you close the dashboard. The installer installed the timers but leaves them disabled until you approve the schedule today.
 
-> Schedule my morning brief to run at 7am every day and send it to my Telegram.
+Confirm the installed timers:
 
-It sets up a scheduled job (cron) on your server. Tomorrow at 7am, a brief about your market lands on your phone with no action from you.
+```
+systemctl list-timers --all | grep aios
+sudo systemctl start aios-brief.service
+```
+
+After the manual run succeeds and you explicitly approve the cadence, enable the timers:
+
+```
+sudo systemctl enable --now aios-brief.timer aios-inbox.timer aios-newsletter.timer aios-collect.timer aios-diagrams.timer
+```
+
+The manually started brief should create a local activity record and, when Telegram is connected, reach your phone.
 
 ## Step 2 — Schedule your content
 
@@ -30,7 +41,7 @@ Whatever wings you've made solid — lead follow-up, a weekly newsletter — put
 
 ## Step 4 — Confirm it fired on its own
 
-Don't take it on faith. Trigger one scheduled job (or wait for one) and confirm it ran without you touching it. Seeing your AIOS do something while you did nothing is the proof that Floor 4 is real.
+Don't take it on faith. Inspect the next timer run, or start one service manually and then confirm the timer remains enabled. Seeing your AIOS do something while you did nothing is the proof that Floor 4 is real.
 
 ## Step 5 — Run the inspection
 
@@ -40,7 +51,7 @@ Your AIOS scores itself out of 100 against The Blueprint's four floors — Found
 
 ## Step 6 — Graduate
 
-Post your **inspection score** plus a **phone screenshot** in the community. That's your graduation — and it doubles as proof for everyone coming after you. You'll get your **Agent Architect certificate** with your name, your AIOS's name, and your score — ready for LinkedIn.
+Post your **inspection score** plus a **phone screenshot** in the community, then come to the **live graduation call** — certificates, the best builds of the cohort, and open Q&A (including "how would this work in my business?" — bring that one if you have a team). You'll get your **Agent Architect certificate** with your name, your AIOS's name, and your score — ready for LinkedIn.
 
 ---
 
@@ -51,7 +62,7 @@ Stop and take this in. In seven days you built an AI Operating System that:
 - watches your market overnight and briefs you,
 - qualifies your leads and drafts your outreach,
 - triages your inbox and plans your day,
-- runs 24/7 on a free server,
+- runs on a schedule while the dashboard is closed,
 - and answers you by text or voice from your phone.
 
 The only thing you pay for is Claude. Everything else is free. And it's *yours* — built on your business, your voice, your priorities.

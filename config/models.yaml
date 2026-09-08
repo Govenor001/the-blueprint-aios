@@ -1,0 +1,16 @@
+# Tier names stay stable while the active provider can change.
+route: claude-subscription
+
+tiers:
+  claude-subscription:
+    fast: haiku
+    smart: sonnet
+    deep: opus
+  bedrock:
+    fast: us.anthropic.claude-haiku-4-5-20251001-v1:0
+    smart: us.anthropic.claude-sonnet-4-6
+    deep: us.anthropic.claude-sonnet-4-6
+  openrouter:
+    fast: qwen/qwen3.7-flash
+    smart: qwen/qwen3.6-35b-a3b
+    deep: qwen/qwen3-max-thinking

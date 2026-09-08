@@ -1,0 +1,21 @@
+cards:
+  - id: comms-inbox
+    title: Inbox status
+    shape: kpi
+    source: {connection: gmail, operation: unread_count}
+  - id: comms-triaged
+    title: Unread and triaged
+    shape: table
+    source: {connection: gmail, operation: unread_count}
+  - id: comms-drafts
+    title: Drafts waiting for you
+    shape: table
+    source: {local: drafts}
+  - id: comms-calendar
+    title: Today's calendar
+    shape: table
+    source: {connection: calendar, operation: events_today}
+  - id: comms-response
+    title: Average time to reply
+    shape: kpi
+    source: {connection: gmail, operation: average_reply_time}

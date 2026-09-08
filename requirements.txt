@@ -1,0 +1,22 @@
+# Python dependencies for The Blueprint AIOS
+
+# Day 5 - Composio integration for Google Workspace
+composio>=0.8.0
+
+# Skill frontmatter and manifest validation
+pyyaml>=6.0
+
+# Build 6 - turning dashboard charts into PNGs for Telegram
+# The dashboard itself needs nothing extra: charts are SVG, generated in Python.
+# Only the Telegram path needs a rasteriser.
+cairosvg>=2.7.0
+
+# Build 5 - reading uploaded PDFs in the ingest skill
+pypdf>=4.0.0
+
+# Build 0 Tier 1 - the local model needs NOTHING here on purpose.
+# scripts/local_model.py talks to it over HTTP with urllib, on 127.0.0.1.
+# Do not add torch, sentence-transformers, or onnxruntime: they are hundreds of
+# megabytes and will not fit the ~$5 box the whole product is sized for.
+
+# All other scripts use Python standard library only

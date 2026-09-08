@@ -1,0 +1,10 @@
+[Unit]
+Description=Build the AIOS structure diagrams hourly
+
+[Timer]
+OnCalendar=*-*-* *:10:00
+Persistent=true
+Unit=aios-diagrams.service
+
+[Install]
+WantedBy=timers.target

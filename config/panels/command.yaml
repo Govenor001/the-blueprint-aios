@@ -1,0 +1,21 @@
+cards:
+  - id: command-activity
+    title: Recent activity
+    shape: table
+    source: {local: var}
+  - id: command-runs
+    title: Agents run in the last 7 days
+    shape: kpi
+    source: {local: var}
+  - id: command-failures
+    title: Failures and why
+    shape: table
+    source: {local: var}
+  - id: command-cost
+    title: Cost this month by service
+    shape: bar
+    source: {local: var}
+  - id: command-connections
+    title: Connections and health
+    shape: table
+    source: {local: var}

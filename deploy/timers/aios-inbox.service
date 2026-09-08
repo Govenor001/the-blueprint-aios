@@ -1,0 +1,9 @@
+[Unit]
+Description=AIOS inbox triage
+
+[Service]
+Type=oneshot
+User=aios
+WorkingDirectory=/opt/aios/app
+EnvironmentFile=/opt/aios/.env
+ExecStart=/opt/aios/venv/bin/python scripts/run_skill.py inbox

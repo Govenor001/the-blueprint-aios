@@ -1,8 +1,30 @@
 ---
 name: brief
-description: Your morning brief. Use when someone says "brief me", "what's the news", "morning brief", or on a schedule. Pulls overnight news in the user's niche, ranks it, and delivers the top items with a short take in their voice.
-scaffolding-phase: 1
+description: Produce the owner's ranked daily intelligence brief.
+
+metadata:
+  wing: intelligence
+  department: Intelligence
+  function: Synthesis
+  replaces: Manually scanning scattered news and still missing what matters to the business.
+  the-human: The owner decides which signal changes the plan.
+  ladder:
+    manual: Run it manually and review every step.
+    assisted: Prepare the work and wait for the owner's review.
+    autonomous: Run on schedule after the owner has approved the pattern.
+  trigger: Run when the user asks for this job or its schedule fires.
+  outputs:
+    - A structured synthesis result
+  kpis:
+    - Completed outputs per run
+    - Items flagged for owner review
+  tools: [claude]
+  requires-context: [context/about-business.md, context/priorities.md, references/voice.md]
+  model: smart
+  autonomy: assisted
+  scaffolding-phase: 1
 ---
+
 
 ## What this does
 The Intelligence Wing's daily output. Fetches fresh news for the user's niche, keeps what matters, and hands back a ranked brief — each item a headline plus one or two sentences of *our take*, in the user's voice. Runs on demand, or on a 7am schedule once you reach Autopilot.
@@ -23,3 +45,4 @@ The Intelligence Wing's daily output. Fetches fresh news for the user's niche, k
 - **Our take, never a borrowed name.** First person plural.
 - **Relevance over volume** — 6 sharp items beat 10 padded ones.
 - Phase 1: run it by hand, read the output, correct the ranking, *then* schedule it.
+- If a required context file is missing, say so and stop.

@@ -1,8 +1,30 @@
 ---
 name: watch
-description: Watch named competitors, keywords, or topics and report movement. Use when someone says "watch my competitors", "any news on X", "what are they up to", or on a schedule. Free sources only.
-scaffolding-phase: 1
+description: Watch an approved source and report meaningful changes with evidence.
+
+metadata:
+  wing: intelligence
+  department: Intelligence
+  function: Monitoring
+  replaces: Checking competitors and market signals manually and inconsistently.
+  the-human: The owner decides which movement merits a response.
+  ladder:
+    manual: Run it manually and review every step.
+    assisted: Prepare the work and wait for the owner's review.
+    autonomous: Run on schedule after the owner has approved the pattern.
+  trigger: Run when the user asks for this job or its schedule fires.
+  outputs:
+    - A structured monitoring result
+  kpis:
+    - Completed outputs per run
+    - Items flagged for owner review
+  tools: [claude]
+  requires-context: [context/watchlist.md]
+  model: smart
+  autonomy: assisted
+  scaffolding-phase: 1
 ---
+
 
 ## What this does
 The Intelligence Wing's second workshop. Maintains a small watchlist (competitors, keywords, brands) and checks free sources for movement: new content, launches, pricing changes, funding, hiring signals. Reports only what changed — silence when nothing did.
@@ -21,3 +43,4 @@ The Intelligence Wing's second workshop. Maintains a small watchlist (competitor
 - **Silence is a valid report.** "No meaningful movement" beats manufactured news.
 - **Always end a mover with "your move:"** — intel without a suggested action is trivia.
 - **Update the watchlist file every run** so state compounds.
+- If a required context file is missing, say so and stop.

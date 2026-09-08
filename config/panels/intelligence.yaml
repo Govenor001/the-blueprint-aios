@@ -1,0 +1,17 @@
+cards:
+  - id: intelligence-signals
+    title: Latest verified signals
+    shape: table
+    source: {local: context}
+  - id: intelligence-sources
+    title: Sources watched
+    shape: kpi
+    source: {local: context}
+  - id: intelligence-brief
+    title: Last morning brief
+    shape: table
+    source: {local: context}
+  - id: intelligence-review
+    title: Needs owner review
+    shape: table
+    source: {local: drafts}

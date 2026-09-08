@@ -1,0 +1,21 @@
+cards:
+  - id: build-health
+    title: Build health
+    shape: table
+    source: {local: var}
+  - id: build-projects
+    title: Projects on the go
+    shape: table
+    source: {local: context}
+  - id: build-changes
+    title: What changed this week
+    shape: line
+    source: {local: var}
+  - id: build-broken
+    title: What is broken right now
+    shape: table
+    source: {local: var}
+  - id: build-deploy
+    title: Last deploy
+    shape: kpi
+    source: {local: var}

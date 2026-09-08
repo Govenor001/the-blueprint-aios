@@ -1,8 +1,30 @@
 ---
 name: followup
-description: Run a timed follow-up sequence so no lead falls through. Use when someone says "set up follow-up", "who needs a nudge", "chase my replies", or after a booking/no-reply. Tracks who's due and drafts the next touch on schedule.
-scaffolding-phase: 1
+description: Prepare the next approved follow-up for a contact or opportunity.
+
+metadata:
+  wing: growth
+  department: Sales
+  function: Sequencing
+  replaces: Losing good leads because nobody remembers the next useful follow-up.
+  the-human: The owner chooses whether a message is appropriate and approves every send.
+  ladder:
+    manual: Run it manually and review every step.
+    assisted: Prepare the work and wait for the owner's review.
+    autonomous: Run on schedule after the owner has approved the pattern.
+  trigger: Run when the user asks for this job or its schedule fires.
+  outputs:
+    - A structured sequencing result
+  kpis:
+    - Completed outputs per run
+    - Items flagged for owner review
+  tools: [claude]
+  requires-context: [context/followups.md, references/voice.md]
+  model: smart
+  autonomy: assisted
+  scaffolding-phase: 1
 ---
+
 
 ## What this does
 The Growth Wing's third workshop. Keeps a simple follow-up ledger and, on each run, tells the user who's due for a nudge and drafts it. This is where most revenue leaks — good leads that just never got a second message. It closes that gap.
@@ -22,3 +44,4 @@ The Growth Wing's third workshop. Keeps a simple follow-up ledger and, on each r
 - **Cadence, not spam** — respect the sequence; stop when they reply or opt out.
 - **Update the ledger every run** so it's the single source of truth.
 - Drafts only at Phase 1. Advance to auto-send only once the user trusts the drafts.
+- If a required context file is missing, say so and stop.

@@ -1,16 +1,22 @@
 # The Blueprint — Build Your Own AI Operating System
 
-A starter kit that turns Claude Code into a personal **AI Operating System (AIOS)** — a named AI staff member that writes your content, monitors your market, works your leads, handles your inbox, and takes orders from your phone, running 24/7 on a free cloud server.
+A complete platform that turns Claude Code into a personal **AI Operating System (AIOS)** — a named AI staff member that writes your content, monitors your market, works your leads, handles your inbox, and takes orders from your phone. **The interface, map, bridge, vault, schedules, and safety controls are already built; students connect their own services and context on their server.**
 
 This is the kit you build in **The 7-Day Agent Architect Challenge**. It's the same architecture that runs our own companies — packaged so you can run yours on it.
+
+> **Building this, rather than following it?** Start at
+> **[IMPLEMENTATION-PLAN.md](IMPLEMENTATION-PLAN.md)** — the build specification. Eight
+> builds, 49 tasks, each with a DO and a CHECK. Read **BUILD 0** before writing any code,
+> and read the "Start here" section before that. This README describes the product; the
+> plan describes how to construct it.
 
 ---
 
 ## The one test that matters
 
-> **While your laptop is closed, your AIOS observes one real event and produces an output faster and better than you would have — and it reaches you on your phone.**
+> **While your computer is closed, your AIOS observes one real event and produces an output faster and better than you would have — and it reaches you on your phone.**
 
-Every part of this kit rolls up to that. If a floor, a wing, or a skill doesn't move you toward it, it doesn't ship.
+Every part of this kit rolls up to that. If a floor, a wing, or a skill doesn't move you toward it, it doesn't ship. Because it lives on your own server, the lid is closed from Day 0 — that test is the product, not a graduation step you reach later.
 
 ---
 
@@ -40,9 +46,9 @@ Full detail: [references/the-blueprint-framework.md](references/the-blueprint-fr
 
 ---
 
-## The five Wings
+## The operating map
 
-Your AIOS is one house with five wings. Each is a scaled-down version of a system that runs in production — every one built on free tools.
+Your AIOS is one second brain with seven operating wings. Each wing is a visible part of the map and contains departments, functions, and named agents.
 
 | Wing | What it does for you |
 |---|---|
@@ -51,12 +57,14 @@ Your AIOS is one house with five wings. Each is a scaled-down version of a syste
 | **Growth Wing** | Qualifies leads, drafts outreach, runs your follow-up |
 | **Comms Wing** | Triage, drafts, and daily plan for your email and calendar |
 | **Command Wing** | Your phone HQ — text or voice-note your AIOS from anywhere |
+| **Back-office Wing** | Finance, records, and internal administration |
+| **Build Wing** | Platform health, delivery, and expansion |
 
 ---
 
 ## The skills
 
-The kit ships four core skills plus a **Skill Vault** of ten more you unlock as you build.
+The kit ships four core skills plus the complete preinstalled Business OS library and platform procedures.
 
 | Skill | When you run it |
 |---|---|
@@ -65,17 +73,17 @@ The kit ships four core skills plus a **Skill Vault** of ten more you unlock as 
 | `/expand` | Weekly ritual. Finds one thing worth automating, scopes it, ships it. |
 | `/rescue` | Any time something breaks. Reads the error, checks known failures, fixes it or tells you exactly what to paste for help. |
 
-See [.claude/skills/](.claude/skills/) for the four core skills and [skill-vault/](skill-vault/) for the ten bonus skills.
+See [.claude/skills/](.claude/skills/) for the core runtime skills and [skill-vault/](skill-vault/) for the curated platform procedures. Fresh installs also import the Business OS manifest before building the map, so the student starts with the full agent library already available.
 
 ---
 
 ## Quick start
 
-1. **Clone this repo** into a folder on your machine.
-2. **Open it in Claude Code** and run `/blueprint`. Answer honestly, name your AIOS. ~15 minutes.
-3. **Use it for a week.** Bring it real questions, make real decisions.
-4. **Day 7:** run `/inspect`. Read your score. Fix the top gap.
-5. **Weekly:** run `/expand`. Ship one new automation. Move in — go 24/7.
+1. **Install the platform** on an Ubuntu 24.04 server with `deploy/install.sh`.
+2. **Authenticate Claude headlessly** with `claude setup-token`, then connect Telegram and your chosen services.
+3. **Follow the seven-day challenge.** Add your business context, keys, sources, and approval choices; do not rebuild the platform.
+4. **Day 7:** run `/inspect`, test a timer, and confirm the student acceptance checklist.
+5. **Weekly:** run `/expand`. Add one approved automation to the existing map.
 
 Full day-by-day path: **The 7-Day Agent Architect Challenge** (see `curriculum/`).
 

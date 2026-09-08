@@ -1,6 +1,7 @@
 # Secrets — never commit keys
 .env
 .env.*
+!.env.example
 *.key
 *.pem
 secrets/
@@ -9,6 +10,8 @@ my-keys.txt
 # Your personal Foundation (each student fills their own; ships empty)
 context/*
 !context/.gitkeep
+!context/templates/
+!context/templates/*.md
 archives/*
 !archives/.gitkeep
 memory/*
@@ -19,6 +22,8 @@ inspections/
 node_modules/
 out/
 .remotion/
+context/signals.json
+__pycache__/
 
 # OS / editor
 .DS_Store
@@ -26,3 +31,22 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+
+# Local connector configuration may contain bearer tokens
+.claude/settings*.json
+.mcp.json
+# Generated dashboard data
+/dashboard/static/map.json
+/dashboard/static/diagrams/
+/var/
+.venv/
+
+# Student-private documents and derived search index
+/vault/*
+!/vault/.gitkeep
+/vault/documents/*
+!/vault/documents/.gitkeep
+/vault/context/*
+!/vault/context/.gitkeep
+/vault/index.jsonl
+/imports/raw/

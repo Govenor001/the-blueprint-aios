@@ -1,0 +1,12 @@
+{
+  "roles": {
+    "scout": {"status": "unavailable", "observations": []},
+    "operator": {"status": "needs_input", "draft": null},
+    "advisor": {"status": "available", "recommendations": [
+      {"rank": 1, "recommendation": "Connect a source", "evidence": "UNAVAILABLE", "consequence_of_waiting": "No decision can be verified."},
+      {"rank": 2, "recommendation": "Review the FAQ", "evidence": "Owner configuration", "consequence_of_waiting": "Approval boundaries remain generic."},
+      {"rank": 3, "recommendation": "Run the first assisted agent", "evidence": "Platform is installed", "consequence_of_waiting": "No student-specific output is recorded."}
+    ]}
+  },
+  "metrics": {}
+}
