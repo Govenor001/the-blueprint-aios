@@ -1,0 +1,5 @@
+cards:
+  - id: growth-leads
+    title: Leads needing attention
+    shape: table
+    source: {local: context}
