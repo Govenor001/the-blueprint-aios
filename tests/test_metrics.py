@@ -16,6 +16,18 @@ def test_collect_writes_unavailable_rows_without_fake_zero(tmp_path):
     assert row["value"] is None
 
 
+def test_collect_records_connection_source_without_calling_live_api(tmp_path):
+    (tmp_path / "config" / "panels").mkdir(parents=True)
+    (tmp_path / "config" / "panels" / "comms.yaml").write_text(
+        "cards:\n  - id: inbox\n    title: Inbox\n    shape: kpi\n    source: {connection: gmail, operation: unread_count}\n",
+        encoding="utf-8",
+    )
+    collect(tmp_path)
+    row = json.loads((tmp_path / "var" / "metrics" / "inbox.jsonl").read_text().strip())
+    assert row["source_label"] == "gmail: unread_count"
+    assert row["status"] == "unavailable"
+
+
 def test_chart_has_source_note_for_all_shapes():
     specs = [
         {"shape": "kpi", "title": "K", "value": 1},

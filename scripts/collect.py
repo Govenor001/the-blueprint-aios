@@ -33,9 +33,15 @@ def collect(root: Path) -> int:
             row: dict[str, Any] = {"retrieved_at": now, "card_id": card_id, "source": source, "status": "unavailable"}
             if isinstance(source, dict) and "local" in source:
                 local = root / str(source["local"])
+                row["source_label"] = f"local: {source['local']}"
                 row["status"] = "available" if local.exists() else "unavailable"
                 row["value"] = len(list(local.glob("*"))) if local.exists() else None
+            elif isinstance(source, dict) and source.get("connection"):
+                operation = source.get("operation", "read")
+                row["source_label"] = f"{source['connection']}: {operation}"
+                row["error"] = "connection not configured"
             else:
+                row["source_label"] = "UNAVAILABLE"
                 row["error"] = "connection not configured"
             with (metric_dir / f"{card_id}.jsonl").open("a", encoding="utf-8") as handle:
                 handle.write(json.dumps(row, ensure_ascii=False) + "\n")

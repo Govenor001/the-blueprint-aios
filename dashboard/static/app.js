@@ -72,7 +72,7 @@
     panels.innerHTML = cards.length ? cards.map((card) => {
       const latest = card.latest;
       const value = latest?.status === "available" ? (latest.value ?? "Available") : "Not connected";
-      const source = latest?.source || latest?.error || `Set up ${card.panel}`;
+      const source = latest?.source_label || latest?.error || `Set up ${card.panel}`;
       return `<article class="panel-card"><small>${escape(card.title)}</small><strong>${escape(value)}</strong><span>${escape(source)}</span></article>`;
     }).join("") : `<article class="panel-card"><small>First panel</small><strong>Not connected</strong><span>Connect your tools during setup.</span></article>`;
   }
