@@ -5,6 +5,7 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 import urllib.parse
 import urllib.request
 import uuid
@@ -53,6 +54,54 @@ def ask_claude(prompt):
     except Exception as exc:
         log("skill_error", detail=str(exc), status="error")
         return "The AIOS could not answer that request."
+
+
+def speak(text):
+    """Turn text into ElevenLabs audio, or return None when unavailable."""
+    api_key = os.environ.get("ELEVEN_API_KEY", "")
+    voice_id = os.environ.get("ELEVEN_VOICE_ID", "")
+    if not api_key or not voice_id:
+        return None
+    url = "https://api.elevenlabs.io/v1/text-to-speech/%s?output_format=mp3_44100_128" % voice_id
+    request = urllib.request.Request(
+        url,
+        data=json.dumps({"text": text, "model_id": "eleven_turbo_v2_5"}).encode(),
+        headers={"xi-api-key": api_key, "Content-Type": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            return response.read()
+    except Exception:
+        return None
+
+
+def send_voice(chat_id, mp3_bytes):
+    """Convert ElevenLabs MP3 to Telegram OGG/Opus and send it."""
+    if not mp3_bytes:
+        return False
+    try:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "answer.mp3"
+            target = Path(directory) / "answer.ogg"
+            source.write_bytes(mp3_bytes)
+            subprocess.run(["ffmpeg", "-y", "-i", str(source), "-c:a", "libopus", "-b:a", "32k", str(target)], check=True, capture_output=True)
+            audio = target.read_bytes()
+        boundary = uuid.uuid4().hex
+        body = (
+            ("--%s\\r\\nContent-Disposition: form-data; name=\"chat_id\"\\r\\n\\r\\n%s\\r\\n" % (boundary, chat_id)).encode()
+            + ("--%s\\r\\nContent-Disposition: form-data; name=\"voice\"; filename=\"answer.ogg\"\\r\\nContent-Type: audio/ogg\\r\\n\\r\\n" % boundary).encode()
+            + audio + ("\\r\\n--%s--\\r\\n" % boundary).encode()
+        )
+        request = urllib.request.Request(
+            "https://api.telegram.org/bot%s/sendVoice" % TOKEN,
+            data=body,
+            headers={"Content-Type": "multipart/form-data; boundary=%s" % boundary},
+        )
+        with urllib.request.urlopen(request, timeout=60) as response:
+            return json.loads(response.read()).get("ok", False)
+    except Exception as exc:
+        log("voice_error", detail=str(exc), status="error")
+        return False
 
 
 def transcribe(audio_bytes):
@@ -120,6 +169,7 @@ def run_bridge():
                 if not chat or (CHAT_ID and chat != CHAT_ID):
                     continue
                 text = msg.get("text")
+                is_voice = bool(msg.get("voice"))
                 log("message_received", detail=text or "voice message")
                 if not CHAT_ID:
                     send(chat, "Your chat id is %s — put TELEGRAM_CHAT_ID=%s in .env and restart the bridge." % (chat, chat))
@@ -131,7 +181,14 @@ def run_bridge():
                         continue
                     send(chat, "Heard: %s" % text)
                 if text:
-                    send(chat, ask_claude(text))
+                    reply = ask_claude(text)
+                    send(chat, reply)
+                    if is_voice:
+                        excerpt = reply[:800].rsplit(".", 1)[0].strip()
+                        excerpt = (excerpt or reply[:800]).rstrip() + ". Full answer above."
+                        audio = speak(excerpt)
+                        if audio:
+                            send_voice(chat, audio)
     finally:
         try:
             (ROOT / "var" / "bridge.pid").unlink()
