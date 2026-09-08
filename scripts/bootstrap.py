@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import shutil
 import stat
 import sys
 from pathlib import Path
@@ -38,6 +39,12 @@ def bootstrap(root: Path) -> None:
     if env_file.exists():
         env_file.chmod(stat.S_IRUSR | stat.S_IWUSR)
     (root / "var" / "activity.jsonl").touch(exist_ok=True)
+    templates = root / "context" / "templates"
+    for name in ("faq", "about-business"):
+        template = templates / f"{name}.md"
+        destination = root / "context" / f"{name}.md"
+        if template.exists() and not destination.exists():
+            shutil.copyfile(template, destination)
     sync_runtime_skills(root)
 
 
