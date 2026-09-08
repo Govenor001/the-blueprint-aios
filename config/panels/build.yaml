@@ -1,0 +1,5 @@
+cards:
+  - id: build-health
+    title: Build health
+    shape: table
+    source: {local: var}
