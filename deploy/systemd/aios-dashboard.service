@@ -1,0 +1,14 @@
+[Unit]
+Description=AIOS Mission Control dashboard
+After=network-online.target
+
+[Service]
+User=aios
+WorkingDirectory=/opt/aios/app
+EnvironmentFile=/opt/aios/.env
+ExecStart=/opt/aios/venv/bin/python -m dashboard.server
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
