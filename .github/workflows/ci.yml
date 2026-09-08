@@ -20,6 +20,19 @@ jobs:
           pip install -r dashboard/requirements.txt
           pip install pytest
       - name: Run tests
-        run: python -m pytest -q
+        id: tests
+        continue-on-error: true
+        run: python -m pytest -q -vv
       - name: Validate skills
+        id: skills
+        continue-on-error: true
         run: python scripts/validate_skills.py
+      - name: Report failures
+        if: steps.tests.outcome == 'failure' || steps.skills.outcome == 'failure'
+        run: |
+          python -m pytest -q -vv > pytest-report.txt 2>&1 || true
+          tail -n 35 pytest-report.txt | tr '\n' ' ' | sed 's/%/%25/g' | sed 's/\r/%0D/g' | sed 's/$/%0A/g' | xargs -0 -r echo "::error title=AIOS verification::"
+          if [ "${{ steps.skills.outcome }}" = "failure" ]; then
+            echo "::error title=AIOS verification::Skill validation failed"
+          fi
+          exit 1
