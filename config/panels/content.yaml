@@ -1,0 +1,5 @@
+cards:
+  - id: content-drafts
+    title: Waiting for approval
+    shape: table
+    source: {local: drafts}
