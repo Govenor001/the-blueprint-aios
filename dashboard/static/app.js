@@ -1,111 +1,22 @@
 (() => {
-  const el = (selector) => document.querySelector(selector);
-  const counts = el("#counts");
-  const map = el("#department-map");
-  const panels = el("#panels");
-  const connections = el("#connections");
-  const activity = el("#activity-list");
-  const activitySummary = el("#activity-summary");
-  const brainCount = el("#brain-count");
-  const systemStatus = el("#system-status");
-  const drawer = el("#drawer");
-  const drawerContent = el("#drawer-content");
-  const tints = ["#bff4d6", "#cceafb", "#e5dcff", "#fff1b8", "#ffd7c8", "#d9f0e8", "#dce7ff"];
-
-  const escape = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[character]));
-  const list = (values) => Array.isArray(values) ? values.map(escape).join(", ") : escape(values);
-
-  async function api(path, options = {}) {
-    const response = await fetch(path, options);
-    if (!response.ok) throw new Error(await response.text());
-    return response.json();
-  }
-
-  function allAgents(data) {
-    return data.wings.flatMap((wing) => wing.departments.flatMap((department) => department.functions.flatMap((fn) => fn.agents)));
-  }
-
-  function renderCounts(data) {
-    const labels = {total:"agents mapped", manual:"manual", assisted:"assisted", autonomous:"autonomous"};
-    counts.innerHTML = Object.keys(labels).map((key) => `<div class="metric"><b>${escape(data.counts[key] ?? 0)}</b><span>${labels[key]}</span></div>`).join("");
-    brainCount.textContent = data.counts.total ?? "—";
-  }
-
-  function renderDepartments(data) {
-    const departments = data.wings.flatMap((wing) => wing.departments.map((department) => ({...department, wing:wing.wing})));
-    map.innerHTML = departments.map((department, index) => {
-      const agents = department.functions.flatMap((fn) => fn.agents);
-      const chips = agents.slice(0, 3).map((agent) => `<span class="agent-chip">${escape(agent.name)}</span>`).join("");
-      const remainder = agents.length > 3 ? `<span class="agent-chip">+${agents.length - 3} more</span>` : "";
-      return `<button class="department" type="button" data-department="${index}" style="--tint:${tints[index % tints.length]}"><span class="dept-top"><span class="dept-name">${escape(department.department)}</span><span class="dept-count">${agents.length}</span></span><span class="dept-agents">${chips}${remainder}</span><span class="dept-note">${escape(department.wing)} · ${department.functions.length} function${department.functions.length === 1 ? "" : "s"}</span></button>`;
-    }).join("");
-    map.querySelectorAll("[data-department]").forEach((button) => button.addEventListener("click", () => openDepartment(departments[Number(button.dataset.department)])));
-  }
-
-  function openDepartment(department) {
-    const agents = department.functions.flatMap((fn) => fn.agents);
-    drawerContent.innerHTML = `<p class="eyebrow">${escape(department.wing)}</p><h2>${escape(department.department)}</h2><p class="description">${agents.length} agent${agents.length === 1 ? "" : "s"} assigned to this part of the operating system.</p><div class="details">${department.functions.map((fn) => `<div class="detail"><b>${escape(fn.function)}</b><p>${fn.agents.map((agent) => `<button class="agent-link" data-agent="${escape(agent.name)}" type="button">${escape(agent.name)}</button>`).join(" ")}</p></div>`).join("")}</div>`;
-    drawerContent.querySelectorAll("[data-agent]").forEach((button) => button.addEventListener("click", () => openAgent(agents.find((agent) => agent.name === button.dataset.agent))));
-    drawer.classList.add("open");
-  }
-
-  function openAgent(agent) {
-    if (!agent) return;
-    drawerContent.innerHTML = `<p class="eyebrow">${escape(agent.autonomy)} agent</p><h2>${escape(agent.name)}</h2><p class="description">${escape(agent.description)}</p><div class="details"><div class="detail"><b>Job it replaces</b><p>${escape(agent.replaces)}</p></div><div class="detail"><b>Your role</b><p>${escape(agent["the-human"])}</p></div><div class="detail"><b>Trigger</b><p>${escape(agent.trigger)}</p></div><div class="detail"><b>Outputs</b><p>${list(agent.outputs)}</p></div><div class="detail"><b>Measures</b><p>${list(agent.kpis)}</p></div><div class="detail"><b>Tools</b><p>${list(agent.tools)}</p></div></div><label class="run-label" for="run-input">What should this agent do?</label><textarea id="run-input" class="run-input" rows="4" placeholder="Describe the task in plain English."></textarea><button id="run-agent" class="run" type="button">Run ${escape(agent.name)}</button><p id="drawer-message" class="drawer-message"></p>`;
-    el("#run-agent").addEventListener("click", async (event) => {
-      event.currentTarget.disabled = true;
-      el("#drawer-message").textContent = "Starting this run…";
-      try {
-        const input = el("#run-input").value.trim();
-        const result = await api("/api/run", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({skill:agent.name, input})});
-        el("#drawer-message").textContent = `Run accepted: ${result.run_id.slice(0, 8)}.`;
-      } catch {
-        el("#drawer-message").textContent = "This run could not start. Check the system connection and setup status.";
-      } finally {
-        event.currentTarget.disabled = false;
-      }
-    });
-    drawer.classList.add("open");
-  }
-
-  function renderPanels(payload) {
-    const cards = payload.panels.flatMap((panel) => panel.cards.map((card) => ({...card, panel:panel.name}))).slice(0, 6);
-    panels.innerHTML = cards.length ? cards.map((card) => {
-      const latest = card.latest;
-      const value = latest?.status === "available" ? (latest.value ?? "Available") : "Not connected";
-      const source = latest?.source_label || latest?.error || `Set up ${card.panel}`;
-      return `<article class="panel-card"><small>${escape(card.title)}</small><strong>${escape(value)}</strong><span>${escape(source)}</span><a href="/api/chart/${escape(card.id)}" target="_blank" rel="noreferrer" style="display:inline-block;margin-top:8px;color:#376d6b;font-size:10px">Open sourced chart</a></article>`;
-    }).join("") : `<article class="panel-card"><small>First panel</small><strong>Not connected</strong><span>Connect your tools during setup.</span></article>`;
-  }
-
-  function renderConnections(payload) {
-    connections.innerHTML = payload.connections.map((connection) => { const accounts = Array.isArray(connection.accounts) && connection.accounts.length ? ` · ${connection.accounts.map((account) => `${escape(account.platform)}: ${escape(account.name)}`).join(", ")}` : ""; return `<div class="health-row"><span>${escape(connection.name)}${accounts}</span><span class="badge ${escape(connection.status)}">${connection.status === "connected" ? "Connected" : `${connection.configured}/${connection.required} configured`}</span></div>`; }).join("");
-  }
-
-  function renderActivity(payload) {
-    const items = payload.items || [];
-    activitySummary.textContent = items.length ? `${items.length} recent event${items.length === 1 ? "" : "s"}, recorded locally.` : "No activity yet. The first approved run will appear here.";
-    activity.innerHTML = items.length ? items.slice(0, 8).map((item) => `<div class="activity-row"><div><b>${escape(item.event)}</b>${item.skill ? ` · ${escape(item.skill)}` : ""}</div><time>${escape((item.ts || "").replace("T", " ").replace("Z", ""))}</time></div>`).join("") : `<div class="activity-row"><div><b>Waiting for the first run</b> · Activity remains on this machine and is redacted before display.</div></div>`;
-  }
-
-  function renderHealth(payload) {
-    const ready = payload.bridge && payload.claude;
-    systemStatus.innerHTML = `<span class="dot"></span><span>${ready ? "System ready" : "Setup in progress"}</span>`;
-    systemStatus.classList.toggle("needs-setup", !ready);
-  }
-
-  async function load() {
-    try {
-      const [mapData, panelData, connectionData, activityData, healthData] = await Promise.all([api("/api/map"), api("/api/panels"), api("/api/connections"), api("/api/activity?limit=50"), api("/api/health")]);
-      renderCounts(mapData); renderDepartments(mapData); renderPanels(panelData); renderConnections(connectionData); renderActivity(activityData); renderHealth(healthData);
-    } catch {
-      systemStatus.innerHTML = `<span class="dot"></span><span>Needs setup</span>`;
-      activitySummary.textContent = "Mission Control could not read its local data. Check dashboard access and setup.";
-    }
-  }
-
-  el("#drawer-close").addEventListener("click", () => drawer.classList.remove("open"));
-  document.addEventListener("keydown", (event) => { if (event.key === "Escape") drawer.classList.remove("open"); });
-  load();
-  setInterval(load, 10000);
+  const $ = (s) => document.querySelector(s);
+  const esc = (v) => String(v ?? "").replace(/[&<>\"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+  let agents = [], scope = "brain";
+  const colors = ["#69d8d0", "#7db8ff", "#ed6d8a", "#e5c94c", "#f0a267", "#9c82ee", "#6fbf9f"];
+  const positions = [{x:330,y:155,tx:200,ty:92,a:"start"},{x:870,y:155,tx:1000,ty:92,a:"end"},{x:1030,y:370,tx:1160,ty:340,a:"end"},{x:865,y:605,tx:1010,ty:685,a:"end"},{x:600,y:650,tx:600,ty:742,a:"middle"},{x:335,y:605,tx:190,ty:685,a:"start"},{x:170,y:370,tx:40,ty:340,a:"start"}];
+  async function api(path, options = {}) { const r = await fetch(path, options); if (!r.ok) throw Error(await r.text()); return r.json(); }
+  const all = (d) => d.wings.flatMap((w) => w.departments.flatMap((x) => x.functions.flatMap((f) => f.agents)));
+  function wingName(name, i) { const s = String(name || "").toLowerCase(); const m = [[/intelligence|research/,"INTELLIGENCE"],[/content|marketing/,"MARKETING"],[/growth|sales/,"SALES"],[/comm|operation/,"OPERATIONS"],[/command|customer/,"CUSTOMER"],[/build|deal/,"DEALS"],[/back|finance|office/,"BACK OFFICE"]].find(([r]) => r.test(s)); return m ? m[1] : ["OPERATIONS","INTELLIGENCE","CUSTOMER","BACK OFFICE","SALES","DEALS","MARKETING"][i % 7]; }
+  function draw(data) { let svg = $("#map-canvas"), html = `<defs><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`; data.wings.slice(0, 7).forEach((wing, i) => { const p = positions[i], c = colors[i], list = wing.departments.flatMap((d) => d.functions.flatMap((f) => f.agents)).slice(0, 18), step = Math.PI * 1.35 / Math.max(list.length, 1); list.forEach((a, j) => { const angle = -Math.PI * .7 + j * step, x = p.x + Math.cos(angle) * (110 + Math.min(j, 7) * 8), y = p.y + Math.sin(angle) * (82 + Math.min(j, 7) * 7); html += `<line x1="${p.x}" y1="${p.y}" x2="${x}" y2="${y}" stroke="${c}" opacity=".24"/><circle class="leaf agent-hit" data-agent="${esc(a.name)}" cx="${x}" cy="${y}" r="${j % 4 === 0 ? 4 : 2.5}" fill="${j % 4 === 0 ? c : '#eef0e8'}"/>`; }); html += `<line x1="600" y1="380" x2="${p.x}" y2="${p.y}" stroke="${c}" opacity=".18" stroke-dasharray="2 8"/><circle class="root wing-hit" data-wing="${i}" cx="${p.x}" cy="${p.y}" r="19" fill="#0b1119" stroke="${c}"/><text class="root-symbol" x="${p.x}" y="${p.y + 5}" fill="${c}">✦</text><text class="wing-label" x="${p.tx}" y="${p.ty}" text-anchor="${p.a}" fill="#ece9df">${wingName(wing.wing, i)}</text><text class="wing-sub" x="${p.tx}" y="${p.ty + 22}" text-anchor="${p.a}">${esc(wing.wing || "department")} · ${list.length} agents</text>`; }); html += `<circle class="center-halo" cx="600" cy="380" r="64"/><circle class="center-dot" cx="600" cy="380" r="30"/><text class="center-symbol" x="600" y="387">✦</text>`; svg.innerHTML = html; svg.querySelectorAll(".wing-hit").forEach((n) => n.onclick = () => openAgent(data.wings[Number(n.dataset.wing)].departments.flatMap((d) => d.functions.flatMap((f) => f.agents))[0])); svg.querySelectorAll(".agent-hit").forEach((n) => n.onclick = () => openAgent(agents.find((a) => a.name === n.dataset.agent))); }
+  function view(name) { document.querySelectorAll(".view").forEach((x) => x.classList.toggle("active", x.id === `view-${name}`)); document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("active", x.dataset.view === name)); }
+  function openAgent(agent) { if (!agent) return; scope = agent.name; view("chat"); $("#chat-kicker").textContent = agent.name.toUpperCase(); $("#chat-title").textContent = `Talk to ${agent.name}`; $("#chat-input").placeholder = `Message ${agent.name}…`; $("#chat-details").innerHTML = `<h3>${esc(agent.name)}</h3><p>${esc(agent.description)}</p><dl><dt>Autonomy</dt><dd>${esc(agent.autonomy)}</dd><dt>Tools</dt><dd>${esc((agent.tools || []).join(", "))}</dd></dl>`; }
+  function brain() { scope = "brain"; view("chat"); $("#chat-kicker").textContent = "WHOLE BRAIN"; $("#chat-title").textContent = "Talk to the operating brain"; $("#chat-input").placeholder = "Message the whole brain…"; }
+  function message(role, text) { const box = $("#messages"); if (box.querySelector(".empty-chat")) box.innerHTML = ""; box.insertAdjacentHTML("beforeend", `<div class="message ${role}"><span class="message-role">${role === "user" ? "YOU" : (scope === "brain" ? "WHOLE BRAIN" : esc(scope)).toUpperCase()}</span><p>${esc(text).replace(/\n/g, "<br>")}</p></div>`); box.scrollTop = box.scrollHeight; }
+  async function send(event) { event.preventDefault(); const input = $("#chat-input"), text = input.value.trim(); if (!text) return; message("user", text); input.value = ""; const button = $(".send"); button.disabled = true; button.textContent = "Thinking…"; try { const result = await api("/api/chat", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({scope, message:text})}); message("assistant", result.message); if ($( "#speak").checked && "speechSynthesis" in window) speechSynthesis.speak(new SpeechSynthesisUtterance(result.message)); } catch { message("assistant", "I could not reach the conversation service. Check the system connection and try again."); } finally { button.disabled = false; button.innerHTML = "Send <span>↗</span>"; } }
+  function channels() { const names = ["Sales","Marketing","Operations","Intelligence","Customer","Deals","Back office"]; $("#channels").innerHTML = names.map((n) => `<button class="channel" data-scope="${n}" type="button"><i>${n[0]}</i><span>${n}<small>Department conversation</small></span></button>`).join(""); $("#channels").querySelectorAll("button").forEach((b) => b.onclick = () => { scope = b.dataset.scope; view("chat"); $("#chat-kicker").textContent = scope.toUpperCase(); $("#chat-title").textContent = `Talk to ${scope}`; }); }
+  function panels(p) { const cards = p.panels.flatMap((x) => x.cards.map((c) => ({...c, panel:x.name}))).slice(0, 8); $("#dashboard-panels").innerHTML = cards.map((c) => { const l = c.latest, value = l?.status === "available" ? (l.value ?? "Available") : "Not connected"; return `<article class="metric-card"><span>${esc(c.panel)}</span><h3>${esc(value)}</h3><p>${esc(l?.source_label || l?.error || c.title)}</p><a href="/api/chart/${esc(c.id)}" target="_blank">Open sourced chart ↗</a></article>`; }).join("") || `<article class="metric-card"><h3>No dashboards connected</h3><p>Connect tools during setup.</p></article>`; }
+  function connections(p) { $("#connections").innerHTML = p.connections.map((c) => `<div class="health-row"><span>${esc(c.name)}</span><b class="${esc(c.status)}">${c.status === "connected" ? "Connected" : `${c.configured}/${c.required} configured`}</b></div>`).join(""); }
+  function activity(p) { const html = (p.items || []).slice(0, 8).map((i) => `<div class="activity-row"><span><b>${esc(i.event)}</b>${i.skill ? ` · ${esc(i.skill)}` : ""}</span><time>${esc((i.ts || "").replace("T", " ").replace("Z", ""))}</time></div>`).join("") || `<div class="activity-row"><span>Waiting for the first run.</span></div>`; $("#activity-list").innerHTML = html; $("#chat-activity").innerHTML = html; }
+  async function load() { try { const [map, panel, connection, log, health] = await Promise.all([api("/api/map"), api("/api/panels"), api("/api/connections"), api("/api/activity?limit=50"), api("/api/health")]); agents = all(map); $("#brain-count").textContent = map.counts.total ?? "—"; draw(map); channels(); panels(panel); connections(connection); activity(log); $("#system-status").innerHTML = `<i></i><span>${health.bridge && health.claude ? "SYSTEM READY" : "SETUP IN PROGRESS"}</span>`; } catch { $("#system-status").innerHTML = "<i></i><span>SETUP IN PROGRESS</span>"; } }
+  document.querySelectorAll("[data-view]").forEach((b) => b.onclick = () => view(b.dataset.view)); $("#whole-brain").onclick = brain; $("#chat-form").onsubmit = send; $("#mic").onclick = () => { const Speech = window.SpeechRecognition || window.webkitSpeechRecognition; if (!Speech) { $("#chat-input").placeholder = "Voice input is not supported in this browser."; return; } const recognition = new Speech(); recognition.lang = "en-US"; recognition.onresult = (e) => $("#chat-input").value = e.results[0][0].transcript; recognition.start(); }; $("#search").oninput = (e) => document.querySelectorAll(".leaf").forEach((n) => n.classList.toggle("match", !e.target.value || n.dataset.agent.toLowerCase().includes(e.target.value.toLowerCase()))); load(); setInterval(load, 10000);
 })();

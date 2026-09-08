@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import base64
+import asyncio
 import json
 import os
 import re
@@ -275,6 +276,56 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
             return JSONResponse({"detail": "Unable to start skill"}, status_code=500)
         log("skill_accepted", name, f"run_id={run_id}; model={resolved_model}")
         return JSONResponse({"run_id": run_id}, status_code=202)
+
+    @app.post("/api/chat")
+    async def chat_endpoint(request: Request) -> JSONResponse:
+        """Run a focused agent or whole-brain conversation and return its reply."""
+        if not authorized(request):
+            return _deny()
+        body = await request.json()
+        scope = body.get("scope", "brain") if isinstance(body, dict) else "brain"
+        message = body.get("message", "") if isinstance(body, dict) else ""
+        if not isinstance(scope, str) or not isinstance(message, str):
+            return JSONResponse({"detail": "A conversation scope and message are required"}, status_code=400)
+        message = message.strip()[:8000]
+        if not message:
+            return JSONResponse({"detail": "A message is required"}, status_code=400)
+        map_path = static_dir / "map.json"
+        if not map_path.exists():
+            build_map(root_path)
+        payload = json.loads(map_path.read_text(encoding="utf-8"))
+        allowed = {agent["name"] for agent in _agents(payload)}
+        if scope != "brain" and scope not in allowed:
+            return JSONResponse({"detail": "Agent is not allowlisted"}, status_code=400)
+        try:
+            resolved_model = model_for(root_path, tier="smart") if scope == "brain" else model_for(root_path, skill=scope)
+            if scope == "brain":
+                prompt = (
+                    "You are the whole AIOS operating brain. Coordinate the right internal "
+                    "departments and explain your answer clearly. Do not claim an action was "
+                    "completed unless you actually completed it.\n\nOwner message:\n" + message
+                )
+            else:
+                prompt = f"Use the /{scope} skill as the focused AIOS agent.\n\nOwner message:\n{message}"
+            log("chat_started", skill=None if scope == "brain" else scope, model=resolved_model)
+            result = await asyncio.to_thread(
+                subprocess.run,
+                ["claude", "--model", resolved_model, "-p", prompt],
+                cwd=root_path,
+                capture_output=True,
+                text=True,
+                timeout=300,
+                check=False,
+            )
+            output = result.stdout.strip() or result.stderr.strip() or "No response was returned."
+            log("chat_finished", skill=None if scope == "brain" else scope, model=resolved_model, detail=output[-1000:], status="ok" if result.returncode == 0 else "error")
+            return JSONResponse({"message": output, "model": resolved_model, "scope": scope})
+        except subprocess.TimeoutExpired:
+            log("chat_error", skill=None if scope == "brain" else scope, detail="chat timed out", status="error")
+            return JSONResponse({"detail": "That conversation took too long. Try a smaller request."}, status_code=504)
+        except (OSError, KeyError, ValueError) as exc:
+            log("chat_error", skill=None if scope == "brain" else scope, detail=str(exc), status="error")
+            return JSONResponse({"detail": "This conversation is not ready yet"}, status_code=503)
 
     @app.get("/", include_in_schema=False)
     async def index() -> FileResponse:
