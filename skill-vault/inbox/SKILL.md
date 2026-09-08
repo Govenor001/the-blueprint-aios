@@ -1,8 +1,30 @@
 ---
 name: inbox
-description: Triage the inbox — what needs a reply, what can wait, what to ignore — and draft the replies. Use when someone says "triage my inbox", "what needs a response", "clear my email", or on a morning schedule. Needs Gmail wired (Comms Wing).
-scaffolding-phase: 1
+description: name: inbox
+
+metadata:
+  wing: comms
+  department: Back Office
+  function: Email Triage
+  replaces: Reading every inbox message to find the few that truly need the owner.
+  the-human: The owner decides what is important and approves replies.
+  ladder:
+    manual: Run it manually and review every step.
+    assisted: Prepare the work and wait for the owner's review.
+    autonomous: Run on schedule after the owner has approved the pattern.
+  trigger: Run when the user asks for this job or its schedule fires.
+  outputs:
+    - A structured email triage result
+  kpis:
+    - Completed outputs per run
+    - Items flagged for owner review
+  tools: [claude, gmail]
+  requires-context: [context/about-me.md, context/about-business.md, references/voice.md]
+  model: smart
+  autonomy: assisted
+  scaffolding-phase: 1
 ---
+
 
 ## What this does
 The Comms Wing's core workshop. Reads recent inbox threads and sorts them into what actually needs the user, then drafts replies for the ones that do — so the user makes decisions instead of reading every message.
@@ -23,3 +45,4 @@ The Comms Wing's core workshop. Reads recent inbox threads and sorts them into w
 - **Sign as the assistant, or as the user only with a visible draft** — never impersonate silently on an external reply.
 - **Bias toward the Ignore bucket** — the value is protecting the user's attention, not surfacing everything.
 - **Handle nothing you're unsure about** — flag it for the user rather than guess on something important.
+- If a required context file is missing, say so and stop.
