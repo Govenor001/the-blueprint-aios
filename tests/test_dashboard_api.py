@@ -41,6 +41,12 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     registry = tmp_path / "references" / "tool-registry.md"
     registry.parent.mkdir(parents=True)
     registry.write_text("| key | Display name | Brand hex |\n|---|---|---|\n| claude | Claude | #D97757 |\n", encoding="utf-8")
+    panels = tmp_path / "config" / "panels"
+    panels.mkdir(parents=True)
+    (panels / "intelligence.yaml").write_text(
+        "cards:\n  - id: intelligence-signals\n    title: Latest verified signals\n    shape: table\n    source: {local: context}\n",
+        encoding="utf-8",
+    )
     from scripts.build_map import build_map
     build_map(tmp_path)
     app = create_app(tmp_path, password="test")
@@ -60,3 +66,5 @@ def test_dashboard_requires_auth_and_rejects_unknown_skill(tmp_path, monkeypatch
     assert "connections" in connections.json()
     telegram = next(item for item in connections.json()["connections"] if item["name"] == "Telegram")
     assert telegram["status"] == "connected"
+    panel_cards = client.get("/api/panels", headers=headers).json()["panels"][0]["cards"]
+    assert panel_cards[0]["id"] == "intelligence-signals"

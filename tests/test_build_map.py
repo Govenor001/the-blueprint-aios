@@ -42,6 +42,9 @@ def test_build_map_groups_and_counts(tmp_path):
     registry.write_text("| key | Display name | Brand hex |\n|---|---|---|\n| claude | Claude | #D97757 |\n", encoding="utf-8")
     result = build_map(tmp_path)
     assert result["counts"]["total"] == 1
+    assert [wing["wing"] for wing in result["wings"]] == [
+        "intelligence", "content", "growth", "comms", "command", "back-office", "build"
+    ]
     assert result["wings"][0]["wing"] == "intelligence"
     assert result["wings"][0]["departments"][0]["functions"][0]["agents"][0]["name"] == "scout"
     output = json.loads((tmp_path / "dashboard" / "static" / "map.json").read_text())

@@ -14,3 +14,5 @@ file from that archive is represented as a checked-in platform asset.
 
 The platform-authored procedures in `skill-vault/` are part of this repository and are
 covered by the repository's licence.
+
+| [tt-a1i/archify](https://github.com/tt-a1i/archify) | `vendor/archify/` diagram renderer | MIT | Pinned at commit `2ead014aa8ec91f104cd052f1a6ca82de5e26c31`; update checking and browser visual-check are not run on customer servers |

@@ -3,3 +3,19 @@ cards:
     title: Vault files
     shape: kpi
     source: {local: vault}
+  - id: back-office-invoices
+    title: Invoices out and unpaid
+    shape: table
+    source: {connection: sheets, operation: invoices_unpaid}
+  - id: back-office-expenses
+    title: Expenses this month
+    shape: kpi
+    source: {connection: sheets, operation: expenses_month}
+  - id: back-office-processed
+    title: Documents processed
+    shape: kpi
+    source: {local: vault}
+  - id: back-office-missing
+    title: Missing from the brain
+    shape: table
+    source: {local: context}

@@ -69,8 +69,6 @@ def build_map(root: Path) -> dict[str, Any]:
 
     wings = []
     for wing in WING_ORDER:
-        if wing not in grouped:
-            continue
         departments = []
         for department in sorted(grouped[wing], key=str.casefold):
             functions = []

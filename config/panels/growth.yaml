@@ -3,3 +3,23 @@ cards:
     title: Leads needing attention
     shape: table
     source: {local: context}
+  - id: growth-scored
+    title: Leads scored this week
+    shape: kpi
+    source: {local: context}
+  - id: growth-split
+    title: A/B/C lead split
+    shape: donut
+    source: {local: context}
+  - id: growth-replies
+    title: Outreach reply rate
+    shape: line
+    source: {local: context}
+  - id: growth-followups
+    title: Follow-ups due today
+    shape: table
+    source: {local: context}
+  - id: growth-pipeline
+    title: Pipeline by stage
+    shape: bar
+    source: {local: context}

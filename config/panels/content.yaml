@@ -3,3 +3,19 @@ cards:
     title: Waiting for approval
     shape: table
     source: {local: drafts}
+  - id: content-members
+    title: Skool members
+    shape: kpi
+    source: {connection: skool, operation: community_info, field: members}
+  - id: content-engagement
+    title: Skool engagement, 30 days
+    shape: line
+    source: {connection: skool, operation: posts_list, aggregate: comments_per_day}
+  - id: content-published
+    title: Posts published by platform
+    shape: bar
+    source: {connection: blotato, operation: list_published_posts, group_by: platform}
+  - id: content-views
+    title: Views by platform
+    shape: line
+    source: {connection: blotato, operation: analytics, metric: views, group_by: platform}

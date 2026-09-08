@@ -1,0 +1,10 @@
+[Unit]
+Description=Collect AIOS panel metrics every 30 minutes
+
+[Timer]
+OnCalendar=*:0/30
+Persistent=true
+Unit=aios-collect.service
+
+[Install]
+WantedBy=timers.target
