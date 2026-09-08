@@ -1,5 +1,6 @@
-from scripts.run_skill import build_prompt
 from pathlib import Path
+
+from scripts.run_skill import build_prompt
 
 
 def test_build_prompt_preserves_owner_request_without_logging_it():
