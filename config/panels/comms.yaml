@@ -1,0 +1,5 @@
+cards:
+  - id: comms-inbox
+    title: Inbox status
+    shape: kpi
+    source: {connection: gmail, operation: unread_count}
