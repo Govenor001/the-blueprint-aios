@@ -1,0 +1,10 @@
+[Unit]
+Description=Run the AIOS morning brief
+
+[Timer]
+OnCalendar=*-*-* 07:00:00
+Persistent=true
+Unit=aios-brief.service
+
+[Install]
+WantedBy=timers.target
