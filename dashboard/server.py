@@ -242,6 +242,59 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
             spec["value"] = latest.get("value", "UNAVAILABLE")
         return Response(content=render_chart(spec), media_type="image/svg+xml")
 
+    @app.post("/api/ask")
+    async def ask_endpoint(request: Request) -> JSONResponse:
+        """Answer a metric question from local history and point to its SVG chart."""
+        if not authorized(request):
+            return _deny()
+        body = await request.json()
+        question = body.get("question", "") if isinstance(body, dict) else ""
+        if not isinstance(question, str) or not question.strip():
+            return JSONResponse({"detail": "A metric question is required"}, status_code=400)
+        question = question.strip()[:500]
+        question_words = set(re.findall(r"[a-z0-9]+", question.lower()))
+        candidates: list[tuple[int, str, dict[str, Any], str]] = []
+        for config_path in sorted((root_path / "config" / "panels").glob("*.yaml")):
+            payload = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
+            for card in payload.get("cards", []):
+                card_id = str(card.get("id") or card.get("title", "card")).lower().replace(" ", "-")
+                searchable = set(re.findall(r"[a-z0-9]+", f"{config_path.stem} {card_id} {card.get('title', '')}".lower()))
+                score = len(question_words & searchable)
+                if score:
+                    candidates.append((score, card_id, card, config_path.stem))
+        if not candidates:
+            return JSONResponse({"message": "I do not have a collected card that answers that question yet. Connect the relevant service and run the collector first.", "chart_url": None})
+        _, card_id, card_config, panel_name = max(candidates, key=lambda item: item[0])
+        metric = root_path / "var" / "metrics" / f"{card_id}.jsonl"
+        rows: list[dict[str, Any]] = []
+        if metric.exists():
+            for line in metric.read_text(encoding="utf-8").splitlines()[-30:]:
+                try:
+                    row = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if row.get("status") == "available":
+                    rows.append(row)
+        if not rows:
+            source = card_config.get("source", {})
+            connection = source.get("connection") if isinstance(source, dict) else None
+            missing = f" Connect {connection} and run the collector." if connection else " Run the collector after adding the source."
+            return JSONResponse({"message": f"{card_config.get('title', card_id)} is not connected yet.{missing}", "chart_url": None, "card_id": card_id})
+        latest = rows[-1]
+        shape = card_config.get("shape", "table")
+        spec: dict[str, Any] = {"shape": shape, "title": card_config.get("title", card_id), "source": latest.get("source_label", "UNAVAILABLE"), "collected_at": latest.get("retrieved_at", "UNAVAILABLE")}
+        values = [(row.get("retrieved_at", ""), row.get("value")) for row in rows if isinstance(row.get("value"), (int, float))]
+        if shape in {"line", "bar"}:
+            spec["series"] = [{"label": card_config.get("title", card_id), "points": values}]
+        elif shape == "table":
+            spec["rows"] = [row.get("value") for row in rows[-7:]]
+        elif shape == "donut":
+            spec["value"] = latest.get("value", 0) if isinstance(latest.get("value", 0), (int, float)) else 0
+        else:
+            spec["value"] = latest.get("value", "UNAVAILABLE")
+        explanation = f"{card_config.get('title', card_id)} has {len(rows)} collected reading(s), latest from {latest.get('source_label', 'UNAVAILABLE')} at {latest.get('retrieved_at', 'UNAVAILABLE')}. The chart is evidence only; decide what action it supports."
+        return JSONResponse({"message": explanation, "chart_url": f"/api/chart/{card_id}", "card_id": card_id, "panel": panel_name})
+
     @app.post("/api/run")
     async def run_endpoint(request: Request) -> JSONResponse:
         if not authorized(request):
