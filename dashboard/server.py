@@ -190,7 +190,14 @@ def create_app(root: Path | str | None = None, password: str | None = None) -> F
                             break
                         except json.JSONDecodeError:
                             continue
-                cards.append({"id": card_id, "title": card.get("title", card_id), "shape": card.get("shape", "table"), "latest": latest})
+                source = card.get("source", {})
+                if isinstance(source, dict) and source.get("connection"):
+                    empty_state = f"Connect {source['connection']} to see this panel"
+                elif isinstance(source, dict) and source.get("local"):
+                    empty_state = f"Add data to {source['local']} to populate this panel"
+                else:
+                    empty_state = "Run the collector after configuring this panel"
+                cards.append({"id": card_id, "title": card.get("title", card_id), "shape": card.get("shape", "table"), "latest": latest, "empty_state": empty_state})
             panels.append({"name": config_path.stem, "cards": cards})
         return JSONResponse({"panels": panels})
 
