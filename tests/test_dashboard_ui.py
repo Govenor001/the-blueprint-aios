@@ -15,3 +15,5 @@ def test_agent_drawer_accepts_a_plain_language_request():
     assert 'whole-brain' in html
     assert 'role-channel' in javascript
     assert 'Three ranked decisions' in javascript
+    assert '/api/run' in javascript
+    assert 'Run now' in javascript
