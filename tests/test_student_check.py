@@ -16,3 +16,5 @@ def test_student_check_reports_missing_setup(tmp_path, monkeypatch):
     result = check(tmp_path)
     assert result["passed"] is False
     assert result["checks"]["no_anthropic_api_key"] is True
+    assert result["checks"]["seven_wings"] is False
+    assert result["checks"]["diagram_builder"] is False
