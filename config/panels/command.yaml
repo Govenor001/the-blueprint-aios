@@ -1,0 +1,5 @@
+cards:
+  - id: command-activity
+    title: Recent activity
+    shape: table
+    source: {local: var}
