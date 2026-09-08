@@ -1,0 +1,14 @@
+[Unit]
+Description=AIOS Telegram bridge
+After=network-online.target
+
+[Service]
+User=aios
+WorkingDirectory=/opt/aios/app
+EnvironmentFile=/opt/aios/.env
+ExecStart=/opt/aios/venv/bin/python scripts/bridge.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
