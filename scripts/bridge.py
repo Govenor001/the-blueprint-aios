@@ -11,8 +11,12 @@ import urllib.request
 import uuid
 from pathlib import Path
 
-from activity import log
-from model_for import model_for
+try:
+    from .activity import log
+    from .model_for import model_for
+except ImportError:  # direct script execution
+    from activity import log
+    from model_for import model_for
 
 ROOT = Path(__file__).resolve().parents[1]
 TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
